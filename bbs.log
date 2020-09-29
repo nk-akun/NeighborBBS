@@ -1,0 +1,12 @@
+2020-09-29T15:42:27.569+0800	ERROR	NeighborBBS/main.go:8	error!!!!!
+2020-09-29T15:51:13.268+0800	ERROR	NeighborBBS/main.go:11	error!!!!!
+2020-09-29T15:51:13.269+0800	INFO	app/route.go:12	this's test
+2020-09-29T15:52:11.778+0800	ERROR	NeighborBBS/main.go:11	error!!!!!
+2020-09-29T15:52:11.779+0800	INFO	app/route.go:12	this's test
+2020-09-29T15:52:11.779+0800	INFO	app/core.go:4	this's test
+2020-09-29T17:25:07.976+0800	ERROR	NeighborBBS/main.go:10	error!!!!!
+2020-09-29T17:25:36.870+0800	ERROR	NeighborBBS/main.go:10	error!!!!!
+2020-09-29T17:26:15.841+0800	ERROR	NeighborBBS/main.go:10	error!!!!!
+2020-09-29T17:26:33.679+0800	ERROR	NeighborBBS/main.go:10	error!!!!!
+2020-09-29T17:29:27.282+0800	ERROR	NeighborBBS/main.go:10	error!!!!!
+2020-09-29T17:29:27.283+0800	INFO	NeighborBBS/main.go:16	localhost
