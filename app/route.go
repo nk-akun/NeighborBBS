@@ -1,13 +1,9 @@
 package app
 
 import (
-	"github.com/nk-akun/NeighborBBS/config"
-	"go.uber.org/zap"
+	"github.com/nk-akun/NeighborBBS/logs"
 )
 
-var log *zap.SugaredLogger
-
 func Test() {
-	log = config.GetLogger()
-	log.Info("this's test")
+	logs.Logger.Info("this's testasdasdasasdasd")
 }

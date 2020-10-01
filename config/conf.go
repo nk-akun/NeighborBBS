@@ -7,20 +7,20 @@ import (
 	"github.com/spf13/viper"
 )
 
-// GodisConfig stores godis's config
-type GodisConfig struct {
+// BBSConfig stores godis's config
+type BBSConfig struct {
 	OutputToTerminal bool
 	LogDir           string
 	*viper.Viper
 }
 
-var godisConf *GodisConfig
+var bbsConf *BBSConfig
 
-const confFile = "/Users/marathon/Work/mygo/src/github.com/nk-akun/NeighborBBS"
+const confFile = "./"
 
 // GetConf is used by a function outside the package to get the configuration
-func GetConf() *GodisConfig {
-	return godisConf
+func GetConf() *BBSConfig {
+	return bbsConf
 }
 
 // ParseConf parses config whose format is toml
@@ -39,11 +39,11 @@ func ParseConf() {
 	v.SetDefault("OutputToTerminal", true)
 	v.SetDefault("LogDir", "../log/")
 
-	godisConf = &GodisConfig{}
-	// if err := v.Unmarshal(godisConf); err != nil {
+	bbsConf = &BBSConfig{}
+	// if err := v.Unmarshal(bbsConf); err != nil {
 	// 	fmt.Fprintf(os.Stderr, "Failed to unmarshal config :%v", err)
 	// 	os.Exit(-1)
 	// }
 
-	godisConf.Viper = v
+	bbsConf.Viper = v
 }

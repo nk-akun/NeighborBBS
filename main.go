@@ -1,17 +1,19 @@
 package main
 
 import (
+	"github.com/nk-akun/NeighborBBS/app"
 	"github.com/nk-akun/NeighborBBS/config"
+	"github.com/nk-akun/NeighborBBS/logs"
 )
 
 func initConf() {
-	config.InitLogger("./", 1, 1, 2, false)
-	log := config.GetLogger()
-	log.Errorf("error!!!!!")
+	logs.InitLogger("./", 1, 1, 2, false)
+	logs.Logger.Errorf("error!!!!!")
 }
 
 func main() {
 	initConf()
 	config.ParseConf()
-	config.GetLogger().Info(config.GetConf().Viper.GetString("host"))
+	logs.Logger.Info(config.GetConf().Viper.GetString("host"))
+	app.Test()
 }

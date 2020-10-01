@@ -1,5 +1,10 @@
 package app
 
-func Test2() {
-	log.Info("this's test")
+import "github.com/gin-gonic/gin"
+
+// AppRun ...
+func AppRun() {
+	r := gin.New()
+
+	r.Use()
 }
