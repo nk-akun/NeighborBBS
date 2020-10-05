@@ -15,5 +15,5 @@ func main() {
 	initConf()
 	config.ParseConf()
 	logs.Logger.Info(config.GetConf().Viper.GetString("host"))
-	app.Test()
+	app.AppRun()
 }
