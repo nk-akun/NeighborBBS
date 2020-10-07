@@ -23,3 +23,10 @@ type User struct {
 	CreateTime            int64  `gorm:"column:create_time" json:"create_time"`
 	UpdateTime            int64  `gorm:"column:update_time" json:"update_time"`
 }
+
+// Article stores article infomation
+type Article struct {
+	ID     int64  `gorm:"column:id" json:"id"`
+	UserID int64  `gorm:"column:user_id" json:"user_id"`
+	Title  string `gorm:"column:title" json:"title"`
+}

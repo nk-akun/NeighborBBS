@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/nk-akun/NeighborBBS/app"
+	"github.com/nk-akun/NeighborBBS/api"
 	"github.com/nk-akun/NeighborBBS/config"
 	"github.com/nk-akun/NeighborBBS/logs"
 )
@@ -15,5 +15,5 @@ func main() {
 	initConf()
 	config.ParseConf()
 	logs.Logger.Info(config.GetConf().Viper.GetString("host"))
-	app.AppRun()
+	api.AppRun()
 }
