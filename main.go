@@ -6,14 +6,15 @@ import (
 	"github.com/nk-akun/NeighborBBS/logs"
 )
 
-func initConf() {
+func init() {
+	config.ParseConf()
 	logs.InitLogger("./", 1, 1, 2, false)
-	logs.Logger.Errorf("error!!!!!")
+	//logs.Logger.Info(config.GetConf().Viper.GetString("host"))
+	// logs.Logger.Errorf("error!!!!!")
+
 }
 
 func main() {
-	initConf()
-	config.ParseConf()
-	logs.Logger.Info(config.GetConf().Viper.GetString("host"))
+
 	api.AppRun()
 }
