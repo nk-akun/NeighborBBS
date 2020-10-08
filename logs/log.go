@@ -30,7 +30,7 @@ func getEncoder() zapcore.Encoder {
 }
 
 // InitLogger init a logger
-func InitLogger(logPath string, maxSize, maxAge, maxBackups int, compress bool) {
+func InitLogger(logPath string, maxSize, maxAge, maxBackups int, compress bool, outToFile bool) {
 	writeSyncer := getLogWriter(logPath, maxSize, maxAge, maxBackups, compress)
 	encoder := getEncoder()
 

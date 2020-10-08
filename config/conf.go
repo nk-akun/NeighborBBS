@@ -9,8 +9,17 @@ import (
 
 // BBSConfig stores godis's config
 type BBSConfig struct {
+	MySQL struct {
+		Host     string
+		Port     string
+		Username string
+		Password string
+		DbName   string
+	}
+
 	OutputToTerminal bool
 	LogDir           string
+
 	*viper.Viper
 }
 
@@ -40,10 +49,10 @@ func ParseConf() {
 	v.SetDefault("LogDir", "../log/")
 
 	bbsConf = &BBSConfig{}
-	// if err := v.Unmarshal(bbsConf); err != nil {
-	// 	fmt.Fprintf(os.Stderr, "Failed to unmarshal config :%v", err)
-	// 	os.Exit(-1)
-	// }
+	if err := v.Unmarshal(bbsConf); err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to unmarshal config :%v", err)
+		os.Exit(-1)
+	}
 
 	bbsConf.Viper = v
 }

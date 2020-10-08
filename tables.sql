@@ -3,7 +3,7 @@ CREATE TABLE user_info (
   username VARCHAR(20) UNIQUE NOT NULL,
   nick_name VARCHAR(30) NOT NULL,
   password VARCHAR(30),
-  avatar_url VARCHAR(200) NOT NULL,
+  avatar_url VARCHAR(200),
   gender TINYINT NOT NULL,
   email VARCHAR(50),
   email_verified TINYINT NOT NULL DEFAULT 0,

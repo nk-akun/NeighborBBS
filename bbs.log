@@ -42,3 +42,9 @@
 2020-10-07T20:33:14.474+0800	ERROR	middleware/middleware.go:31	parse json error:EOF
 2020-10-07T20:36:34.981+0800	ERROR	NeighborBBS/main.go:11	error!!!!!
 2020-10-07T20:36:34.981+0800	INFO	NeighborBBS/main.go:17	
+2020-10-08T10:45:57.328+0800	ERROR	util/db.go:31	opens database failed: dial tcp :0: connect: can't assign requested address
+2020-10-08T20:02:46.408+0800	INFO	NeighborBBS/main.go:23	running now
+2020-10-08T20:09:56.517+0800	INFO	NeighborBBS/main.go:23	running now
+2020-10-08T21:14:52.004+0800	INFO	NeighborBBS/main.go:23	running now
+2020-10-08T21:24:38.348+0800	INFO	NeighborBBS/main.go:23	running now
+2020-10-08T21:25:12.870+0800	INFO	NeighborBBS/main.go:23	running now
