@@ -20,8 +20,6 @@ func init() {
 
 func main() {
 
-	logs.Logger.Info("running now")
-
 	user := &model.User{
 		Username: "marthon",
 		Nickname: "用户001",

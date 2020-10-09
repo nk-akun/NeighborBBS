@@ -3,6 +3,7 @@ package middleware
 import (
 	"bytes"
 	"io/ioutil"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nk-akun/NeighborBBS/logs"
@@ -16,10 +17,13 @@ type GetAPIRequestModel func(*gin.Context) model.APIRequest
 func JSONRequestContextHandler(getAPIRequestModel GetAPIRequestModel) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		requestBody, err := ioutil.ReadAll(c.Request.Body)
-		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(requestBody))
 		if err != nil {
 			c.Abort()
+		} else {
+			c.Set(model.CTXCacheBody, requestBody)
 		}
+		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(requestBody))
+
 		params := c.Request.URL.Query()
 		c.Set(model.CTXAPICacheBody, requestBody)
 		c.Set(model.CTXAPIURLParams, params)
@@ -35,5 +39,30 @@ func JSONRequestContextHandler(getAPIRequestModel GetAPIRequestModel) gin.Handle
 			logs.Logger.Error("program can not find the struct matched the request!")
 			c.Abort()
 		}
+		c.Next()
+	}
+}
+
+// ReponseHandler is the middleware to fill response at the end of program execution
+func ReponseHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+		c.Next()
+		end := time.Now()
+
+		logs.Logger.Info("The time cost is ", end.Sub(start).Nanoseconds()/1000000)
+
+		var resp *model.APIResponse = new(model.APIResponse)
+		if c.IsAborted() {
+			resp.Code = 500
+			resp.Message = "Program runtime error."
+			resp.Value = nil
+		} else {
+			resp.Code = 1000
+			resp.Message = ""
+			value, _ := c.Get(model.CTXAPIResponse)
+			resp.Value = value
+		}
+		c.JSON(200, resp)
 	}
 }

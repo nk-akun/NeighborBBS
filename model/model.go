@@ -5,10 +5,12 @@ var Models = []interface{}{&User{}}
 
 // Model ...
 type Model struct {
-	ID         int64 `gorm:"primaryKey;autoIncrement" json:"id"`
-	CreateTime int64 `json:"create_time"`
-	UpdateTime int64 `json:"update_time"`
-	DeleteTime int64 `json:"delete_time"`
+	ID int64 `gorm:"primaryKey;autoIncrement" json:"id"`
+}
+
+// TableName returns the table name of User
+func (User) TableName() string {
+	return "users"
 }
 
 // User stores user infomation
@@ -31,6 +33,9 @@ type User struct {
 	City                  string `gorm:"column:city;type:varchar(50)" json:"city"`
 	Province              string `gorm:"column:province;type:varchar(50)" json:"province"`
 	Country               string `gorm:"column:country;type:varchar(50)" json:"country"`
+	CreateTime            int64  `json:"create_time"`
+	UpdateTime            int64  `json:"update_time"`
+	DeleteTime            int64  `json:"delete_time"`
 }
 
 // Article stores article infomation
