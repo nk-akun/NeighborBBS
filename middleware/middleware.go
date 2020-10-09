@@ -63,6 +63,9 @@ func ReponseHandler() gin.HandlerFunc {
 			value, _ := c.Get(model.CTXAPIResponse)
 			resp.Value = value
 		}
+		if resp.Code == 500 {
+			c.AbortWithStatusJSON(400, resp)
+		}
 		c.JSON(200, resp)
 	}
 }
