@@ -9,7 +9,12 @@ import (
 
 // RegisterByEmail ...
 func RegisterByEmail(c *gin.Context) {
-	service.UserService.SingUp(c)
+	user, err := service.UserService.SignUp(c)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+	} else {
+		setAPIResponse(c, user, "")
+	}
 }
 
 // TestForUser is the test api for user

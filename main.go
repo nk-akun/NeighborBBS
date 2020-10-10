@@ -20,14 +20,14 @@ func init() {
 
 func main() {
 
-	user := &model.User{
-		Username: "marthon",
-		Nickname: "用户001",
-		Password: "654321",
-		Gender:   "0",
-	}
+	// user := &model.User{
+	// 	Username: "marthon",
+	// 	Nickname: "用户001",
+	// 	Password: "654321",
+	// 	Gender:   "0",
+	// }
 
-	util.DB().Create(user)
+	// util.DB().Create(user)
 	defer util.CloseDB()
 
 	api.AppRun()

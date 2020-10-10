@@ -27,9 +27,13 @@ func (r *userRepository) GetUserByEmail(db *gorm.DB, email string) *model.User {
 	return r.take(db, "email = ?", email)
 }
 
+func (r *userRepository) GetUserByUsername(db *gorm.DB, username string) *model.User {
+	return r.take(db, "username = ?", username)
+}
+
 func (r *userRepository) take(db *gorm.DB, column string, value interface{}) *model.User {
 	result := &model.User{}
-	if err := db.Where(column, value).Take(result); err != nil {
+	if err := db.Where(column, value).Take(result).Error; err != nil {
 		return nil
 	}
 	return result

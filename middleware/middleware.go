@@ -59,8 +59,13 @@ func ReponseHandler() gin.HandlerFunc {
 			resp.Value = nil
 		} else {
 			resp.Code = 1000
-			resp.Message = ""
-			value, _ := c.Get(model.CTXAPIResponse)
+			if message, exist := c.Get(model.CTXAPIResponseMessage); exist {
+				resp.Message = message.(string)
+			}
+			if value, exist := c.Get(model.CTXAPIResponseValue); exist {
+				resp.Value = value
+			}
+			value, _ := c.Get(model.CTXAPIResponseValue)
 			resp.Value = value
 		}
 		if resp.Code == 500 {
