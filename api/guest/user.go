@@ -4,16 +4,12 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nk-akun/NeighborBBS/model"
+	"github.com/nk-akun/NeighborBBS/service"
 )
 
 // RegisterByEmail ...
 func RegisterByEmail(c *gin.Context) {
-	if req, exist := c.Get(model.CTXAPIReq); exist {
-		fmt.Println(req)
-	} else {
-		fmt.Println("the request don't exist!")
-	}
+	service.UserService.SingUp(c)
 }
 
 // TestForUser is the test api for user

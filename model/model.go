@@ -8,11 +8,6 @@ type Model struct {
 	ID int64 `gorm:"primaryKey;autoIncrement" json:"id"`
 }
 
-// TableName returns the table name of User
-func (User) TableName() string {
-	return "users"
-}
-
 // User stores user infomation
 type User struct {
 	Model

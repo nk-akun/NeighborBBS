@@ -28,7 +28,7 @@ func OpenDB(dsn string, config *gorm.Config, maxIdleConns, maxOpenConns int, mod
 	}
 
 	if db, err = gorm.Open(mysql.Open(dsn), config); err != nil {
-		logs.Logger.Errorf("opens database failed: %s", err.Error())
+		logs.Logger.Errorf("open database failed: %s", err.Error())
 		return
 	}
 
