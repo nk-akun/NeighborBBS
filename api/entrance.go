@@ -20,14 +20,18 @@ func AppRun() {
 	r.Use(middleware.JSONRequestContextHandler(func(c *gin.Context) model.APIRequest {
 		if strings.Contains(c.Request.URL.Path, "api/user/register") {
 			return new(model.RegisterRequest)
+		} else if strings.Contains(c.Request.URL.Path, "api/user/login") {
+			return new(model.LoginRequest)
 		}
 		return nil
 	}))
+	r.Use(middleware.ReponseHandler())
 
 	user := r.Group("/api/user")
 	{
 		// user.Use()
 		user.POST("/register", guest.RegisterByEmail)
+		user.POST("/login", guest.Login)
 		user.GET("/test", guest.TestForUser)
 	}
 

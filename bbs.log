@@ -1,0 +1,9 @@
+2020-10-10T20:28:33.209+0800	INFO	middleware/middleware.go:56	The time cost is 0
+2020-10-10T20:29:29.413+0800	INFO	middleware/middleware.go:53	The time cost is 1
+2020-10-10T23:01:52.661+0800	INFO	middleware/middleware.go:53	The time cost is 89
+2020-10-10T23:05:13.017+0800	INFO	middleware/middleware.go:53	The time cost is 68
+2020-10-10T23:08:29.812+0800	INFO	middleware/middleware.go:53	The time cost is 0
+2020-10-10T23:08:58.123+0800	INFO	middleware/middleware.go:53	The time cost is 68
+2020-10-10T23:09:06.099+0800	INFO	middleware/middleware.go:53	The time cost is 0
+2020-10-10T23:09:12.002+0800	INFO	middleware/middleware.go:53	The time cost is 66
+2020-10-10T23:09:15.532+0800	INFO	middleware/middleware.go:53	The time cost is 67

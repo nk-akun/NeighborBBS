@@ -13,7 +13,17 @@ func RegisterByEmail(c *gin.Context) {
 	if err != nil {
 		setAPIResponse(c, nil, err.Error())
 	} else {
-		setAPIResponse(c, user, "")
+		setAPIResponse(c, user, "注册成功")
+	}
+}
+
+// Login ...
+func Login(c *gin.Context) {
+	user, err := service.UserService.Login(c)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+	} else {
+		setAPIResponse(c, user, "登陆成功")
 	}
 }
 
