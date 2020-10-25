@@ -1,6 +1,8 @@
 package util
 
-import "regexp"
+import (
+	"regexp"
+)
 
 // CheckEmail return ture if the email is valid or false if invalid
 func CheckEmail(email string) bool {
@@ -45,4 +47,45 @@ func CheckUsername(username string) bool {
 		return true
 	}
 	return false
+}
+
+// CheckContent return ture if the content has
+func CheckContent(str string) bool {
+	return !AllIsInvisibleCharacter(str)
+}
+
+// AllIsInvisibleCharacter return true if str is full of space
+func AllIsInvisibleCharacter(str string) bool {
+	strList := []byte(str)
+	for _, c := range strList {
+		if c != ' ' && c != '\n' && c != '\t' {
+			return false
+		}
+	}
+	return true
+}
+
+// DeletePreAndSufSpace delete the space before and after str
+func DeletePreAndSufSpace(str string) string {
+	strList := []byte(str)
+	spaceCount, count := 0, len(strList)
+	for i := 0; i <= len(strList)-1; i++ {
+		if strList[i] == 32 {
+			spaceCount++
+		} else {
+			break
+		}
+	}
+
+	strList = strList[spaceCount:]
+	spaceCount, count = 0, len(strList)
+	for i := count - 1; i >= 0; i-- {
+		if strList[i] == 32 {
+			spaceCount++
+		} else {
+			break
+		}
+	}
+
+	return string(strList[:count-spaceCount])
 }

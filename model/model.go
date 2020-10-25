@@ -1,7 +1,7 @@
 package model
 
 // Models stores the models which will be create as tables in the mysql
-var Models = []interface{}{&User{}}
+var Models = []interface{}{&User{}, &Article{}}
 
 // Model ...
 type Model struct {
@@ -38,10 +38,11 @@ type Article struct {
 	Model
 	UserID       int64  `gorm:"column:user_id;type:int" json:"user_id"`
 	Title        string `gorm:"column:title;type:varchar(50);not null" json:"title"`
-	Content      string `gorm:"column:content" json:"content"`
-	ViewCount    int64  `gorm:"column:view_count" json:"view_count"`
-	CommentCount int64  `gorm:"column:comment_count" json:"comment_count"`
-	LikeCount    int64  `gorm:"column:like_count" json:"like_count"`
+	Status       int    `gorm:"column:status;type:tinyint;not null;default:0" json:"status"`
+	Content      string `gorm:"column:content;type:text" json:"content"`
+	ViewCount    int64  `gorm:"column:view_count;type:int;default:0" json:"view_count"`
+	CommentCount int64  `gorm:"column:comment_count;type:int;default:0" json:"comment_count"`
+	LikeCount    int64  `gorm:"column:like_count;type:int;default:0" json:"like_count"`
 	CreateTime   int64  `json:"create_time"`
 	UpdateTime   int64  `json:"update_time"`
 	DeleteTime   int64  `json:"delete_time"`

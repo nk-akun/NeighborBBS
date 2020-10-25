@@ -18,10 +18,12 @@ func AppRun() {
 
 	r.Use(gin.RecoveryWithWriter(&recoverWriter{}))
 	r.Use(middleware.JSONRequestContextHandler(func(c *gin.Context) model.APIRequest {
-		if strings.Contains(c.Request.URL.Path, "api/user/register") {
+		if strings.Contains(c.Request.URL.Path, "api/register") {
 			return new(model.RegisterRequest)
-		} else if strings.Contains(c.Request.URL.Path, "api/user/login") {
+		} else if strings.Contains(c.Request.URL.Path, "api/login") {
 			return new(model.LoginRequest)
+		} else if strings.Contains(c.Request.URL.Path, "api/articles") {
+			return new(model.ArticleRequest)
 		}
 		return nil
 	}))

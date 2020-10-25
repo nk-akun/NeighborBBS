@@ -13,3 +13,8 @@ func setAPIResponse(c *gin.Context, value interface{}, message string) {
 		c.Set(model.CTXAPIResponseMessage, message)
 	}
 }
+
+func getReqFromContext(c *gin.Context) interface{} {
+	req, _ := c.Get(model.CTXAPIReq)
+	return req
+}
