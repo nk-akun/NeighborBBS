@@ -5,7 +5,7 @@ var Models = []interface{}{&User{}}
 
 // Model ...
 type Model struct {
-	ID int64 `gorm:"primaryKey;autoIncrement" json:"id"`
+	ID int64 `gorm:"column:id;type:int;primaryKey;autoIncrement" json:"id"`
 }
 
 // User stores user infomation
@@ -34,7 +34,15 @@ type User struct {
 }
 
 // Article stores article infomation
-// type Article struct {
-// 	UserID int64  `gorm:"column:user_id" json:"user_id"`
-// 	Title  string `gorm:"column:title" json:"title"`
-// }
+type Article struct {
+	Model
+	UserID       int64  `gorm:"column:user_id;type:int" json:"user_id"`
+	Title        string `gorm:"column:title;type:varchar(50);not null" json:"title"`
+	Content      string `gorm:"column:content" json:"content"`
+	ViewCount    int64  `gorm:"column:view_count" json:"view_count"`
+	CommentCount int64  `gorm:"column:comment_count" json:"comment_count"`
+	LikeCount    int64  `gorm:"column:like_count" json:"like_count"`
+	CreateTime   int64  `json:"create_time"`
+	UpdateTime   int64  `json:"update_time"`
+	DeleteTime   int64  `json:"delete_time"`
+}

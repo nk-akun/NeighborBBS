@@ -27,11 +27,13 @@ func AppRun() {
 	}))
 	r.Use(middleware.ReponseHandler())
 
-	user := r.Group("/api/user")
+	user := r.Group("/api")
 	{
 		// user.Use()
 		user.POST("/register", guest.RegisterByEmail)
 		user.POST("/login", guest.Login)
+		user.POST("/articles", guest.PostArticle)
+		// user.DELETE()
 		user.GET("/test", guest.TestForUser)
 	}
 

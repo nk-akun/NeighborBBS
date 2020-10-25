@@ -17,3 +17,10 @@ type LoginRequest struct {
 	Password string `json:"password"`
 	Token    string `json:"token"`
 }
+
+// ArticleRequest ...
+type ArticleRequest struct {
+	UserID  int64  `json:"user_id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
