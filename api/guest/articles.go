@@ -47,10 +47,15 @@ func GetArticleList(c *gin.Context) {
 	if err != nil {
 		setAPIResponse(c, nil, err.Error())
 	}
-	service.ArticleService.GetArticleList(limitNum, sortby, func(order string) bool {
+	resp, err := service.ArticleService.GetArticleList(limitNum, sortby, func(order string) bool {
 		if order == "asc" {
 			return true
 		}
 		return false
 	}(order))
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+	} else {
+		setAPIResponse(c, resp, "")
+	}
 }

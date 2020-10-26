@@ -16,29 +16,37 @@ type GetAPIRequestModel func(*gin.Context) model.APIRequest
 // JSONRequestContextHandler is the middleware to preproccess request
 func JSONRequestContextHandler(getAPIRequestModel GetAPIRequestModel) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		requestBody, err := ioutil.ReadAll(c.Request.Body)
-		if err != nil {
-			c.Abort()
-		} else {
-			c.Set(model.CTXCacheBody, requestBody)
-		}
-		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(requestBody))
+		reqMethod := c.Request.Method
 
-		params := c.Request.URL.Query()
-		c.Set(model.CTXAPICacheBody, requestBody)
-		c.Set(model.CTXAPIURLParams, params)
-		req := getAPIRequestModel(c)
-		if req != nil {
-			if err = c.BindJSON(req); err == nil {
-				c.Set(model.CTXAPIReq, req)
+		if reqMethod == "GET" {
+			params := c.Request.URL.Query()
+			c.Set(model.CTXAPIURLParams, params)
+		} else if reqMethod == "POST" {
+			requestBody, err := ioutil.ReadAll(c.Request.Body)
+			if err != nil {
+				c.Abort()
 			} else {
-				logs.Logger.Error("parse json error:", err)
+				c.Set(model.CTXCacheBody, requestBody)
+			}
+			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(requestBody))
+
+			params := c.Request.URL.Query()
+			c.Set(model.CTXAPICacheBody, requestBody)
+			c.Set(model.CTXAPIURLParams, params)
+			req := getAPIRequestModel(c)
+			if req != nil {
+				if err = c.BindJSON(req); err == nil {
+					c.Set(model.CTXAPIReq, req)
+				} else {
+					logs.Logger.Error("parse json error:", err)
+					c.Abort()
+				}
+			} else {
+				logs.Logger.Error("program can not find the struct matched the request!")
 				c.Abort()
 			}
-		} else {
-			logs.Logger.Error("program can not find the struct matched the request!")
-			c.Abort()
 		}
+
 		c.Next()
 	}
 }
@@ -65,8 +73,6 @@ func ReponseHandler() gin.HandlerFunc {
 			if value, exist := c.Get(model.CTXAPIResponseValue); exist {
 				resp.Value = value
 			}
-			value, _ := c.Get(model.CTXAPIResponseValue)
-			resp.Value = value
 		}
 		if resp.Code == 500 {
 			c.AbortWithStatusJSON(400, resp)
