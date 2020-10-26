@@ -11,13 +11,20 @@ type APIResponse struct {
 
 // ArticleListResponse ...
 type ArticleListResponse struct {
-	TotalNum    int      `json:"total_num"`
-	ArticleList []string `json:"article_list"`
+	TotalNum    int                 `json:"total_num"`
+	ArticleList []*ArticleBriefInfo `json:"article_list"`
+}
+
+// ArticleBriefInfo ...
+type ArticleBriefInfo struct {
+	ArticleID  int64  `json:"article_id"`
+	Title      string `json:"title"`
+	CreateTime int64  `json:"create_time"`
 }
 
 // ArticleResponse ...
 type ArticleResponse struct {
-	Title      string `json:"json"`
+	Title      string `json:"title"`
 	Author     string `json:"author"`
 	Content    string `json:"content"`
 	CreateTime int64  `json:"create_time"`
