@@ -35,6 +35,7 @@ func AppRun() {
 		user.POST("/register", guest.RegisterByEmail)
 		user.POST("/login", guest.Login)
 		user.POST("/articles", guest.PostArticle)
+		user.GET("/articles", guest.GetArticleList)
 		// user.DELETE()
 		user.GET("/test", guest.TestForUser)
 	}

@@ -2,6 +2,7 @@ package guest
 
 import (
 	"errors"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nk-akun/NeighborBBS/model"
@@ -32,4 +33,19 @@ func PostArticle(c *gin.Context) {
 	} else {
 		setAPIResponse(c, article, "创建成功")
 	}
+}
+
+// GetArticleList is the api that returns a list of articles
+// if you want to add parameter like limit, please use url like /article?limit=10
+func GetArticleList(c *gin.Context) {
+	limit := c.DefaultQuery("limit", "50")
+	sortby := c.DefaultQuery("sortby", "post_time")
+	order := c.DefaultQuery("order", "desc")
+	// userID
+
+	limitNum, err := strconv.Atoi(limit)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+	}
+	service.ArticleService.GetArticleList(limitNum, sortby, order)
 }

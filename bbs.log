@@ -9,3 +9,8 @@
 2020-10-10T23:09:15.532+0800	INFO	middleware/middleware.go:53	The time cost is 67
 2020-10-25T14:53:48.705+0800	ERROR	middleware/middleware.go:39	program can not find the struct matched the request!
 2020-10-25T15:05:33.892+0800	INFO	middleware/middleware.go:53	The time cost is 5
+2020-10-26T11:24:25.662+0800	INFO	middleware/middleware.go:53	The time cost is 0
+2020-10-26T11:24:33.744+0800	INFO	middleware/middleware.go:53	The time cost is 65
+2020-10-26T20:08:35.907+0800	INFO	middleware/middleware.go:53	The time cost is 3
+2020-10-26T20:15:15.275+0800	INFO	middleware/middleware.go:53	The time cost is 1
+2020-10-26T20:30:28.473+0800	INFO	middleware/middleware.go:53	The time cost is 1

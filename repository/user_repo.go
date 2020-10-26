@@ -33,7 +33,8 @@ func (r *userRepository) GetUserByUsername(db *gorm.DB, username string) *model.
 
 func (r *userRepository) take(db *gorm.DB, column string, value interface{}) *model.User {
 	result := &model.User{}
-	err := db.Where(column, value).Take(result).Error
+	// err := db.Where(column, value).Take(result).Error
+	err := db.Where(column, value).Find(&result).Error
 	if err == gorm.ErrRecordNotFound {
 		return nil
 	}
