@@ -79,3 +79,8 @@ func GetArticleByID(c *gin.Context) {
 	}
 	setAPIResponse(c, resp, "查询成功")
 }
+
+// PostComment post comments
+func PostComment(c *gin.Context) {
+
+}

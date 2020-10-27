@@ -47,3 +47,17 @@ type Article struct {
 	UpdateTime   int64  `gorm:"column:update_time;default:null" json:"update_time"`
 	DeleteTime   int64  `gorm:"column:delete_time;default:null" json:"delete_time"`
 }
+
+// Comment stores users' comments
+type Comment struct {
+	Model
+	UserID     int64  `gorm:"column:user_id;type:int" json:"user_id"`
+	ArticleID  int64  `gorm:"column:post_id;type:int" json:"post_id"`
+	Content    string `gorm:"column:content;type:text" json:"content"`
+	ParentID   int64  `gorm:"column:parent_id;type:int" json:"parent_id"`
+	Status     int    `gorm:"column:status;type:tinyint;not null;default:0" json:"status"`
+	LikeCount  int    `gorm:"column:like_count;type:int;default:0" json:"like_count"`
+	CreateTime int64  `gorm:"column:create_time;default:null" json:"create_time"`
+	UpdateTime int64  `gorm:"column:update_time;default:null" json:"update_time"`
+	DeleteTime int64  `gorm:"column:delete_time;default:null" json:"delete_time"`
+}
