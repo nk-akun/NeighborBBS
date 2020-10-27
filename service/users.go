@@ -43,6 +43,7 @@ func (s *userService) SignUp(c *gin.Context) (*model.User, error) {
 		Username: req.Username,
 		Password: string(encryptedPassword),
 		Email:    req.Email,
+		Nickname: req.Username,
 	}
 
 	if err := repository.UserRepository.Create(util.DB(), user); err != nil {

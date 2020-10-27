@@ -60,3 +60,22 @@ func GetArticleList(c *gin.Context) {
 		setAPIResponse(c, resp, "查询成功")
 	}
 }
+
+// GetArticleByID finds the article with ID
+func GetArticleByID(c *gin.Context) {
+	id := c.Param("id")
+
+	var err error
+	articleID, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+		return
+	}
+
+	resp, err := service.ArticleService.GetArticleByID(articleID)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+		return
+	}
+	setAPIResponse(c, resp, "查询成功")
+}

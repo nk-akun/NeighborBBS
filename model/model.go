@@ -40,9 +40,9 @@ type Article struct {
 	Title        string `gorm:"column:title;type:varchar(50);not null" json:"title"`
 	Status       int    `gorm:"column:status;type:tinyint;not null;default:0" json:"status"`
 	Content      string `gorm:"column:content;type:text" json:"content"`
-	ViewCount    int64  `gorm:"column:view_count;type:int;default:0" json:"view_count"`
-	CommentCount int64  `gorm:"column:comment_count;type:int;default:0" json:"comment_count"`
-	LikeCount    int64  `gorm:"column:like_count;type:int;default:0" json:"like_count"`
+	ViewCount    int    `gorm:"column:view_count;type:int;default:0" json:"view_count"`
+	CommentCount int    `gorm:"column:comment_count;type:int;default:0" json:"comment_count"`
+	LikeCount    int    `gorm:"column:like_count;type:int;default:0" json:"like_count"`
 	CreateTime   int64  `gorm:"column:create_time;default:null" json:"create_time"`
 	UpdateTime   int64  `gorm:"column:update_time;default:null" json:"update_time"`
 	DeleteTime   int64  `gorm:"column:delete_time;default:null" json:"delete_time"`

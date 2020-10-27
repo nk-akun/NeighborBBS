@@ -29,3 +29,15 @@ func (r *articleRepository) GetArticleFields(db *gorm.DB, fields []string, limit
 	db.Select(fields).Order(fmt.Sprintf("%s %s", sortby, order)).Limit(limit).Find(&articles)
 	return articles
 }
+
+func (r *articleRepository) GetArticleByID(db *gorm.DB, id int64) *model.Article {
+	return r.take(db, "id = ?", id)
+}
+
+func (r *articleRepository) take(db *gorm.DB, column string, value interface{}) *model.Article {
+	result := new(model.Article)
+	if err := db.Where(column, value).Find(&result).Error; err != nil {
+		return nil
+	}
+	return result
+}

@@ -31,6 +31,10 @@ func (r *userRepository) GetUserByUsername(db *gorm.DB, username string) *model.
 	return r.take(db, "username = ?", username)
 }
 
+func (r *userRepository) GetUserByUserID(db *gorm.DB, userID int64) *model.User {
+	return r.take(db, "id = ?", userID)
+}
+
 func (r *userRepository) take(db *gorm.DB, column string, value interface{}) *model.User {
 	result := &model.User{}
 	// err := db.Where(column, value).Take(result).Error

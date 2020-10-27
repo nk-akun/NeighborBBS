@@ -24,8 +24,10 @@ type ArticleBriefInfo struct {
 
 // ArticleResponse ...
 type ArticleResponse struct {
-	Title      string `json:"title"`
-	Author     string `json:"author"`
-	Content    string `json:"content"`
-	CreateTime int64  `json:"create_time"`
+	Title        string `json:"title"`
+	Author       string `json:"author"`
+	Content      string `json:"content"`
+	CommentCount int    `json:"commnet_count"`
+	LikeCount    int    `json:"like_count"`
+	CreateTime   int64  `json:"create_time"`
 }
