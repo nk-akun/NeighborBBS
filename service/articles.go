@@ -30,14 +30,15 @@ func (s *articleService) BuildArticle(userID int64, title string, content string
 	return article, nil
 }
 
-func (s *articleService) GetArticleList(limit int, sortby string, asc bool) (*model.ArticleListResponse, error) {
+func (s *articleService) GetArticleList(limit int, sortby string, order string) (*model.ArticleListResponse, error) {
 	articleResp := &model.ArticleListResponse{}
 	fields := []string{"id", "title", "create_time"}
-	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, limit, sortby, asc)
+	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, limit, sortby, order)
 
 	articleResp.TotalNum = len(articles)
 	articleResp.ArticleList = make([]*model.ArticleBriefInfo, articleResp.TotalNum)
 	for i := range articles {
+		articleResp.ArticleList[i] = new(model.ArticleBriefInfo)
 		articleResp.ArticleList[i].ArticleID = articles[i].ID
 		articleResp.ArticleList[i].Title = articles[i].Title
 		articleResp.ArticleList[i].CreateTime = articles[i].CreateTime

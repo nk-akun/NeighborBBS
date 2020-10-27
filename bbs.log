@@ -431,3 +431,73 @@ runtime error: invalid memory address or nil pointer dereference
 	goexit: BYTE	$0x90	// NOP
 [0m
 
+2020-10-27T10:35:26.109+0800	ERROR	api/entrance.go:48	
+
+[31m2020/10/27 10:35:26 [Recovery] 2020/10/27 - 10:35:26 panic recovered:
+GET /api/articles HTTP/1.1
+Host: 127.0.0.1:8080
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9
+Cache-Control: no-cache
+Connection: keep-alive
+Postman-Token: 5306b20c-b747-f4b2-fd5a-1167700b8d33
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: none
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36
+X-Postman-Interceptor-Id: 11a59565-cde3-6c34-763b-0e5eab0f6c2d
+
+
+runtime error: invalid memory address or nil pointer dereference
+/usr/local/Cellar/go/1.15.2/libexec/src/runtime/panic.go:212 (0x104cb52)
+	panicmem: panic(memoryError)
+/usr/local/Cellar/go/1.15.2/libexec/src/runtime/signal_unix.go:720 (0x104c9d2)
+	sigpanic: panicmem()
+/Users/marathon/Work/mygo/src/github.com/nk-akun/NeighborBBS/service/articles.go:41 (0x165e46d)
+	(*articleService).GetArticleList: articleResp.ArticleList[i].ArticleID = articles[i].ID
+/Users/marathon/Work/mygo/src/github.com/nk-akun/NeighborBBS/api/guest/articles.go:50 (0x165f724)
+	GetArticleList: resp, err := service.ArticleService.GetArticleList(limitNum, sortby, func(order string) bool {
+/Users/marathon/Work/mygo/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x155cbba)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/marathon/Work/mygo/src/github.com/nk-akun/NeighborBBS/middleware/middleware.go:58 (0x1660264)
+	ReponseHandler.func1: c.Next()
+/Users/marathon/Work/mygo/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x155cbba)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/marathon/Work/mygo/src/github.com/nk-akun/NeighborBBS/middleware/middleware.go:50 (0x165fd56)
+	JSONRequestContextHandler.func1: c.Next()
+/Users/marathon/Work/mygo/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x155cbba)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/marathon/Work/mygo/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0x156f864)
+	RecoveryWithWriter.func1: c.Next()
+/Users/marathon/Work/mygo/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x155cbba)
+	(*Context).Next: c.handlers[c.index](c)
+/Users/marathon/Work/mygo/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x1566bd9)
+	(*Engine).handleHTTPRequest: c.Next()
+/Users/marathon/Work/mygo/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x15662cc)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/Cellar/go/1.15.2/libexec/src/net/http/server.go:2843 (0x12e8a02)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/Cellar/go/1.15.2/libexec/src/net/http/server.go:1925 (0x12e410c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/Cellar/go/1.15.2/libexec/src/runtime/asm_amd64.s:1374 (0x106bf20)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+2020-10-27T10:40:01.171+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:46:19.285+0800	INFO	middleware/middleware.go:61	The time cost is 3
+2020-10-27T10:46:41.307+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:47:04.976+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:47:24.481+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:47:44.682+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:48:07.032+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:48:25.273+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:48:50.849+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:49:01.543+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:49:11.704+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:49:16.255+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:55:29.442+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:55:35.824+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:59:32.586+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T10:59:57.291+0800	INFO	middleware/middleware.go:61	The time cost is 0
+2020-10-27T11:00:01.457+0800	INFO	middleware/middleware.go:61	The time cost is 0

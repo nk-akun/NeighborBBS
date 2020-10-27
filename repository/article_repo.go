@@ -24,14 +24,8 @@ func (r *articleRepository) Create(db *gorm.DB, article *model.Article) error {
 	return nil
 }
 
-func (r *articleRepository) GetArticleFields(db *gorm.DB, fields []string, limit int, sortby string, asc bool) []model.Article {
-	articles := make([]model.Article, limit)
-	var order string
-	if asc {
-		order = "asc"
-	} else {
-		order = "desc"
-	}
+func (r *articleRepository) GetArticleFields(db *gorm.DB, fields []string, limit int, sortby string, order string) []model.Article {
+	var articles []model.Article
 	db.Select(fields).Order(fmt.Sprintf("%s %s", sortby, order)).Limit(limit).Find(&articles)
 	return articles
 }
