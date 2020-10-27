@@ -39,11 +39,20 @@ func (s *userService) SignUp(c *gin.Context) (*model.User, error) {
 	// encrypte password
 	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 
+	// get avatar url
+	var avatarURL string
+	if req.Email != "" {
+		avatarURL = util.RandomAvatarURL(req.Email)
+	} else {
+		avatarURL = util.RandomAvatarURL(req.Username)
+	}
+
 	user := &model.User{
-		Username: req.Username,
-		Password: string(encryptedPassword),
-		Email:    req.Email,
-		Nickname: req.Username,
+		Username:  req.Username,
+		Password:  string(encryptedPassword),
+		Email:     req.Email,
+		Nickname:  req.Username,
+		AvatarURL: avatarURL,
 	}
 
 	if err := repository.UserRepository.Create(util.DB(), user); err != nil {
