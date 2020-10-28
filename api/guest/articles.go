@@ -30,9 +30,9 @@ func PostArticle(c *gin.Context) {
 	article, err := service.ArticleService.BuildArticle(req.UserID, req.Title, req.Content)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error())
-	} else {
-		setAPIResponse(c, article, "创建成功")
+		return
 	}
+	setAPIResponse(c, article, "创建成功")
 }
 
 // GetArticleList is the api that returns a list of articles
@@ -78,9 +78,4 @@ func GetArticleByID(c *gin.Context) {
 		return
 	}
 	setAPIResponse(c, resp, "查询成功")
-}
-
-// PostComment post comments
-func PostComment(c *gin.Context) {
-
 }

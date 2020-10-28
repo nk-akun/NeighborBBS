@@ -24,6 +24,8 @@ func AppRun() {
 			return new(model.LoginRequest)
 		} else if strings.Contains(c.Request.URL.Path, "api/articles") {
 			return new(model.ArticleRequest)
+		} else if strings.Contains(c.Request.URL.Path, "api/comments") {
+			return new(model.CommentRequest)
 		}
 		return nil
 	}))

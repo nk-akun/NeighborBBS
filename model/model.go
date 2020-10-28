@@ -1,7 +1,7 @@
 package model
 
 // Models stores the models which will be create as tables in the mysql
-var Models = []interface{}{&User{}, &Article{}}
+var Models = []interface{}{&User{}, &Article{}, &Comment{}}
 
 // Model ...
 type Model struct {
@@ -52,7 +52,7 @@ type Article struct {
 type Comment struct {
 	Model
 	UserID     int64  `gorm:"column:user_id;type:int" json:"user_id"`
-	ArticleID  int64  `gorm:"column:post_id;type:int" json:"post_id"`
+	ArticleID  int64  `gorm:"column:post_id;type:int" json:"article_id"`
 	Content    string `gorm:"column:content;type:text" json:"content"`
 	ParentID   int64  `gorm:"column:parent_id;type:int" json:"parent_id"`
 	Status     int    `gorm:"column:status;type:tinyint;not null;default:0" json:"status"`
