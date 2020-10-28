@@ -18,3 +18,8 @@ func PostComment(c *gin.Context) {
 
 	service.CommentService.BuildComment(req.UserID, req.ArticleID, req.ParentID, req.Content)
 }
+
+// GetComments return the comments based on
+func GetComments(c *gin.Context) {
+
+}

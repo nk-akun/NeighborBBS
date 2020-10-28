@@ -40,6 +40,7 @@ func AppRun() {
 		user.GET("/articles", guest.GetArticleList)
 		user.GET("/articles/:id", guest.GetArticleByID)
 		user.POST("/comments", guest.PostComment)
+		user.GET("/comments/:article_id", guest.GetComments)
 		// user.DELETE()
 		user.GET("/test", guest.TestForUser)
 	}

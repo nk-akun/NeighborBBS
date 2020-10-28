@@ -60,7 +60,9 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 
 	resp := &model.ArticleResponse{
 		Title:        articleInfo.Title,
-		Author:       userInfo.Nickname,
+		AuthorID:     userInfo.ID,
+		AuthorName:   userInfo.Nickname,
+		AvatarURL:    userInfo.AvatarURL,
 		Content:      articleInfo.Content,
 		CommentCount: articleInfo.CommentCount,
 		LikeCount:    articleInfo.LikeCount,
