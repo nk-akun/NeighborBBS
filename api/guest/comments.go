@@ -18,7 +18,11 @@ func PostComment(c *gin.Context) {
 		return
 	}
 
-	service.CommentService.BuildComment(req.UserID, req.ArticleID, req.ParentID, req.Content)
+	resp, err := service.CommentService.BuildComment(req.UserID, req.ArticleID, req.ParentID, req.Content)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+	}
+	setAPIResponse(c, resp, "评论成功")
 }
 
 // GetComments return the comments based on
