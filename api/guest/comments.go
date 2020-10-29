@@ -1,6 +1,8 @@
 package guest
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/service"
@@ -21,5 +23,16 @@ func PostComment(c *gin.Context) {
 
 // GetComments return the comments based on
 func GetComments(c *gin.Context) {
-
+	id := c.Param("article_id")
+	articleID, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		setAPIResponse(c, nil, "参数错误")
+		return
+	}
+	resp, err := service.CommentService.GetCommentList(articleID)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error())
+		return
+	}
+	setAPIResponse(c, resp, "查询成功")
 }

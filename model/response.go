@@ -46,7 +46,7 @@ type CommentListResponse struct {
 // CommentInfo ...
 type CommentInfo struct {
 	AuthorName string `json:"author_name"`
-	AuthorID   string `json:"author_id"`
+	AuthorID   int64  `json:"author_id"`
 	AvatarURL  string `json:"avatar_url"`
 	Content    string `json:"content"`
 	ParentID   int64  `json:"parent_id"`

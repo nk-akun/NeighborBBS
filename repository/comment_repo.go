@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"gorm.io/gorm"
 )
@@ -20,4 +21,18 @@ func (r *commentRepository) Create(db *gorm.DB, comment *model.Comment) error {
 		return err
 	}
 	return nil
+}
+
+func (r *commentRepository) GetCommentsByArticleID(db *gorm.DB, articleID int64) ([]model.Comment, error) {
+	return r.take(db, "article_id = ?", articleID)
+}
+
+func (r *commentRepository) take(db *gorm.DB, column string, value interface{}) ([]model.Comment, error) {
+	var comments []model.Comment
+	err := db.Where(column, value).Find(comments).Error
+	if err != nil {
+		logs.Logger.Errorf("query db error:", err)
+		return nil, err
+	}
+	return comments, nil
 }
