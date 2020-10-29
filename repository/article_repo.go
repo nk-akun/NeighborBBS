@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 
+	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"gorm.io/gorm"
 )
@@ -30,14 +31,15 @@ func (r *articleRepository) GetArticleFields(db *gorm.DB, fields []string, limit
 	return articles
 }
 
-func (r *articleRepository) GetArticleByID(db *gorm.DB, id int64) *model.Article {
+func (r *articleRepository) GetArticleByID(db *gorm.DB, id int64) (*model.Article, error) {
 	return r.take(db, "id = ?", id)
 }
 
-func (r *articleRepository) take(db *gorm.DB, column string, value interface{}) *model.Article {
+func (r *articleRepository) take(db *gorm.DB, column string, value interface{}) (*model.Article, error) {
 	result := new(model.Article)
 	if err := db.Where(column, value).Find(&result).Error; err != nil {
-		return nil
+		logs.Logger.Errorf("query db error:", err)
+		return nil, err
 	}
-	return result
+	return result, nil
 }

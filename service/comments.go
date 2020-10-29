@@ -44,8 +44,8 @@ func (s *commentService) GetCommentList(articleID int64) (*model.CommentListResp
 	resp.TotalNum = len(comtList)
 	resp.CommentList = make([]*model.CommentInfo, len(comtList))
 	for i := range comtList {
-		userInfo := repository.UserRepository.GetUserByUserID(util.DB(), comtList[i].UserID)
-		if userInfo == nil {
+		userInfo, err := repository.UserRepository.GetUserByUserID(util.DB(), comtList[i].UserID)
+		if err != nil {
 			return nil, errors.New("查询作者信息出错")
 		}
 		resp.CommentList[i] = &model.CommentInfo{

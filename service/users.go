@@ -22,14 +22,26 @@ func newUserService() *userService {
 
 func (s *userService) SignUp(c *gin.Context) (*model.User, error) {
 	req := getReqFromContext(c).(*model.RegisterRequest)
+
+	// data verification
 	if !util.CheckEmail(req.Email) {
 		return nil, errors.New("邮箱格式错误")
-	} else if repository.UserRepository.GetUserByEmail(util.DB(), req.Email) != nil {
+	}
+	userInfo, err := repository.UserRepository.GetUserByEmail(util.DB(), req.Email)
+	if err != nil {
+		return nil, errors.New("查询邮箱出错")
+	}
+	if userInfo.ID != 0 {
 		return nil, errors.New("邮箱已被占用")
 	}
 	if !util.CheckUsername(req.Username) {
 		return nil, errors.New("用户名格式错误")
-	} else if repository.UserRepository.GetUserByUsername(util.DB(), req.Username) != nil {
+	}
+	userInfo, err = repository.UserRepository.GetUserByUsername(util.DB(), req.Username)
+	if err != nil {
+		return nil, errors.New("查询用户名出错")
+	}
+	if userInfo.ID != 0 {
 		return nil, errors.New("用户名已被占用")
 	}
 	if !util.CheckPassword(req.Password) {
@@ -48,11 +60,12 @@ func (s *userService) SignUp(c *gin.Context) (*model.User, error) {
 	}
 
 	user := &model.User{
-		Username:  req.Username,
-		Password:  string(encryptedPassword),
-		Email:     req.Email,
-		Nickname:  req.Username,
-		AvatarURL: avatarURL,
+		Username:   req.Username,
+		Password:   string(encryptedPassword),
+		Email:      req.Email,
+		Nickname:   req.Username,
+		AvatarURL:  avatarURL,
+		CreateTime: util.NowTimestamp(),
 	}
 
 	if err := repository.UserRepository.Create(util.DB(), user); err != nil {
@@ -78,8 +91,8 @@ func (s *userService) Login(c *gin.Context) (*model.User, error) {
 }
 
 func (s *userService) loginByEmail(email string, password string) (*model.User, error) {
-	user := repository.UserRepository.GetUserByEmail(util.DB(), email)
-	if user == nil {
+	user, err := repository.UserRepository.GetUserByEmail(util.DB(), email)
+	if err != nil {
 		return nil, errors.New("此邮箱不存在")
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
@@ -89,8 +102,8 @@ func (s *userService) loginByEmail(email string, password string) (*model.User, 
 }
 
 func (s *userService) loginByUsername(username string, password string) (*model.User, error) {
-	user := repository.UserRepository.GetUserByUsername(util.DB(), username)
-	if user == nil {
+	user, err := repository.UserRepository.GetUserByUsername(util.DB(), username)
+	if err != nil {
 		return nil, errors.New("此用户名不存在")
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {

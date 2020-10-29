@@ -49,12 +49,12 @@ func (s *articleService) GetArticleList(limit int, sortby string, order string) 
 }
 
 func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error) {
-	articleInfo := repository.ArticleRepository.GetArticleByID(util.DB(), id)
-	if articleInfo == nil {
+	articleInfo, err := repository.ArticleRepository.GetArticleByID(util.DB(), id)
+	if err != nil {
 		return nil, errors.New("查询文章信息出错")
 	}
-	userInfo := repository.UserRepository.GetUserByUserID(util.DB(), articleInfo.UserID)
-	if userInfo == nil {
+	userInfo, err := repository.UserRepository.GetUserByUserID(util.DB(), articleInfo.UserID)
+	if err != nil {
 		return nil, errors.New("查询作者信息出错")
 	}
 
