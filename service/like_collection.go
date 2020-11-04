@@ -31,9 +31,7 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 	err = util.DB().Transaction(func(tx *gorm.DB) error {
 		var err error
 		if opHis.ID != 0 {
-			if err = repository.LCRepository.UpdateUserLikeOperation(util.DB(), userID, articleID, map[string]interface{}{"status": 1}); err != nil {
-				return err
-			}
+			err = repository.LCRepository.UpdateUserLikeOperation(util.DB(), userID, articleID, map[string]interface{}{"status": 1})
 		} else {
 			err = repository.LCRepository.Create(util.DB(), &model.UserLikeArticle{
 				UserID:     userID,
@@ -41,9 +39,9 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 				Status:     1,
 				UpdateTime: util.NowTimestamp(),
 			})
-			if err != nil {
-				return err
-			}
+		}
+		if err != nil {
+			return err
 		}
 		err = util.DB().Exec("update t_article set like_count = like_count+1 where user_id = ? and article_id = ?", userID, articleID).Error
 		if err != nil {
@@ -51,8 +49,10 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 		}
 		return nil
 	})
-	if err != nil {
-		return err
-	}
+	return err
+}
+
+func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {
+
 	return nil
 }
