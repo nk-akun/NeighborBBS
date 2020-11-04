@@ -32,3 +32,9 @@ type CommentRequest struct {
 	Content   string `json:"content"`
 	ParentID  int64  `json:"parent_id"`
 }
+
+// LikeArticleRequest ...
+type LikeArticleRequest struct {
+	UserID    int64 `json:"user_id"`
+	ArticleID int64 `json:"article_id"`
+}

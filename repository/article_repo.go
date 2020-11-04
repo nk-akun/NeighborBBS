@@ -19,10 +19,7 @@ func newArticleRepository() *articleRepository {
 }
 
 func (r *articleRepository) Create(db *gorm.DB, article *model.Article) error {
-	if err := db.Create(article).Error; err != nil {
-		return err
-	}
-	return nil
+	return db.Create(article).Error
 }
 
 func (r *articleRepository) GetArticleFields(db *gorm.DB, fields []string, limit int, sortby string, order string) []model.Article {
