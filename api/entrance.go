@@ -28,6 +28,8 @@ func AppRun() {
 			return new(model.CommentRequest)
 		} else if strings.Contains(c.Request.URL.Path, "api/articles/like") {
 			return new(model.LikeArticleRequest)
+		} else if strings.Contains(c.Request.URL.Path, "api/articles/del_like") {
+			return new(model.LikeArticleRequest)
 		}
 		return nil
 	}))
