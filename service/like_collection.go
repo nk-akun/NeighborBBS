@@ -45,10 +45,13 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 		if err != nil {
 			return err
 		}
-		err = util.DB().Exec("update t_article set like_count = like_count+1 where user_id = ? and article_id = ?", userID, articleID).Error
+		err = util.DB().Exec("update t_article set like_count = like_count+1 where id = ? and user_id = ?", articleID, userID).Error
 		return err
 	})
-	return err
+	if err != nil {
+		return errors.New("数据库操作出错")
+	}
+	return nil
 }
 
 func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {
@@ -69,8 +72,11 @@ func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {
 		if err != nil {
 			return err
 		}
-		err = util.DB().Exec("update t_article set like_count = like_count-1 where user_id = ? and article_id = ?", userID, articleID).Error
+		err = util.DB().Exec("update t_article set like_count = like_count-1 where id = ? and user_id = ?", articleID, userID).Error
 		return err
 	})
-	return err
+	if err != nil {
+		return errors.New("数据库操作出错")
+	}
+	return nil
 }

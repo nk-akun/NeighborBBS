@@ -15,7 +15,7 @@ func PostLikeArticle(c *gin.Context) {
 	}
 	err := service.LCService.PostLikeArticle(req.UserID, req.ArticleID)
 	if err != nil {
-		setAPIResponse(c, nil, "操作失败")
+		setAPIResponse(c, nil, err.Error())
 		return
 	}
 	setAPIResponse(c, nil, "操作成功")
@@ -30,7 +30,7 @@ func PostDelLikeArticle(c *gin.Context) {
 	}
 	err := service.LCService.PostDelLikeArticle(req.UserID, req.ArticleID)
 	if err != nil {
-		setAPIResponse(c, nil, "操作失败")
+		setAPIResponse(c, nil, err.Error())
 		return
 	}
 	setAPIResponse(c, nil, "操作成功")

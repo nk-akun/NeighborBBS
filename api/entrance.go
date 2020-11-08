@@ -1,8 +1,6 @@
 package api
 
 import (
-	"strings"
-
 	"github.com/gin-gonic/gin"
 	"github.com/nk-akun/NeighborBBS/api/guest"
 	"github.com/nk-akun/NeighborBBS/logs"
@@ -18,17 +16,17 @@ func AppRun() {
 
 	r.Use(gin.RecoveryWithWriter(&recoverWriter{}))
 	r.Use(middleware.JSONRequestContextHandler(func(c *gin.Context) model.APIRequest {
-		if strings.Contains(c.Request.URL.Path, "api/register") {
+		if c.Request.URL.Path == "/api/register" {
 			return new(model.RegisterRequest)
-		} else if strings.Contains(c.Request.URL.Path, "api/login") {
+		} else if c.Request.URL.Path == "/api/login" {
 			return new(model.LoginRequest)
-		} else if strings.Contains(c.Request.URL.Path, "api/articles") {
+		} else if c.Request.URL.Path == "/api/articles" {
 			return new(model.ArticleRequest)
-		} else if strings.Contains(c.Request.URL.Path, "api/comments") {
+		} else if c.Request.URL.Path == "/api/comments" {
 			return new(model.CommentRequest)
-		} else if strings.Contains(c.Request.URL.Path, "api/articles/like") {
+		} else if c.Request.URL.Path == "/api/articles/like" {
 			return new(model.LikeArticleRequest)
-		} else if strings.Contains(c.Request.URL.Path, "api/articles/del_like") {
+		} else if c.Request.URL.Path == "/api/articles/del_like" {
 			return new(model.LikeArticleRequest)
 		}
 		return nil
@@ -44,7 +42,7 @@ func AppRun() {
 		user.GET("/articles", guest.GetArticleList)
 		user.GET("/articles/:id", guest.GetArticleByID)
 		user.POST("/articles/like", guest.PostLikeArticle)
-		user.POST("/articles/del_like", guest.PostLikeArticle)
+		user.POST("/articles/del_like", guest.PostDelLikeArticle)
 		user.POST("/comments", guest.PostComment)
 		user.GET("/comments/:article_id", guest.GetComments)
 		// user.DELETE()
