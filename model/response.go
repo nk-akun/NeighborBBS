@@ -25,8 +25,8 @@ type ArticleBriefInfo struct {
 // ArticleResponse ...
 type ArticleResponse struct {
 	Title        string `json:"title"`
-	AuthorID     int64  `json:"author_id"`
-	AuthorName   string `json:"author_name"`
+	AuthorID     int64  `json:"user_id"`
+	AuthorName   string `json:"nick_name"`
 	AvatarURL    string `json:"avatar_url"`
 	Content      string `json:"content"`
 	CommentCount int    `json:"commnet_count"`
@@ -45,8 +45,8 @@ type CommentListResponse struct {
 
 // CommentInfo ...
 type CommentInfo struct {
-	AuthorName string `json:"author_name"`
-	AuthorID   int64  `json:"author_id"`
+	AuthorName string `json:"user_name"`
+	AuthorID   int64  `json:"user_id"`
 	AvatarURL  string `json:"avatar_url"`
 	Content    string `json:"content"`
 	ParentID   int64  `json:"parent_id"`
