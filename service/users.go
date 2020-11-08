@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/repository"
 	"github.com/nk-akun/NeighborBBS/util"
@@ -69,7 +70,8 @@ func (s *userService) SignUp(c *gin.Context) (*model.User, error) {
 	}
 
 	if err := repository.UserRepository.Create(util.DB(), user); err != nil {
-		return nil, err
+		logs.Logger.Error("db error:", err)
+		return nil, errors.New("数据库操作出错")
 	}
 	return user, nil
 	// util.DB().Transaction(func(tx *gorm.DB) error {

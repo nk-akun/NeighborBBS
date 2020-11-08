@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 
+	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/repository"
 	"github.com/nk-akun/NeighborBBS/util"
@@ -27,7 +28,8 @@ func (s *articleService) BuildArticle(userID int64, title string, content string
 	}
 
 	if err := repository.ArticleRepository.Create(util.DB(), article); err != nil {
-		return nil, err
+		logs.Logger.Error("db error:", err)
+		return nil, errors.New("数据库操作出错")
 	}
 	return article, nil
 }

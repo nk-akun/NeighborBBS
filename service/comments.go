@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 
+	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/repository"
 	"github.com/nk-akun/NeighborBBS/util"
@@ -28,7 +29,8 @@ func (s *commentService) BuildComment(userID int64, articleID int64, parentID in
 	}
 
 	if err := repository.CommentRepository.Create(util.DB(), comment); err != nil {
-		return nil, err
+		logs.Logger.Error("db error:", err)
+		return nil, errors.New("数据库操作出错")
 	}
 	return comment, nil
 }
