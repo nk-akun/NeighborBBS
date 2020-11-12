@@ -13,7 +13,7 @@ type User struct {
 	Model
 	Username              string `gorm:"column:username;type:varchar(20);unique;not null" json:"username"`
 	Nickname              string `gorm:"column:nickname;type:varchar(30)" json:"nick_name"`
-	Password              string `gorm:"column:password;type:varchar(30);not null" json:"password"`
+	Password              string `gorm:"column:password;type:varchar(100);not null" json:"password"`
 	AvatarURL             string `gorm:"column:avatar_url;type:varchar(200)" json:"avatar_url"`
 	Gender                string `gorm:"column:gender;type:tinyint;default:2" json:"gender"`
 	Email                 string `gorm:"column:email;type:varchar(50)" json:"email"`

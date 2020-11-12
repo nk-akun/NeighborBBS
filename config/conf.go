@@ -25,7 +25,10 @@ type BBSConfig struct {
 
 var bbsConf *BBSConfig
 
-const confFile = "./"
+const (
+	confFileDev = "./"
+	confFilePro = "/root/work/repos/neighbor_bbs/"
+)
 
 // GetConf is used by a function outside the package to get the configuration
 func GetConf() *BBSConfig {
@@ -37,11 +40,12 @@ func ParseConf() {
 	v := viper.New()
 
 	v.SetConfigName("bbs")
-	v.AddConfigPath(confFile)
+	v.AddConfigPath(confFileDev)
+	v.AddConfigPath(confFilePro)
 	// v.SetConfigType("yaml")
 
 	if err := v.ReadInConfig(); err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to load config %s err:%v", confFile, err)
+		fmt.Fprintf(os.Stderr, "Failed to load config err:%v", err)
 		os.Exit(-1)
 	}
 
