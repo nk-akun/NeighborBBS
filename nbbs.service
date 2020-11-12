@@ -1,0 +1,12 @@
+[Unit]
+Description=NeighborBBS server daemon
+# After=mysql.service
+Wants=network.target mysql.service
+
+[Service]
+ExecStart=/bin/bash /root/work/repos/neighbor_bbs/NeighborBBS
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
