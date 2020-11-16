@@ -4,6 +4,7 @@ package model
 type APIResponse struct {
 	Code    int         `json:"code"`
 	Value   interface{} `json:"value"`
+	Success bool        `json:"success"`
 	Message string      `json:"message"`
 }
 

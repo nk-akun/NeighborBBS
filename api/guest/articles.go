@@ -24,15 +24,15 @@ func PostArticle(c *gin.Context) {
 		err = errors.New("创建失败，标题为空")
 	}
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 		return
 	}
 	article, err := service.ArticleService.BuildArticle(req.UserID, req.Title, req.Content)
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 		return
 	}
-	setAPIResponse(c, article, "创建成功")
+	setAPIResponse(c, article, "创建成功", true)
 }
 
 // GetArticleList is the api that returns a list of articles
@@ -50,14 +50,14 @@ func GetArticleList(c *gin.Context) {
 		err = errors.New("参数有误")
 	}
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 	}
 
 	resp, err := service.ArticleService.GetArticleList(limitNum, sortby, order)
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 	} else {
-		setAPIResponse(c, resp, "查询成功")
+		setAPIResponse(c, resp, "查询成功", true)
 	}
 }
 
@@ -68,14 +68,14 @@ func GetArticleByID(c *gin.Context) {
 	var err error
 	articleID, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 		return
 	}
 
 	resp, err := service.ArticleService.GetArticleByID(articleID)
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 		return
 	}
-	setAPIResponse(c, resp, "查询成功")
+	setAPIResponse(c, resp, "查询成功", true)
 }

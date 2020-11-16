@@ -73,6 +73,9 @@ func ReponseHandler() gin.HandlerFunc {
 			if value, exist := c.Get(model.CTXAPIResponseValue); exist {
 				resp.Value = value
 			}
+			if success, exist := c.Get(model.CTXAPIResponseSuccess); exist {
+				resp.Success = success.(bool)
+			}
 		}
 		if resp.Code == 500 {
 			c.AbortWithStatusJSON(400, resp)

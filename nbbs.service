@@ -4,7 +4,7 @@ Description=NeighborBBS server daemon
 Wants=network.target mysql.service
 
 [Service]
-ExecStart=/bin/bash /root/work/repos/neighbor_bbs/NeighborBBS
+ExecStart=/root/work/repos/neighbor_bbs/run.sh
 Restart=always
 RestartSec=5s
 

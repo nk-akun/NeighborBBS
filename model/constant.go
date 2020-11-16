@@ -7,4 +7,5 @@ const (
 	CTXCacheBody          = "api_cache_body"
 	CTXAPIResponseValue   = "api_response_value"
 	CTXAPIResponseMessage = "api_response_message"
+	CTXAPIResponseSuccess = "api_response_success"
 )

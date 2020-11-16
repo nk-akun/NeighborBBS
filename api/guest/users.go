@@ -11,9 +11,9 @@ import (
 func RegisterByEmail(c *gin.Context) {
 	user, err := service.UserService.SignUp(c)
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 	} else {
-		setAPIResponse(c, user, "注册成功")
+		setAPIResponse(c, user, "注册成功", true)
 	}
 }
 
@@ -21,9 +21,9 @@ func RegisterByEmail(c *gin.Context) {
 func Login(c *gin.Context) {
 	user, err := service.UserService.Login(c)
 	if err != nil {
-		setAPIResponse(c, nil, err.Error())
+		setAPIResponse(c, nil, err.Error(), false)
 	} else {
-		setAPIResponse(c, user, "登陆成功")
+		setAPIResponse(c, user, "登录成功", true)
 	}
 }
 
