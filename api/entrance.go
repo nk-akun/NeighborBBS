@@ -20,13 +20,13 @@ func AppRun() {
 			return new(model.RegisterRequest)
 		} else if c.Request.URL.Path == "/api/login" {
 			return new(model.LoginRequest)
-		} else if c.Request.URL.Path == "/api/articles" {
+		} else if c.Request.URL.Path == "/api/topics" {
 			return new(model.ArticleRequest)
 		} else if c.Request.URL.Path == "/api/comments" {
 			return new(model.CommentRequest)
-		} else if c.Request.URL.Path == "/api/articles/like" {
+		} else if c.Request.URL.Path == "/api/topics/like" {
 			return new(model.LikeArticleRequest)
-		} else if c.Request.URL.Path == "/api/articles/del_like" {
+		} else if c.Request.URL.Path == "/api/topics/del_like" {
 			return new(model.LikeArticleRequest)
 		}
 		return nil
@@ -39,14 +39,14 @@ func AppRun() {
 		user.POST("/register", guest.RegisterByEmail)
 		user.POST("/login", guest.Login)
 
-		user.POST("/articles", guest.PostArticle)
-		user.GET("/articles", guest.GetArticleList)
-		user.GET("/articles/:id", guest.GetArticleByID)
-		user.POST("/articles/like", guest.PostLikeArticle)
-		user.POST("/articles/del_like", guest.PostDelLikeArticle)
+		user.POST("/topic", guest.PostArticle)
+		user.GET("/topics", guest.GetArticleList)
+		user.GET("/topics/:id", guest.GetArticleByID)
+		user.POST("/topics/like", guest.PostLikeArticle)
+		user.POST("/topics/del_like", guest.PostDelLikeArticle)
 
 		user.POST("/comments", guest.PostComment)
-		user.GET("/comments/:article_id", guest.GetComments)
+		user.GET("/comments/:topic_id", guest.GetComments)
 		// user.DELETE()
 		user.GET("/test", guest.TestForUser)
 	}
