@@ -1,10 +1,5 @@
 <template>
-  <nav
-    ref="nav"
-    class="navbar has-shadow"
-    role="navigation"
-    aria-label="main navigation"
-  >
+  <nav ref="nav" class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
         <a href="/" class="navbar-item">
@@ -28,21 +23,14 @@
             :key="index"
             :href="nav.url"
             class="navbar-item"
-            >{{ nav.title }}</a
-          >
+          >{{ nav.title }}</a>
         </div>
 
         <div class="navbar-end">
           <div class="navbar-item searchFormDiv">
             <form id="searchForm" action="/search">
               <div class="control has-icons-right">
-                <input
-                  name="q"
-                  class="input"
-                  type="text"
-                  maxlength="30"
-                  placeholder="搜索"
-                />
+                <input name="q" class="input" type="text" maxlength="30" placeholder="搜索" />
                 <span class="icon is-medium is-right">
                   <i class="iconfont icon-search" />
                 </span>
@@ -77,9 +65,7 @@
           </div>
           <div v-else class="navbar-item">
             <div class="buttons">
-              <nuxt-link class="button login-btn" to="/user/signin"
-                >登录
-              </nuxt-link>
+              <nuxt-link class="button login-btn" to="/user/signin">登录</nuxt-link>
             </div>
           </div>
         </div>
@@ -89,9 +75,9 @@
 </template>
 
 <script>
-import UserHelper from '~/common/UserHelper'
-import MsgNotice from '~/components/MsgNotice'
-import CreateTopicBtn from '~/components/topic/CreateTopicBtn'
+import UserHelper from '~/common/UserHelper';
+import MsgNotice from '~/components/MsgNotice';
+import CreateTopicBtn from '~/components/CreateTopicBtn';
 
 export default {
   components: {
@@ -101,33 +87,33 @@ export default {
   data() {
     return {
       navbarActive: false,
-    }
+    };
   },
   computed: {
     user() {
-      return this.$store.state.user.current
+      return this.$store.state.user.current;
     },
     isOwnerOrAdmin() {
-      return UserHelper.isOwner(this.user) || UserHelper.isAdmin(this.user)
+      return UserHelper.isOwner(this.user) || UserHelper.isAdmin(this.user);
     },
     config() {
-      return this.$store.state.config.config
+      return this.$store.state.config.config;
     },
   },
   methods: {
     async signout() {
       try {
-        await this.$store.dispatch('user/signout')
-        this.$linkTo('/')
+        await this.$store.dispatch('user/signout');
+        this.$linkTo('/');
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     },
     toggleNav() {
-      this.navbarActive = !this.navbarActive
+      this.navbarActive = !this.navbarActive;
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

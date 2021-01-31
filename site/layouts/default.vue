@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import MyNav from '~/components/MyNav'
-import MyFooter from '~/components/MyFooter'
+import MyNav from '~/components/MyNav';
+import MyFooter from '~/components/MyFooter';
 
 export default {
   components: {
     MyNav,
     MyFooter,
   },
-}
+};
 </script>

@@ -8,16 +8,14 @@
       </div>
       <div>
         © 2019 Powered by
-        <a href="http://docs.bbs-go.com" target="_blank" class="light"
-          >BBS-GO</a
-        >
+        <a href="https://github.com/nk-akun" target="_blank" class="light">NK-akun</a>
       </div>
     </div>
   </footer>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style lang="scss" scoped>

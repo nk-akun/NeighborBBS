@@ -1,171 +1,102 @@
-// const isProduction = process.env.NODE_ENV === 'production'
-// const isDocker = process.env.NODE_ENV === 'docker'
-const isProduction = false
-const isDocker = false
-
 export default {
-  server: {
-    port: 8082,
-    host: '0.0.0.0',
-    timing: {
-      total: true,
-    },
-  },
-  mode: 'universal',
-  modern: true,
-  /*
-   ** Headers of the page
-   */
+  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
+    title: "site",
     htmlAttrs: {
-      lang: 'zh-cmn-Hans',
-      xmlns: 'http://www.w3.org/1999/xhtml',
+      lang: "en"
     },
-    title: '',
     meta: [
-      { charset: 'utf-8' },
-      {
-        name: 'viewport',
-        content:
-          'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui',
-      },
-      { name: 'window-target', content: '_top' },
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
-        rel: 'alternate',
-        type: 'application/atom+xml',
-        title: '文章',
-        href: '/atom.xml',
+        rel: "alternate",
+        type: "application/atom+xml",
+        title: "文章",
+        href: "/atom.xml"
       },
       {
-        rel: 'alternate',
-        type: 'application/atom+xml',
-        title: '话题',
-        href: '/topic_atom.xml',
+        rel: "alternate",
+        type: "application/atom+xml",
+        title: "话题",
+        href: "/topic_atom.xml"
       },
       {
-        rel: 'alternate',
-        type: 'application/atom+xml',
-        title: '开源项目',
-        href: '/project_atom.xml',
+        rel: "alternate",
+        type: "application/atom+xml",
+        title: "开源项目",
+        href: "/project_atom.xml"
       },
       {
-        rel: 'stylesheet',
-        href: '//cdn.staticfile.org/bulma/0.8.0/css/bulma.min.css',
+        rel: "stylesheet",
+        href: "//cdn.staticfile.org/bulma/0.8.0/css/bulma.min.css"
       },
       {
-        rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_1142441_1or22jfsge3.css',
-      },
-    ],
+        rel: "stylesheet",
+        href: "//at.alicdn.com/t/font_1142441_1or22jfsge3.css"
+      }
+    ]
   },
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: { color: '#FFB90F' },
-  /*
-   ** Global CSS
-   */
+
+  // Global CSS
   css: [
-    'element-ui/lib/theme-chalk/index.css',
-    { src: '~/assets/styles/main.scss', lang: 'scss' },
+    "element-ui/lib/theme-chalk/index.css",
+    { src: "~/assets/styles/main.scss", lang: "scss" }
   ],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/element-ui',
-    '~/plugins/filters',
-    '~/plugins/axios',
-    '~/plugins/bbs-go',
-    { src: '~/plugins/infinite-scroll', ssr: false },
-    { src: '~/plugins/vue-lazyload', ssr: false },
+    "@/plugins/element-ui",
+    "@/plugins/filters",
+    "@/plugins/axios",
+    "@/plugins/bbs-go",
+    { src: "@/plugins/infinite-scroll", ssr: false },
+    { src: "@/plugins/vue-lazyload", ssr: false }
   ],
-  // /*
-  //  ** Auto import components
-  //  ** See https://nuxtjs.org/api/configuration-components
-  //  */
-  // components: true,
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-  ],
-  /*
-   ** Nuxt.js modules
-   */
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    // '@nuxtjs/bulma',
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/eslint-module',
-    ['cookie-universal-nuxt', { alias: 'cookies' }],
-    [
-      '@nuxtjs/google-adsense',
-      {
-        id: 'ca-pub-5683711753850351',
-        pageLevelAds: true,
-      },
-    ],
+    // https://go.nuxtjs.dev/axios
+    "@nuxtjs/axios"
   ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    proxy: true,
-    credentials: true,
-  },
 
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: { proxy: true, credentials: false },
   proxy: {
-    '/api/': isProduction
-      ? 'https://mlog.club'
-      : isDocker
-      ? 'http://bbs-go-server:8082'
-      : 'http://127.0.0.1:8080',
+    "/api/": "http://127.0.0.1:8080"
   },
-
-  /*
-   ** Build configuration
-   */
+  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    // publicPath: 'https://file.mlog.club/static/nuxtclient/',
     optimizeCSS: true,
     extractCSS: true,
     splitChunks: {
       layouts: true,
       pages: true,
-      commons: true,
+      commons: true
     },
     postcss: {
       preset: {
         features: {
-          customProperties: false,
-        },
-      },
+          customProperties: false
+        }
+      }
     },
     /*
      ** You can extend webpack config here
      */
     extend(config, ctx) {},
-  },
-  babel: {
-    plugins: [
-      [
-        'component',
-        {
-          libraryName: 'element-ui',
-          styleLibraryName: 'theme-chalk',
-        },
-      ],
-    ],
-    presets(env, [preset, options]) {
-      return [['@nuxt/babel-preset-app', options]]
-    },
-  },
-}
+    transpile: [/^element-ui/]
+  }
+};

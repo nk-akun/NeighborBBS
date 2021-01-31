@@ -46,7 +46,7 @@ function hsvToRgb(h, s, v) {
   return {
     r: Math.floor(r * 255),
     g: Math.floor(g * 255),
-    b: Math.floor(b * 255),
+    b: Math.floor(b * 255)
   };
 }
 
@@ -57,7 +57,7 @@ function hsvToRgb(h, s, v) {
  * @return {String}
  */
 export default function stringToColor(string) {
-  if (string === '') return '#fff'
+  if (string === "") return "#fff";
   let num = 0;
 
   // Convert the username into a number based on the ASCII value of each
@@ -71,5 +71,5 @@ export default function stringToColor(string) {
   const hue = num % 360;
   const rgb = hsvToRgb(hue / 360, 0.3, 0.9);
 
-  return '' + rgb.r.toString(16) + rgb.g.toString(16) + rgb.b.toString(16);
+  return "" + rgb.r.toString(16) + rgb.g.toString(16) + rgb.b.toString(16);
 }

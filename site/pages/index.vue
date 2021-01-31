@@ -20,9 +20,8 @@
 </template>
 
 <script>
-import TopicList from '~/components/topic/TopicList'
-import LoadMore from '~/components/LoadMore'
-
+import TopicList from '@/components/TopicList';
+import LoadMore from '@/components/LoadMore';
 export default {
   components: {
     TopicList,
@@ -30,15 +29,15 @@ export default {
   },
   async asyncData({ $axios, params }) {
     try {
-      const [topicsPage] = await Promise.all([$axios.get('/api/topics')])
-      return { topicsPage }
+      const [topicsPage] = await Promise.all([$axios.get('/api/topics')]);
+      return { topicsPage };
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   },
   data() {},
   methods: {},
-}
+};
 </script>
 
 <style lang="scss" scoped></style>
