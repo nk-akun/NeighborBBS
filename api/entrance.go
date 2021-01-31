@@ -35,6 +35,8 @@ func AppRun() {
 
 	user := r.Group("/api")
 	{
+		user.GET("/configs", guest.GetConfigs)
+
 		// user.Use()
 		user.POST("/register", guest.RegisterByEmail)
 		user.POST("/login", guest.Login)

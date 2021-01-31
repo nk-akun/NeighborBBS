@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import TopicList from '@/components/TopicList';
-import LoadMore from '@/components/LoadMore';
+import TopicList from '~/components/TopicList';
+import LoadMore from '~/components/LoadMore';
 export default {
   components: {
     TopicList,

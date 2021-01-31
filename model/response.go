@@ -8,6 +8,21 @@ type APIResponse struct {
 	Message string      `json:"message"`
 }
 
+// SysConfigResponse ...
+type SysConfigResponse struct {
+	SiteTitle       string       `json:"siteTitle"`       // 网站标题
+	SiteDescription string       `json:"siteDescription"` // 网站描述
+	SiteKeywords    []string     `json:"siteKeywords"`    // 网站关键词
+	SiteNavs        []ActionLink `json:"siteNavs"`        // 网站导航
+	TokenExpireDays int          `json:"tokenExpireDays"` // token有效天数
+}
+
+// ActionLink ...
+type ActionLink struct {
+	Title string `json:"title"`
+	URL   string `json:"url"`
+}
+
 // Article
 
 // ArticleListResponse ...

@@ -52,16 +52,13 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    "@/plugins/element-ui",
-    "@/plugins/filters",
-    "@/plugins/axios",
-    "@/plugins/bbs-go",
-    { src: "@/plugins/infinite-scroll", ssr: false },
-    { src: "@/plugins/vue-lazyload", ssr: false }
+    "~/plugins/element-ui",
+    "~/plugins/filters",
+    "~/plugins/axios",
+    "~/plugins/bbs-go",
+    { src: "~/plugins/infinite-scroll", ssr: false },
+    { src: "~/plugins/vue-lazyload", ssr: false }
   ],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [],
@@ -73,9 +70,15 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: { proxy: true, credentials: false },
+  axios: { proxy: true, prefix: "/api", credentials: true },
   proxy: {
-    "/api/": "http://127.0.0.1:8080"
+    "/api/": {
+      target: "http://127.0.0.1:8080",
+      pathRewrite: {
+        "^/api": "/", // 把 /api 替换成 /
+        changeOrigin: true // 表示是否跨域
+      }
+    }
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -98,5 +101,19 @@ export default {
      */
     extend(config, ctx) {},
     transpile: [/^element-ui/]
+  },
+  babel: {
+    plugins: [
+      [
+        "component",
+        {
+          libraryName: "element-ui",
+          styleLibraryName: "theme-chalk"
+        }
+      ]
+    ],
+    presets(env, [preset, options]) {
+      return [["@nuxt/babel-preset-app", options]];
+    }
   }
 };
