@@ -69,3 +69,21 @@ type CommentInfo struct {
 	LikeCount  int    `json:"like_count"`
 	CreateTime int64  `json:"create_time"`
 }
+
+// ResponseValue ...
+type ResponseValue struct {
+	Value map[string]interface{}
+}
+
+// NewResponseValue ...
+func NewResponseValue() *ResponseValue {
+	return &ResponseValue{
+		Value: make(map[string]interface{}),
+	}
+}
+
+// Set set data into ResponseValue
+func (r *ResponseValue) Set(name string, data interface{}) *ResponseValue {
+	r.Value[name] = data
+	return r
+}

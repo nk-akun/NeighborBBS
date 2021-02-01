@@ -27,3 +27,8 @@ func RandomAvatarURL(str string) string {
 func NowTimestamp() int64 {
 	return time.Now().UnixNano() / 1e6
 }
+
+// Timestamp return timestamp of t
+func Timestamp(t time.Time) int64 {
+	return t.UnixNano() / 1e6
+}

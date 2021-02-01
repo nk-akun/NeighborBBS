@@ -33,6 +33,15 @@ type User struct {
 	DeleteTime            int64  `gorm:"column:delete_time;default:null" json:"delete_time"`
 }
 
+// UserToken stores user's token
+type UserToken struct {
+	Model
+	UserID     int64  `gorm:"column:user_id;type:int" json:"user_id"`
+	Token      string `gorm:"size:32;unique;not null" json:"token"`
+	ExpiredAt  int64  `gorm:"column:expired_at;type:int" json:"expired_at"`
+	CreateTime int64  `gorm:"column:create_time;default:null" json:"create_time"`
+}
+
 // Article stores article infomation
 type Article struct {
 	Model

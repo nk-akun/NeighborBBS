@@ -2,12 +2,14 @@ package service
 
 import (
 	"errors"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/repository"
 	"github.com/nk-akun/NeighborBBS/util"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -19,6 +21,30 @@ var UserService = newUserService()
 
 func newUserService() *userService {
 	return new(userService)
+}
+
+// GetCurrentUser ...
+func (s *userService) GetCurrentUser(c *gin.Context) *model.User {
+	token := s.GetToken(c)
+	userToken, err := repository.UserTokenRepository.GetUserIDByToken(util.DB(), token)
+	if err != nil {
+		logs.Logger.Errorf("数据库查询token出错")
+		return nil
+	}
+	if userToken == nil || userToken.ExpiredAt < util.NowTimestamp() { // 不存在或者过期了
+		return nil
+	}
+	user, err := repository.UserRepository.GetUserByUserID(util.DB(), userToken.UserID)
+	if err != nil {
+		logs.Logger.Errorf("数据库查询user出错")
+		return nil
+	}
+	return user
+}
+
+func (s *userService) GetToken(c *gin.Context) string {
+	token := c.GetHeader("X-User-Token")
+	return token
 }
 
 func (s *userService) SignUp(c *gin.Context) (*model.User, error) {
@@ -80,7 +106,7 @@ func (s *userService) SignUp(c *gin.Context) (*model.User, error) {
 	// })
 }
 
-func (s *userService) Login(c *gin.Context) (*model.User, error) {
+func (s *userService) Login(c *gin.Context) (user *model.User, err error) {
 	req := getReqFromContext(c).(*model.LoginRequest)
 	if req.Email == "" && req.Username == "" || req.Email != "" && req.Username != "" {
 		return nil, errors.New("请使用用户名或邮箱二者之一登录")
@@ -89,7 +115,6 @@ func (s *userService) Login(c *gin.Context) (*model.User, error) {
 		return s.loginByEmail(req.Email, req.Password)
 	}
 	return s.loginByUsername(req.Username, req.Password)
-
 }
 
 func (s *userService) loginByEmail(email string, password string) (*model.User, error) {
@@ -112,4 +137,17 @@ func (s *userService) loginByUsername(username string, password string) (*model.
 		return nil, errors.New("密码错误")
 	}
 	return user, nil
+}
+
+func (s *userService) SetToken(userID int64) string {
+	token := uuid.NewV4().String()
+	expireTime := time.Now().Add(time.Hour * 24 * time.Duration(model.TokenExpireDays))
+	userToken := &model.UserToken{
+		UserID:     userID,
+		Token:      token,
+		ExpiredAt:  util.Timestamp(expireTime),
+		CreateTime: util.NowTimestamp(),
+	}
+	repository.UserTokenRepository.Create(util.DB(), userToken)
+	return token
 }

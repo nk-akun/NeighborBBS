@@ -75,9 +75,9 @@
 </template>
 
 <script>
-import UserHelper from '~/common/UserHelper';
-import MsgNotice from '~/components/MsgNotice';
-import CreateTopicBtn from '~/components/CreateTopicBtn';
+import UserHelper from '~/common/UserHelper'
+import MsgNotice from '~/components/MsgNotice'
+import CreateTopicBtn from '~/components/CreateTopicBtn'
 
 export default {
   components: {
@@ -87,33 +87,33 @@ export default {
   data() {
     return {
       navbarActive: false,
-    };
+    }
   },
   computed: {
     user() {
-      return this.$store.state.user.current;
+      return this.$store.state.user.current
     },
     isOwnerOrAdmin() {
-      return UserHelper.isOwner(this.user) || UserHelper.isAdmin(this.user);
+      return UserHelper.isOwner(this.user) || UserHelper.isAdmin(this.user)
     },
     config() {
-      return this.$store.state.config.config;
+      return this.$store.state.config.config
     },
   },
   methods: {
     async signout() {
       try {
-        await this.$store.dispatch('user/signout');
-        this.$linkTo('/');
+        await this.$store.dispatch('user/signout')
+        this.$linkTo('/')
       } catch (e) {
-        console.error(e);
+        console.error(e)
       }
     },
     toggleNav() {
-      this.navbarActive = !this.navbarActive;
+      this.navbarActive = !this.navbarActive
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -8,4 +8,6 @@ const (
 	CTXAPIResponseValue   = "api_response_value"
 	CTXAPIResponseMessage = "api_response_message"
 	CTXAPIResponseSuccess = "api_response_success"
+
+	TokenExpireDays = 2
 )

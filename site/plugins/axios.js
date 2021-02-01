@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default function ({ $axios, app }) {
   $axios.onRequest((config) => {
-    config.headers.common['X-Client'] = 'bbs-go-site'
+    config.headers.common['X-Client'] = 'neighbor-bbs-site'
     config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
     const userToken = app.$cookies.get('userToken')
     if (userToken) {

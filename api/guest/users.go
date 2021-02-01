@@ -4,8 +4,14 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/service"
 )
+
+// GetCurrentUser ...
+func GetCurrentUser(c *gin.Context) {
+	service.UserService.GetCurrentUser(c)
+}
 
 // RegisterByEmail ...
 func RegisterByEmail(c *gin.Context) {
@@ -23,7 +29,9 @@ func Login(c *gin.Context) {
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 	} else {
-		setAPIResponse(c, user, "登录成功", true)
+		token := service.UserService.SetToken(user.ID)
+		value := model.NewResponseValue().Set("token", token).Set("user", user)
+		setAPIResponse(c, value, "登录成功", true)
 	}
 }
 
