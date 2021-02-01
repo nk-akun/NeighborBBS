@@ -1,8 +1,10 @@
-# site
+# 介绍
+
+该项目使用nuxt.js进行构建，利用服务端渲染技术构建 https://mlog.club 前端界面。接口由 mlog-club ( https://github.com/mlogclub/mlog ) 提供。
 
 ## Build Setup
 
-```bash
+``` bash
 # install dependencies
 $ npm install
 
@@ -17,4 +19,4 @@ $ npm run start
 $ npm run generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).

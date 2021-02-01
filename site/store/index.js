@@ -9,10 +9,11 @@ export const actions = {
    * @returns {Promise<void>}
    */
   async nuxtServerInit({ commit, dispatch }, { req, app }) {
-    const config = await dispatch("config/loadConfig");
-    // app.head.title = config.siteTitle;
-    // await dispatch('user/getCurrentUser')
-  }
-};
+    const config = await dispatch('config/loadConfig')
+    app.head.title = config.siteTitle
 
-export const getters = {};
+    // await dispatch('user/getCurrentUser')
+  },
+}
+
+export const getters = {}
