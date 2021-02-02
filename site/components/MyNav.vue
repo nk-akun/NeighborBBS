@@ -91,6 +91,7 @@ export default {
   },
   computed: {
     user() {
+      console.log(this.$store.state.user.current)
       return this.$store.state.user.current
     },
     isOwnerOrAdmin() {

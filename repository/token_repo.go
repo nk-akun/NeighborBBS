@@ -20,7 +20,14 @@ func (r *userTokenRepository) Create(db *gorm.DB, userToken *model.UserToken) er
 	return db.Create(userToken).Error
 }
 
+func (r *userTokenRepository) DeleteByToken(db *gorm.DB, token string) error {
+	return db.Where("token = ?", token).Delete(&model.UserToken{}).Error
+}
+
 func (r *userTokenRepository) GetUserIDByToken(db *gorm.DB, token string) (*model.UserToken, error) {
+	if token == "" {
+		return nil, nil
+	}
 	return r.take(db, "token = ?", token)
 }
 

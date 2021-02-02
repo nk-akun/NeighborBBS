@@ -10,7 +10,8 @@ import (
 
 // GetCurrentUser ...
 func GetCurrentUser(c *gin.Context) {
-	service.UserService.GetCurrentUser(c)
+	user := service.UserService.GetCurrentUser(c)
+	setAPIResponse(c, user, "", true)
 }
 
 // RegisterByEmail ...
@@ -30,9 +31,14 @@ func Login(c *gin.Context) {
 		setAPIResponse(c, nil, err.Error(), false)
 	} else {
 		token := service.UserService.SetToken(user.ID)
-		value := model.NewResponseValue().Set("token", token).Set("user", user)
-		setAPIResponse(c, value, "登录成功", true)
+		data := model.NewResponseValue().Set("token", token).Set("user", user)
+		setAPIResponse(c, data.Value, "登录成功", true)
 	}
+}
+
+// Logout ...
+func Logout(c *gin.Context) {
+
 }
 
 // TestForUser is the test api for user

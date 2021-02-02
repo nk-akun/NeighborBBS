@@ -1,3 +1,5 @@
+import qs from 'qs'
+
 export const state = () => ({
   current: null,
   userToken: null,
@@ -15,6 +17,7 @@ export const mutations = {
 export const actions = {
   // 登录成功
   loginSuccess(context, { token, user }) {
+    // console.log(token, user)
     const config = context.rootState.config.config
     const cookieMaxAge = 86400 * config.tokenExpireDays
     this.$cookies.set('userToken', token, { maxAge: cookieMaxAge, path: '/' })
@@ -30,48 +33,15 @@ export const actions = {
   },
 
   // 登录
-  async signin(context, { captchaId, captchaCode, username, password }) {
-    const ret = await this.$axios.post('/api/login/signin', {
-      captchaId,
-      captchaCode,
-      username,
-      password,
-    })
+  async signin(context, { username, password }) {
+    const data = { username: username, password: password }
+    const ret = await this.$axios.post('/api/user/login', data)
     context.dispatch('loginSuccess', ret)
     return ret.user
   },
 
-  // github登录
-  async signinByGithub(context, { code, state }) {
-    const ret = await this.$axios.get('/api/github/login/callback', {
-      params: {
-        code,
-        state,
-      },
-    })
-    context.dispatch('loginSuccess', ret)
-    return ret.user
-  },
-
-  // qq登录
-  async signinByQQ(context, { code, state }) {
-    const ret = await this.$axios.get('/api/qq/login/callback', {
-      params: {
-        code,
-        state,
-      },
-    })
-    context.dispatch('loginSuccess', ret)
-    return ret.user
-  },
-
-  async signup(
-    context,
-    { captchaId, captchaCode, nickname, username, email, password, rePassword }
-  ) {
-    const ret = await this.$axios.post('/api/login/signup', {
-      captchaId,
-      captchaCode,
+  async signup(context, { nickname, username, email, password, rePassword }) {
+    const ret = await this.$axios.post('/api/user/register', {
       nickname,
       username,
       email,
@@ -85,7 +55,7 @@ export const actions = {
   // 退出登录
   async signout(context) {
     const userToken = this.$cookies.get('userToken')
-    await this.$axios.get('/api/login/signout', {
+    await this.$axios.get('/api/user/signout', {
       params: {
         userToken,
       },

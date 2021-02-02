@@ -30,7 +30,6 @@ export default {
   async asyncData({ $axios, params }) {
     try {
       const [topicsPage] = await Promise.all([$axios.get('/api/topics')])
-      console.log(topicsPage)
       return { topicsPage }
     } catch (e) {
       console.error(e)

@@ -16,9 +16,9 @@ func AppRun() {
 
 	r.Use(gin.RecoveryWithWriter(&recoverWriter{}))
 	r.Use(middleware.JSONRequestContextHandler(func(c *gin.Context) model.APIRequest {
-		if c.Request.URL.Path == "/api/register" {
+		if c.Request.URL.Path == "/api/user/register" {
 			return new(model.RegisterRequest)
-		} else if c.Request.URL.Path == "/api/login" {
+		} else if c.Request.URL.Path == "/api/user/login" {
 			return new(model.LoginRequest)
 		} else if c.Request.URL.Path == "/api/topics" {
 			return new(model.ArticleRequest)
@@ -38,9 +38,10 @@ func AppRun() {
 		user.GET("/configs", guest.GetConfigs)
 
 		// user.Use()
-		user.POST("/register", guest.RegisterByEmail)
-		user.POST("/login", guest.Login)
-		user.GET("/currentUser", guest.GetCurrentUser)
+		user.POST("/user/register", guest.RegisterByEmail)
+		user.POST("/user/login", guest.Login)
+		user.POST("/user/logout", guest.Logout)
+		user.GET("/user/current", guest.GetCurrentUser)
 
 		user.POST("/topic", guest.PostArticle)
 		user.GET("/topics", guest.GetArticleList)

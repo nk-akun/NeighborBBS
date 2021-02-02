@@ -139,6 +139,11 @@ func (s *userService) loginByUsername(username string, password string) (*model.
 	return user, nil
 }
 
+func (s *userService) Logout(c *gin.Context) error {
+	token := s.GetToken(c)
+	return repository.UserTokenRepository.DeleteByToken(util.DB(), token)
+}
+
 func (s *userService) SetToken(userID int64) string {
 	token := uuid.NewV4().String()
 	expireTime := time.Now().Add(time.Hour * 24 * time.Duration(model.TokenExpireDays))

@@ -12,7 +12,7 @@ export const actions = {
     const config = await dispatch('config/loadConfig')
     app.head.title = config.siteTitle
 
-    // await dispatch('user/getCurrentUser')
+    await dispatch('user/getCurrentUser')
   },
 }
 

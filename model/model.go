@@ -1,7 +1,7 @@
 package model
 
 // Models stores the models which will be create as tables in the mysql
-var Models = []interface{}{&User{}, &Article{}, &Comment{}, &UserLikeArticle{}}
+var Models = []interface{}{&User{}, &Article{}, &Comment{}, &UserLikeArticle{}, &UserToken{}}
 
 // Model ...
 type Model struct {
@@ -12,7 +12,7 @@ type Model struct {
 type User struct {
 	Model
 	Username              string `gorm:"column:username;type:varchar(20);unique;not null" json:"username"`
-	Nickname              string `gorm:"column:nickname;type:varchar(30)" json:"nick_name"`
+	Nickname              string `gorm:"column:nickname;type:varchar(30)" json:"nickname"`
 	Password              string `gorm:"column:password;type:varchar(100);not null" json:"password"`
 	AvatarURL             string `gorm:"column:avatar_url;type:varchar(200)" json:"avatar_url"`
 	Gender                string `gorm:"column:gender;type:tinyint;default:2" json:"gender"`
@@ -37,7 +37,7 @@ type User struct {
 type UserToken struct {
 	Model
 	UserID     int64  `gorm:"column:user_id;type:int" json:"user_id"`
-	Token      string `gorm:"size:32;unique;not null" json:"token"`
+	Token      string `gorm:"type:varchar(40);unique;not null" json:"token"`
 	ExpiredAt  int64  `gorm:"column:expired_at;type:int" json:"expired_at"`
 	CreateTime int64  `gorm:"column:create_time;default:null" json:"create_time"`
 }
