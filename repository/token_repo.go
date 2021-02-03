@@ -20,8 +20,8 @@ func (r *userTokenRepository) Create(db *gorm.DB, userToken *model.UserToken) er
 	return db.Create(userToken).Error
 }
 
-func (r *userTokenRepository) DeleteByToken(db *gorm.DB, token string) error {
-	return db.Where("token = ?", token).Delete(&model.UserToken{}).Error
+func (r *userTokenRepository) UpdateStatusInvalidByToken(db *gorm.DB, token string) error {
+	return db.Model(&model.UserToken{}).Where("token = ?", token).Update("status", 1).Error
 }
 
 func (r *userTokenRepository) GetUserIDByToken(db *gorm.DB, token string) (*model.UserToken, error) {

@@ -31,7 +31,7 @@ func (s *userService) GetCurrentUser(c *gin.Context) *model.User {
 		logs.Logger.Errorf("数据库查询token出错")
 		return nil
 	}
-	if userToken == nil || userToken.ExpiredAt < util.NowTimestamp() { // 不存在或者过期了
+	if userToken == nil || userToken.Status == true || userToken.ExpiredAt < util.NowTimestamp() { // 不存在或者过期了
 		return nil
 	}
 	user, err := repository.UserRepository.GetUserByUserID(util.DB(), userToken.UserID)
@@ -141,7 +141,7 @@ func (s *userService) loginByUsername(username string, password string) (*model.
 
 func (s *userService) Logout(c *gin.Context) error {
 	token := s.GetToken(c)
-	return repository.UserTokenRepository.DeleteByToken(util.DB(), token)
+	return repository.UserTokenRepository.UpdateStatusInvalidByToken(util.DB(), token)
 }
 
 func (s *userService) SetToken(userID int64) string {

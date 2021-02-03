@@ -38,7 +38,8 @@ func Login(c *gin.Context) {
 
 // Logout ...
 func Logout(c *gin.Context) {
-
+	service.UserService.Logout(c)
+	setAPIResponse(c, nil, "登出成功", true)
 }
 
 // TestForUser is the test api for user

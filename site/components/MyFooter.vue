@@ -7,7 +7,7 @@
         <a href="/links">友链</a>
       </div>
       <div>
-        © 2019 Powered by
+        © 2021 Powered by
         <a href="https://github.com/nk-akun" target="_blank" class="light">NK-akun</a>
       </div>
     </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="scss" scoped>

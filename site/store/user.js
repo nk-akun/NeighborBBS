@@ -55,7 +55,7 @@ export const actions = {
   // 退出登录
   async signout(context) {
     const userToken = this.$cookies.get('userToken')
-    await this.$axios.get('/api/user/signout', {
+    await this.$axios.get('/api/user/logout', {
       params: {
         userToken,
       },

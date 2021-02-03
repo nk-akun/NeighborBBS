@@ -39,6 +39,7 @@ type UserToken struct {
 	UserID     int64  `gorm:"column:user_id;type:int" json:"user_id"`
 	Token      string `gorm:"type:varchar(40);unique;not null" json:"token"`
 	ExpiredAt  int64  `gorm:"column:expired_at;type:int" json:"expired_at"`
+	Status     bool   `gorm:"column:status;type:tinyint;default 0" json:"status"` // 0有效 1失效
 	CreateTime int64  `gorm:"column:create_time;default:null" json:"create_time"`
 }
 

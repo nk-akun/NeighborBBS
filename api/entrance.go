@@ -40,7 +40,7 @@ func AppRun() {
 		// user.Use()
 		user.POST("/user/register", guest.RegisterByEmail)
 		user.POST("/user/login", guest.Login)
-		user.POST("/user/logout", guest.Logout)
+		user.GET("/user/logout", guest.Logout)
 		user.GET("/user/current", guest.GetCurrentUser)
 
 		user.POST("/topic", guest.PostArticle)
