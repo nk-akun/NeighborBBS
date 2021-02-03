@@ -39,14 +39,9 @@ func (s *articleService) GetArticleList(limit int, sortby string, order string) 
 	fields := []string{"id", "title", "create_time"}
 	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, limit, sortby, order)
 
-	resp.TotalNum = len(articles)
-	resp.ArticleList = make([]*model.ArticleBriefInfo, resp.TotalNum)
-	for i := range articles {
-		resp.ArticleList[i] = new(model.ArticleBriefInfo)
-		resp.ArticleList[i].ArticleID = articles[i].ID
-		resp.ArticleList[i].Title = articles[i].Title
-		resp.ArticleList[i].CreateTime = articles[i].CreateTime
-	}
+	briefList := BuildArticleList(articles)
+	resp.ArticleList = briefList
+	resp.TotalNum = len(briefList)
 	return resp, nil
 }
 
@@ -71,4 +66,23 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 		CreateTime:   articleInfo.CreateTime,
 	}
 	return resp, nil
+}
+
+// BuildArticleList ...
+func BuildArticleList(articles []model.Article) []*model.ArticleBriefInfo {
+	briefList := make([]*model.ArticleBriefInfo, len(articles))
+	for i := range articles {
+		briefList[i] = new(model.ArticleBriefInfo)
+		briefList[i].ArticleID = articles[i].ID
+		briefList[i].Title = articles[i].Title
+		briefList[i].CommentCount = articles[i].CommentCount
+		briefList[i].LikeCount = articles[i].LikeCount
+		briefList[i].ViewCount = articles[i].ViewCount
+		briefList[i].CreateTime = articles[i].CreateTime
+		user, _ := repository.UserRepository.GetUserByUserID(util.DB(), articles[i].UserID)
+		briefList[i].Liked = LCService.JudgeArticleLiked(&articles[i], user)
+		briefList[i].User = BuildUserBriefInfo(user)
+	}
+
+	return briefList
 }

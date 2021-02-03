@@ -33,9 +33,14 @@ type ArticleListResponse struct {
 
 // ArticleBriefInfo ...
 type ArticleBriefInfo struct {
-	ArticleID  int64  `json:"article_id"`
-	Title      string `json:"title"`
-	CreateTime int64  `json:"create_time"`
+	ArticleID    int64          `json:"article_id"`
+	Title        string         `json:"title"`
+	User         *UserBriefInfo `json:"user"`
+	LikeCount    int            `json:"like_count"`
+	CommentCount int            `json:"commnet_count"`
+	ViewCount    int            `json:"view_count"`
+	Liked        bool           `json:"liked"`
+	CreateTime   int64          `json:"create_time"`
 }
 
 // ArticleResponse ...
@@ -86,4 +91,22 @@ func NewResponseValue() *ResponseValue {
 func (r *ResponseValue) Set(name string, data interface{}) *ResponseValue {
 	r.Value[name] = data
 	return r
+}
+
+// UserBriefInfo ...
+type UserBriefInfo struct {
+	Username              string `json:"username"`
+	Nickname              string `json:"nickname"`
+	AvatarURL             string `json:"avatar_url"`
+	Gender                string `json:"gender"`
+	Description           string `json:"description"`
+	AttentionCount        int    `json:"attention_count"`
+	FavouriteArticleCount int    `json:"favourite_article_count"`
+	FansCount             int    `json:"fans_count"`
+	PostCount             int    `json:"post_count"`
+	CommentCount          int    `json:"comment_count"`
+	Type                  int    `json:"type"`
+	City                  string `json:"city"`
+	Province              string `json:"province"`
+	Country               string `json:"country"`
 }

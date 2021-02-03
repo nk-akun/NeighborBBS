@@ -1,25 +1,25 @@
 <template>
   <ul class="topic-list">
-    <li v-for="topic in topics" :key="topic.topicId" class="topic-item">
-      <div class="topic-avatar" :href="'/user/' + topic.user.id" :title="topic.user.nickname">
-        <avatar :user="topic.user" />
+    <li v-for="article in articles" :key="article.article_id" class="topic-item">
+      <div class="topic-avatar" :href="'/user/' + article.user.id" :title="article.user.nickname">
+        <avatar :user="article.user" />
       </div>
       <div class="topic-main-content">
         <div class="topic-top">
           <div class="topic-userinfo">
-            <avatar class="topic-inline-avatar" :user="topic.user" size="20" />
-            <a :href="'/user/' + topic.user.id">{{ topic.user.nickname }}</a>
+            <avatar class="topic-inline-avatar" :user="article.user" size="20" />
+            <a :href="'/user/' + article.user.id">{{ article.user.nickname }}</a>
           </div>
-          <div class="topic-time">发布于{{ topic.createTime | prettyDate }}</div>
+          <div class="topic-time">发布于{{ article.create_time | prettyDate }}</div>
         </div>
-        <div class="topic-content" :class="{ 'topic-tweet': topic.type === 1 }">
-          <template v-if="topic.type === 0">
+        <div class="topic-content" :class="{ 'topic-tweet': false }">
+          <template>
             <h1 class="topic-title">
-              <a :href="'/topic/' + topic.topicId">{{ topic.title }}</a>
+              <a :href="'/topic/' + article.article_id">{{ article.title }}</a>
             </h1>
-            <a :href="'/topic/' + topic.topicId" class="topic-summary">{{ topic.summary }}</a>
+            <a :href="'/topic/' + article.article_id" class="topic-summary">{{ article.summary }}</a>
           </template>
-          <template v-if="topic.type === 1">
+          <!-- <template v-if="topic.type === 1">
             <a
               v-if="topic.content"
               :href="'/topic/' + topic.topicId"
@@ -32,23 +32,23 @@
                 </a>
               </li>
             </ul>
-          </template>
+          </template>-->
         </div>
         <div class="topic-handlers">
-          <div class="btn" :class="{ liked: topic.liked }" @click="like(topic)">
+          <div class="btn" :class="{ liked: false }" @click="like(topic)">
             <i class="iconfont icon-like" />
-            {{ topic.liked ? '已赞' : '赞' }}
-            <span
-              v-if="topic.likeCount > 0"
-            >{{ topic.likeCount }}</span>
+            {{ article.liked ? '已赞' : '赞' }}
+            <!-- <span
+              v-if="article.like_count > 0"
+            >{{ article.like_count }}</span>-->
           </div>
-          <div class="btn" @click="toTopicDetail(topic.topicId)">
+          <div class="btn" @click="toTopicDetail(article.article_id)">
             <i class="iconfont icon-comments" />评论
-            <span v-if="topic.commentCount > 0">{{ topic.commentCount }}</span>
+            <span v-if="article.comment_count > 0">{{ article.comment_count }}</span>
           </div>
-          <div class="btn" @click="toTopicDetail(topic.topicId)">
+          <div class="btn" @click="toTopicDetail(article.article_id)">
             <i class="iconfont icon-read" />浏览
-            <span v-if="topic.viewCount > 0">{{ topic.viewCount }}</span>
+            <span v-if="article.view_count > 0">{{ article.view_count }}</span>
           </div>
         </div>
       </div>
@@ -57,16 +57,16 @@
 </template>
 
 <script>
-import Avatar from '@/components/Avatar';
+import Avatar from '@/components/Avatar'
 export default {
   components: {
     Avatar,
   },
   props: {
-    topics: {
+    articles: {
       type: Array,
       default() {
-        return [];
+        return []
       },
       required: false,
     },
@@ -80,25 +80,25 @@ export default {
     },
   },
   methods: {
-    async like(topic) {
+    async like(article) {
       try {
-        await this.$axios.post('/api/topic/like/' + topic.topicId);
-        topic.liked = true;
-        topic.likeCount++;
-        this.$message.success('点赞成功');
+        await this.$axios.post('/api/topics/like/' + article.article_id)
+        article.liked = true
+        article.likeCount++
+        this.$message.success('点赞成功')
       } catch (e) {
         if (e.errorCode === 1) {
-          this.$msgSignIn();
+          this.$msgSignIn()
         } else {
-          this.$message.error(e.message || e);
+          this.$message.error(e.message || e)
         }
       }
     },
     toTopicDetail(topicId) {
-      this.$linkTo(`/topic/${topicId}`);
+      this.$linkTo(`/topic/${topicId}`)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

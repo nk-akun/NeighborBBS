@@ -9,6 +9,10 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	LikeArticle = 1
+)
+
 type lcService struct {
 }
 
@@ -52,6 +56,12 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 		return errors.New("数据库操作出错")
 	}
 	return nil
+}
+
+// JudgeArticleLiked judge user has liked the article or not.
+func (s *lcService) JudgeArticleLiked(article *model.Article, user *model.User) bool {
+	lcStatus, _ := repository.LCRepository.GetUserLikeOperation(util.DB(), user.ID, article.ID)
+	return lcStatus.Status == LikeArticle
 }
 
 func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {

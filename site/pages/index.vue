@@ -10,7 +10,7 @@
               :init-data="topicsPage"
               url="/api/topics"
             >
-              <topic-list :topics="results" :show-ad="true" />
+              <topic-list :articles="results" :show-ad="true" />
             </load-more>
           </div>
         </div>
@@ -39,10 +39,10 @@ export default {
   methods: {
     twitterCreated(data) {
       if (this.topicsPage) {
-        if (this.topicsPage.results) {
-          this.topicsPage.results.unshift(data)
+        if (this.topicsPage.article_list) {
+          this.topicsPage.article_list.unshift(data)
         } else {
-          this.topicsPage.results = [data]
+          this.topicsPage.article_list = [data]
         }
       }
     },

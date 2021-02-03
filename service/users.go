@@ -156,3 +156,27 @@ func (s *userService) SetToken(userID int64) string {
 	repository.UserTokenRepository.Create(util.DB(), userToken)
 	return token
 }
+
+// BuildUserBriefInfo ...
+func BuildUserBriefInfo(user *model.User) *model.UserBriefInfo {
+	if user == nil {
+		return nil
+	}
+	userInfo := &model.UserBriefInfo{
+		Username:              user.Username,
+		Nickname:              user.Nickname,
+		AvatarURL:             user.AvatarURL,
+		Gender:                user.Gender,
+		Description:           user.Description,
+		AttentionCount:        user.AttentionCount,
+		FavouriteArticleCount: user.FavouriteArticleCount,
+		FansCount:             user.FansCount,
+		PostCount:             user.PostCount,
+		CommentCount:          user.CommentCount,
+		Type:                  user.Type,
+		City:                  user.City,
+		Province:              user.Province,
+		Country:               user.Country,
+	}
+	return userInfo
+}

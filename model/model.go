@@ -77,6 +77,6 @@ type UserLikeArticle struct {
 	Model
 	UserID     int64 `gorm:"column:user_id;type:int" json:"user_id"`
 	ArticleID  int64 `gorm:"column:article_id;type:int" json:"article_id"`
-	Status     int   `gorm:"column:status;type:tinyint;not null;default:0" json:"status"`
+	Status     int   `gorm:"column:status;type:tinyint;not null;default:0" json:"status"` //是否点赞
 	UpdateTime int64 `gorm:"column:update_time;default:null" json:"update_time"`
 }

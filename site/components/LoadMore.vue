@@ -26,7 +26,7 @@ export default {
     params: {
       type: Object,
       default() {
-        return {};
+        return {}
       },
     },
     // 初始化数据
@@ -36,47 +36,47 @@ export default {
         return {
           results: [],
           cursor: '',
-        };
+        }
       },
     },
   },
   data() {
     return {
-      cursor: this.initData.cursor, // 分页标识
-      results: this.initData.results || [], // 列表数据
+      cursor: 0, // 分页标识
+      results: this.initData.article_list || [], // 列表数据
       hasMore: true, // 是否有更多数据
       loading: false, // 是否正在加载中
-    };
+    }
   },
   computed: {
     // 是否禁言自动加载
     disabled() {
-      return this.loading || !this.hasMore;
+      return this.loading || !this.hasMore
     },
   },
   methods: {
     async loadMore() {
-      this.loading = true;
+      this.loading = true
       try {
         const _params = Object.assign(this.params || {}, {
           cursor: this.cursor,
-        });
+        })
         const ret = await this.$axios.get(this.url, {
-          params: _params,
-        });
-        this.cursor = ret.cursor;
-        if (ret.results && ret.results.length) {
-          ret.results.forEach((item) => {
-            this.results.push(item);
-          });
+          // params: _params,
+        })
+        // this.cursor = ret.cursor
+        if (ret.article_list && ret.total_num) {
+          ret.article_list.forEach((item) => {
+            this.results.push(item)
+          })
         } else {
-          this.hasMore = false;
+          this.hasMore = false
         }
       } catch (err) {
-        this.hasMore = false;
-        console.error(err);
+        this.hasMore = false
+        console.error(err)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
     /**
@@ -84,7 +84,7 @@ export default {
      */
     unshiftResults(item) {
       if (item) {
-        this.results.unshift(item);
+        this.results.unshift(item)
       }
     },
     /**
@@ -92,11 +92,11 @@ export default {
      */
     pushResults(item) {
       if (item) {
-        this.results.push(item);
+        this.results.push(item)
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
