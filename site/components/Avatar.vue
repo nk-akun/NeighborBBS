@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import stringToColor from '@/utils/stringToColor';
+import stringToColor from '@/utils/stringToColor'
 
 export default {
   name: 'Avatar',
@@ -64,41 +64,45 @@ export default {
         30: 'font-size: 18px;line-height: 30px;border-radius: 2px',
         20: 'font-size: 10px;line-height: 20px;border-radius: 2px',
       },
-    };
+    }
   },
   computed: {
     hasAvatarUrl() {
-      return this.avatarUrl;
+      return this.avatarUrl
     },
     avatarUrl() {
-      return this.user.smallAvatar || this.user.avatar;
+      return this.user.smallAvatar || this.user.avatar_url
     },
     usernameAt() {
-      let c = this.user.nickname ? this.user.nickname.charAt(0).toUpperCase() : '';
+      let c = this.user.nickname
+        ? this.user.nickname.charAt(0).toUpperCase()
+        : ''
       if (!c) {
-        c = this.user.username ? this.user.username.charAt(0).toUpperCase() : '';
+        c = this.user.username ? this.user.username.charAt(0).toUpperCase() : ''
       }
-      return c;
+      return c
     },
     styleText() {
-      return `background-color: #${stringToColor(this.usernameAt)};${this.sizes[this.size]}`;
+      return `background-color: #${stringToColor(this.usernameAt)};${
+        this.sizes[this.size]
+      }`
     },
     sizeClass() {
-      return ['avatar-size-' + this.size];
+      return ['avatar-size-' + this.size]
     },
     roundClass() {
-      return this.round ? 'round' : '';
+      return this.round ? 'round' : ''
     },
     borderClass() {
-      return this.hasBorder ? 'has-border' : '';
+      return this.hasBorder ? 'has-border' : ''
     },
   },
   methods: {
     error() {
-      this.loadError = true;
+      this.loadError = true
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

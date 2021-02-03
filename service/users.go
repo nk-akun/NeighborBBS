@@ -163,6 +163,7 @@ func BuildUserBriefInfo(user *model.User) *model.UserBriefInfo {
 		return nil
 	}
 	userInfo := &model.UserBriefInfo{
+		ID:                    user.ID,
 		Username:              user.Username,
 		Nickname:              user.Nickname,
 		AvatarURL:             user.AvatarURL,

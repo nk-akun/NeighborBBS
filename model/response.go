@@ -95,6 +95,7 @@ func (r *ResponseValue) Set(name string, data interface{}) *ResponseValue {
 
 // UserBriefInfo ...
 type UserBriefInfo struct {
+	ID                    int64  `json:"id"`
 	Username              string `json:"username"`
 	Nickname              string `json:"nickname"`
 	AvatarURL             string `json:"avatar_url"`

@@ -36,7 +36,7 @@ func (s *articleService) BuildArticle(userID int64, title string, content string
 
 func (s *articleService) GetArticleList(limit int, sortby string, order string) (*model.ArticleListResponse, error) {
 	resp := &model.ArticleListResponse{}
-	fields := []string{"id", "title", "create_time"}
+	fields := []string{"id", "title", "create_time", "user_id", "view_count", "comment_count", "like_count"}
 	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, limit, sortby, order)
 
 	briefList := BuildArticleList(articles)

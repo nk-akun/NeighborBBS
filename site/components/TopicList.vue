@@ -15,9 +15,9 @@
         <div class="topic-content" :class="{ 'topic-tweet': false }">
           <template>
             <h1 class="topic-title">
-              <a :href="'/topic/' + article.article_id">{{ article.title }}</a>
+              <a :href="'/topics/' + article.article_id">{{ article.title }}</a>
             </h1>
-            <a :href="'/topic/' + article.article_id" class="topic-summary">{{ article.summary }}</a>
+            <a :href="'/topics/' + article.article_id" class="topic-summary">{{ article.title }}</a>
           </template>
           <!-- <template v-if="topic.type === 1">
             <a
@@ -35,12 +35,12 @@
           </template>-->
         </div>
         <div class="topic-handlers">
-          <div class="btn" :class="{ liked: false }" @click="like(topic)">
+          <div class="btn" :class="{ liked: false }" @click="like(article)">
             <i class="iconfont icon-like" />
             {{ article.liked ? '已赞' : '赞' }}
-            <!-- <span
+            <span
               v-if="article.like_count > 0"
-            >{{ article.like_count }}</span>-->
+            >{{ article.like_count }}</span>
           </div>
           <div class="btn" @click="toTopicDetail(article.article_id)">
             <i class="iconfont icon-comments" />评论
@@ -82,9 +82,13 @@ export default {
   methods: {
     async like(article) {
       try {
-        await this.$axios.post('/api/topics/like/' + article.article_id)
+        let data = {
+          article_id: article.article_id,
+          user_id: article.user.id,
+        }
+        await this.$axios.post('/api/topics/like', data)
         article.liked = true
-        article.likeCount++
+        article.like_count++
         this.$message.success('点赞成功')
       } catch (e) {
         if (e.errorCode === 1) {

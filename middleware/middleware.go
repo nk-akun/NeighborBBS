@@ -73,7 +73,6 @@ func ReponseHandler() gin.HandlerFunc {
 			}
 			if value, exist := c.Get(model.CTXAPIResponseValue); exist {
 				resp.Value = value
-				logs.Logger.Info(value)
 			}
 			if success, exist := c.Get(model.CTXAPIResponseSuccess); exist {
 				resp.Success = success.(bool)
