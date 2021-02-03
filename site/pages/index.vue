@@ -36,7 +36,17 @@ export default {
     }
   },
   data() {},
-  methods: {},
+  methods: {
+    twitterCreated(data) {
+      if (this.topicsPage) {
+        if (this.topicsPage.results) {
+          this.topicsPage.results.unshift(data)
+        } else {
+          this.topicsPage.results = [data]
+        }
+      }
+    },
+  },
 }
 </script>
 
