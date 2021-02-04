@@ -1,0 +1,182 @@
+<template>
+  <section class="section">
+    <div class="container">
+      <div class="topic-create-form">
+        <h1 class="title">{{ postForm.type === 0 ? '发帖子' : '发动态' }}</h1>
+
+        <div v-if="postForm.type === 0" class="field" style="width: 100%;">
+          <div class="control">
+            <input
+              v-model="postForm.title"
+              class="input topic-title"
+              type="text"
+              placeholder="请输入帖子标题"
+            />
+          </div>
+        </div>
+
+        <div v-if="postForm.type === 0" class="field">
+          <div class="control">
+            <markdown-editor
+              ref="mdEditor"
+              v-model="postForm.content"
+              editor-id="topicCreateEditor"
+              placeholder="请输入你要发表的内容..."
+            />
+          </div>
+        </div>
+        <div v-if="postForm.type === 1" class="field">
+          <div class="control">
+            <simple-editor ref="simpleEditor" @input="onSimpleEditorInput" @submit="submitCreate" />
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <a
+              :class="{ 'is-loading': publishing }"
+              :disabled="publishing"
+              class="button is-success"
+              @click="submitCreate"
+            >{{ postForm.type === 1 ? '发表动态' : '发表帖子' }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import MarkdownEditor from '~/components/MarkdownEditor'
+import SimpleEditor from '~/components/SimpleEditor'
+
+export default {
+  middleware: 'authenticated',
+  components: {
+    MarkdownEditor,
+    SimpleEditor,
+  },
+  async asyncData({ $axios, query, store }) {
+    // 发帖标签
+    const config = store.state.config.config || {}
+    const nodeId = query.nodeId || config.defaultNodeId
+    let currentNode = null
+    if (nodeId) {
+      try {
+        currentNode = await $axios.get('/api/topic/node?nodeId=' + nodeId)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    const type = parseInt(query.type || 0) || 0
+
+    return {
+      postForm: {
+        type,
+        nodeId: currentNode ? currentNode.nodeId : 0,
+      },
+    }
+  },
+  data() {
+    return {
+      publishing: false, // 当前是否正处于发布中...
+      postForm: {
+        type: 0,
+        nodeId: 0,
+        title: '',
+        content: '',
+        imageList: [],
+      },
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.current
+    },
+    config() {
+      return this.$store.state.config.config
+    },
+  },
+  mounted() {},
+  methods: {
+    async submitCreate() {
+      if (this.publishing) {
+        return
+      }
+
+      if (!this.postForm.nodeId) {
+        this.$message.error('请选择节点')
+        return
+      }
+
+      this.publishing = true
+
+      if (this.$refs.simpleEditor && this.$refs.simpleEditor.isOnUpload()) {
+        this.$message.warning('图片正在上传中...请上传完成后提交')
+        return
+      }
+
+      const me = this
+      try {
+        const topic = await this.$axios.post('/api/topics', {
+          // type: this.postForm.type,
+          // nodeId: this.postForm.nodeId,
+          user_id: this.$store.state.user.current.user_id,
+          title: this.postForm.title,
+          content: this.postForm.content,
+          // imageList:
+          //   this.postForm.imageList && this.postForm.imageList.length
+          //     ? JSON.stringify(this.postForm.imageList)
+          //     : '',
+        })
+        if (this.$refs.mdEditor) {
+          this.$refs.mdEditor.clearCache()
+        }
+        this.$msg({
+          message: '提交成功',
+          onClose() {
+            me.$linkTo('/topic/' + topic.topic_id)
+          },
+        })
+      } catch (e) {
+        this.publishing = false
+        this.$message.error(e.message || e)
+      }
+    },
+    onSimpleEditorInput(value) {
+      this.postForm.content = value.content
+      this.postForm.imageList = value.imageList
+    },
+  },
+  head() {
+    return {
+      title: this.$siteTitle(this.postForm.type === 1 ? '发动态' : '发帖子'),
+    }
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.topic-create-form {
+  background: #ffffff;
+  padding: 30px;
+  .tag {
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #777;
+
+    &.selected {
+      color: #fff;
+      background: #1878f3;
+    }
+  }
+
+  .topic-title {
+    //background-color: rgb(247, 247, 247);
+    //border: 1px solid hsla(0, 0%, 89.4%, 0.6);
+  }
+}
+</style>
