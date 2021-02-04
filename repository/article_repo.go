@@ -22,9 +22,9 @@ func (r *articleRepository) Create(db *gorm.DB, article *model.Article) error {
 	return db.Create(article).Error
 }
 
-func (r *articleRepository) GetArticleFields(db *gorm.DB, fields []string, limit int, sortby string, order string) []model.Article {
+func (r *articleRepository) GetArticleFields(db *gorm.DB, fields []string, cursorTime int64, limit int, sortby string, order string) []model.Article {
 	var articles []model.Article
-	db.Select(fields).Order(fmt.Sprintf("%s %s", sortby, order)).Limit(limit).Find(&articles)
+	db.Where("create_time < ?", cursorTime).Select(fields).Order(fmt.Sprintf("%s %s", sortby, order)).Limit(limit).Find(&articles)
 	return articles
 }
 

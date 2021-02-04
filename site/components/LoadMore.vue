@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      cursor: 0, // 分页标识
+      cursor: 2559090472000, // 分页标识
       results: this.initData.article_list || [], // 列表数据
       hasMore: true, // 是否有更多数据
       loading: false, // 是否正在加载中
@@ -62,9 +62,9 @@ export default {
           cursor: this.cursor,
         })
         const ret = await this.$axios.get(this.url, {
-          // params: _params,
+          params: _params,
         })
-        // this.cursor = ret.cursor
+        this.cursor = ret.cursor
         if (ret.article_list && ret.total_num) {
           ret.article_list.forEach((item) => {
             this.results.push(item)

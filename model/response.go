@@ -28,6 +28,7 @@ type ActionLink struct {
 // ArticleListResponse ...
 type ArticleListResponse struct {
 	TotalNum    int                 `json:"total_num"`
+	Cursor      int64               `json:"cursor"`
 	ArticleList []*ArticleBriefInfo `json:"article_list"`
 }
 
