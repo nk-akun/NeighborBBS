@@ -67,13 +67,14 @@ type CommentListResponse struct {
 
 // CommentInfo ...
 type CommentInfo struct {
-	AuthorName string `json:"user_name"`
-	AuthorID   int64  `json:"user_id"`
-	AvatarURL  string `json:"avatar_url"`
-	Content    string `json:"content"`
-	ParentID   int64  `json:"parent_id"`
-	LikeCount  int    `json:"like_count"`
-	CreateTime int64  `json:"create_time"`
+	AuthorNickName string       `json:"user_nickname"`
+	AuthorUserName string       `json:"user_username"`
+	AuthorID       int64        `json:"user_id"`
+	AvatarURL      string       `json:"avatar_url"`
+	Content        string       `json:"content"`
+	ParentComment  *CommentInfo `json:"parent_comment"`
+	LikeCount      int          `json:"like_count"`
+	CreateTime     int64        `json:"create_time"`
 }
 
 // ResponseValue ...

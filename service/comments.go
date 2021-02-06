@@ -44,21 +44,27 @@ func (s *commentService) GetCommentList(articleID int64) (*model.CommentListResp
 
 	resp.ArticleID = articleID
 	resp.TotalNum = len(comtList)
-	resp.CommentList = make([]*model.CommentInfo, len(comtList))
+	buildCommentList(comtList)
+}
+
+func buildCommentList(comtList []model.Comment) []*model.CommentInfo {
+	// TODO: 对comtList排序，然后构造ParentComment
+	// https://itimetraveler.github.io/2016/09/07/%E3%80%90Go%E8%AF%AD%E8%A8%80%E3%80%91%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E6%8E%92%E5%BA%8F%E5%92%8C%20slice%20%E6%8E%92%E5%BA%8F/
+	detailedCommentList := make([]*model.CommentInfo, len(comtList))
 	for i := range comtList {
 		userInfo, err := repository.UserRepository.GetUserByUserID(util.DB(), comtList[i].UserID)
 		if err != nil {
-			return nil, errors.New("查询作者信息出错")
+			logs.Logger.Errorf("查询作者信息出错")
 		}
-		resp.CommentList[i] = &model.CommentInfo{
-			AuthorName: userInfo.Nickname,
-			AuthorID:   userInfo.ID,
-			AvatarURL:  userInfo.AvatarURL,
-			Content:    comtList[i].Content,
-			ParentID:   comtList[i].ParentID,
-			LikeCount:  comtList[i].LikeCount,
-			CreateTime: comtList[i].CreateTime,
+		detailedCommentList[i] = &model.CommentInfo{
+			AuthorNickName: userInfo.Nickname,
+			AuthorUserName: userInfo.Username,
+			AuthorID:       userInfo.ID,
+			AvatarURL:      userInfo.AvatarURL,
+			Content:        comtList[i].Content,
+			ParentComment: 
+			LikeCount:      comtList[i].LikeCount,
+			CreateTime:     comtList[i].CreateTime,
 		}
 	}
-	return resp, nil
 }
