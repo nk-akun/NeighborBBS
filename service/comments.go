@@ -45,6 +45,7 @@ func (s *commentService) GetCommentList(articleID int64, cursorTime int64) (*mod
 
 	resp.ArticleID = articleID
 	resp.TotalNum = len(comtList)
+	resp.Cursor = cursorTime
 	buildCommentList(comtList)
 	return resp, nil
 }

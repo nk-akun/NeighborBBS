@@ -205,7 +205,11 @@ export default {
           entityId: params.id,
         },
       }),
-      $axios.get('/api/comments/list' + params.id),
+      $axios.get('/api/comments', {
+        params: {
+          article_id: params.id,
+        },
+      }),
       $axios.get('/api/topic/recentlikes/' + params.id),
     ])
 

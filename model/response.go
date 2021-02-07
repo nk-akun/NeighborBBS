@@ -62,6 +62,7 @@ type ArticleResponse struct {
 type CommentListResponse struct {
 	ArticleID   int64          `json:"article_id"`
 	TotalNum    int            `json:"total_num"`
+	Cursor      int64          `json:"cursor"`
 	CommentList []*CommentInfo `json:"comment_list"`
 }
 

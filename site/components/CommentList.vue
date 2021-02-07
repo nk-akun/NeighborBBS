@@ -6,12 +6,12 @@
       v-slot="{ results }"
       :init-data="commentsPage"
       :params="{ entityType: entityType, entityId: entityId }"
-      url="/api/comment/list"
+      url="/api/comments"
     >
       <ul>
         <li
           v-for="(comment, index) in results"
-          :key="comment.commentId"
+          :key="comment.comment_id"
           class="comment"
           itemprop="comment"
           itemscope
@@ -33,9 +33,7 @@
               itemscope
               itemtype="http://schema.org/Person"
             >
-              <a :href="'/user/' + comment.user.id" itemprop="name">
-                {{ comment.user.nickname }}
-              </a>
+              <a :href="'/user/' + comment.user.id" itemprop="name">{{ comment.user.nickname }}</a>
             </span>
             <span class="comment-time">
               <time
@@ -43,8 +41,7 @@
                   comment.createTime | formatDate('yyyy-MM-ddTHH:mm:ss')
                 "
                 itemprop="datePublished"
-                >{{ comment.createTime | prettyDate }}</time
-              >
+              >{{ comment.createTime | prettyDate }}</time>
             </span>
             <span class="comment-reply">
               <a @click="reply(comment)">回复</a>
@@ -55,9 +52,7 @@
               <div class="comment-quote-user">
                 <avatar :user="comment.quote.user" size="20" />
                 <a class="quote-nickname">{{ comment.quote.user.nickname }}</a>
-                <span class="quote-time">
-                  {{ comment.quote.createTime | prettyDate }}
-                </span>
+                <span class="quote-time">{{ comment.quote.createTime | prettyDate }}</span>
               </div>
               <div
                 v-lazy-container="{ selector: 'img' }"
@@ -65,10 +60,7 @@
                 v-html="comment.quote.content"
               />
             </blockquote>
-            <p
-              v-lazy-container="{ selector: 'img' }"
-              v-html="comment.content"
-            />
+            <p v-lazy-container="{ selector: 'img' }" v-html="comment.content" />
           </div>
         </li>
       </ul>
