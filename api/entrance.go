@@ -50,7 +50,7 @@ func AppRun() {
 		user.POST("/topics/del_like", guest.PostDelLikeArticle)
 
 		user.POST("/comments", guest.PostComment)
-		user.GET("/comments/:topic_id", guest.GetComments)
+		user.GET("/comments", guest.GetComments)
 		// user.DELETE()
 		user.GET("/test", guest.TestForUser)
 	}

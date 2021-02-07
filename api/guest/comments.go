@@ -27,13 +27,15 @@ func PostComment(c *gin.Context) {
 
 // GetComments return the comments based on
 func GetComments(c *gin.Context) {
-	id := c.Param("article_id")
-	articleID, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
+	id := c.Query("article_id")
+	cursor := c.DefaultQuery("cursor", "2559090472000")
+	cursorTime, err1 := strconv.ParseInt(cursor, 10, 64)
+	articleID, err2 := strconv.ParseInt(id, 10, 64)
+	if err1 != nil || err2 != nil {
 		setAPIResponse(c, nil, "参数错误", false)
 		return
 	}
-	resp, err := service.CommentService.GetCommentList(articleID)
+	resp, err := service.CommentService.GetCommentList(articleID, cursorTime)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 		return

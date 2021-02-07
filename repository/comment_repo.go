@@ -23,6 +23,16 @@ func (r *commentRepository) Create(db *gorm.DB, comment *model.Comment) error {
 	return nil
 }
 
+func (r *commentRepository) GetCommentsByCursorTime(db *gorm.DB, articleID int64, cursorTime int64) ([]model.Comment, error) {
+	var comments []model.Comment
+	err := db.Where("create_time < ?", cursorTime).Limit(30).Find(&comments).Error
+	if err != nil {
+		logs.Logger.Errorf("query db error:", err)
+		return nil, err
+	}
+	return comments, err
+}
+
 func (r *commentRepository) GetCommentsByArticleID(db *gorm.DB, articleID int64) ([]model.Comment, error) {
 	return r.take(db, "article_id = ?", articleID)
 }
