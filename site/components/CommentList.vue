@@ -1,11 +1,11 @@
 <template>
   <div class="comments">
-    <load-more
+    <load-more-comments
       v-if="commentsPage"
       ref="commentsLoadMore"
       v-slot="{ results }"
       :init-data="commentsPage"
-      :params="{ entityType: entityType, entityId: entityId }"
+      :params="{ entityType: entityType, article_id: entityId }"
       url="/api/comments"
     >
       <ul>
@@ -24,7 +24,10 @@
             ad-layout-key="-ht-19-1m-3j+mu"
           />
           <div class="comment-avatar">
-            <avatar :user="comment.user" size="35" />
+            <avatar
+              :user="{nickname:comment.user_nickname,username:comment.user_username,id:comment.user_id,avatar_url:comment.avatar_url}"
+              size="35"
+            />
           </div>
           <div class="comment-meta">
             <span
@@ -33,49 +36,52 @@
               itemscope
               itemtype="http://schema.org/Person"
             >
-              <a :href="'/user/' + comment.user.id" itemprop="name">{{ comment.user.nickname }}</a>
+              <a :href="'/user/' + comment.user_id" itemprop="name">{{ comment.user_nickname }}</a>
             </span>
             <span class="comment-time">
               <time
                 :datetime="
-                  comment.createTime | formatDate('yyyy-MM-ddTHH:mm:ss')
+                  comment.create_time | formatDate('yyyy-MM-ddTHH:mm:ss')
                 "
                 itemprop="datePublished"
-              >{{ comment.createTime | prettyDate }}</time>
+              >{{ comment.create_time | prettyDate }}</time>
             </span>
             <span class="comment-reply">
               <a @click="reply(comment)">回复</a>
             </span>
           </div>
           <div class="comment-content content">
-            <blockquote v-if="comment.quote" class="comment-quote">
+            <blockquote v-if="comment.parent_comment" class="comment-quote">
               <div class="comment-quote-user">
-                <avatar :user="comment.quote.user" size="20" />
-                <a class="quote-nickname">{{ comment.quote.user.nickname }}</a>
-                <span class="quote-time">{{ comment.quote.createTime | prettyDate }}</span>
+                <avatar
+                  :user="{nickname:comment.parent_comment.user_nickname,username:comment.parent_comment.user_username,id:comment.parent_comment.user_id,avatar_url:comment.parent_comment.avatar_url}"
+                  size="20"
+                />
+                <a class="quote-nickname">{{ comment.parent_comment.user_nickname }}</a>
+                <span class="quote-time">{{ comment.parent_comment.create_time | prettyDate }}</span>
               </div>
               <div
                 v-lazy-container="{ selector: 'img' }"
                 itemprop="text"
-                v-html="comment.quote.content"
+                v-html="comment.parent_comment.content"
               />
             </blockquote>
             <p v-lazy-container="{ selector: 'img' }" v-html="comment.content" />
           </div>
         </li>
       </ul>
-    </load-more>
+    </load-more-comments>
   </div>
 </template>
 
 <script>
 import Avatar from '~/components/Avatar'
-import LoadMore from '~/components/LoadMore'
+import LoadMoreComments from './LoadMoreComments.vue'
 
 export default {
   components: {
     Avatar,
-    LoadMore,
+    LoadMoreComments,
   },
   props: {
     entityType: {

@@ -39,9 +39,9 @@ func (s *articleService) GetArticleList(limit int, cursorTime int64, sortby stri
 	fields := []string{"id", "title", "create_time", "user_id", "view_count", "comment_count", "like_count"}
 	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, cursorTime, limit, sortby, order)
 
-	briefList := BuildArticleList(articles)
+	briefList, minCursorTime := buildArticleList(articles)
 
-	resp.Cursor = cursorTime
+	resp.Cursor = minCursorTime
 	for i := range briefList {
 		if briefList[i].CreateTime < resp.Cursor {
 			resp.Cursor = briefList[i].CreateTime
@@ -63,10 +63,9 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 	}
 
 	resp := &model.ArticleResponse{
+		ArticleID:    articleInfo.ID,
 		Title:        articleInfo.Title,
-		AuthorID:     userInfo.ID,
-		AuthorName:   userInfo.Nickname,
-		AvatarURL:    userInfo.AvatarURL,
+		User:         BuildUserBriefInfo(userInfo),
 		Content:      articleInfo.Content,
 		CommentCount: articleInfo.CommentCount,
 		LikeCount:    articleInfo.LikeCount,
@@ -75,10 +74,11 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 	return resp, nil
 }
 
-// BuildArticleList ...
-func BuildArticleList(articles []model.Article) []*model.ArticleBriefInfo {
+func buildArticleList(articles []model.Article) ([]*model.ArticleBriefInfo, int64) {
+	var minCursorTime int64 = model.MAXCursorTime
 	briefList := make([]*model.ArticleBriefInfo, len(articles))
 	for i := range articles {
+		minCursorTime = util.MinInt64(minCursorTime, articles[i].CreateTime)
 		briefList[i] = new(model.ArticleBriefInfo)
 		briefList[i].ArticleID = articles[i].ID
 		briefList[i].Title = articles[i].Title
@@ -91,5 +91,5 @@ func BuildArticleList(articles []model.Article) []*model.ArticleBriefInfo {
 		briefList[i].User = BuildUserBriefInfo(user)
 	}
 
-	return briefList
+	return briefList, minCursorTime
 }

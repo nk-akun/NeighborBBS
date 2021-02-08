@@ -4,14 +4,14 @@
       <div class="left-container">
         <div class="main-content no-padding no-bg topics-wrapper">
           <div class="topics-main">
-            <load-more
+            <load-more-articles
               v-if="topicsPage"
               v-slot="{ results }"
               :init-data="topicsPage"
               url="/api/topics"
             >
               <topic-list :articles="results" :show-ad="true" />
-            </load-more>
+            </load-more-articles>
           </div>
         </div>
       </div>
@@ -21,11 +21,11 @@
 
 <script>
 import TopicList from '~/components/TopicList'
-import LoadMore from '~/components/LoadMore'
+import LoadMoreArticles from '../components/LoadMoreArticles.vue'
 export default {
   components: {
     TopicList,
-    LoadMore,
+    LoadMoreArticles,
   },
   async asyncData({ $axios, params }) {
     try {

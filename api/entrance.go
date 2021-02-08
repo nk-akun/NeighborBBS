@@ -43,7 +43,7 @@ func AppRun() {
 		user.GET("/user/logout", guest.Logout)
 		user.GET("/user/current", guest.GetCurrentUser)
 
-		user.POST("/topic", guest.PostArticle)
+		user.POST("/topics", guest.PostArticle)
 		user.GET("/topics", guest.GetArticleList)
 		user.GET("/topics/:id", guest.GetArticleByID)
 		user.POST("/topics/like", guest.PostLikeArticle)

@@ -3,15 +3,15 @@
     <div class="base-info">
       <avatar :user="user" size="80" :extra-style="{ margin: '0 auto' }" />
       <div class="nickname">
-        <a :href="'/user/' + user.id" :alt="user.nickname">{{
+        <a :href="'/user/' + user.id" :alt="user.nickname">
+          {{
           user.nickname
-        }}</a>
+          }}
+        </a>
       </div>
-      <div class="description">
-        {{ user.description }}
-      </div>
+      <div class="description">{{ user.description }}</div>
     </div>
-    <div class="extra-info">
+    <!-- <div class="extra-info">
       <ul class="extra-data">
         <li>
           <span>积分</span><br />
@@ -22,7 +22,7 @@
           <b>{{ user.id }}</b>
         </li>
       </ul>
-    </div>
+    </div>-->
   </div>
 </template>
 

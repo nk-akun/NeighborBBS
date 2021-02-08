@@ -15,9 +15,9 @@
         <div class="topic-content" :class="{ 'topic-tweet': false }">
           <template>
             <h1 class="topic-title">
-              <a :href="'/topics/' + article.article_id">{{ article.title }}</a>
+              <a :href="'/topic/' + article.article_id">{{ article.title }}</a>
             </h1>
-            <a :href="'/topics/' + article.article_id" class="topic-summary">{{ article.title }}</a>
+            <a :href="'/topic/' + article.article_id" class="topic-summary">{{ article.title }}</a>
           </template>
           <!-- <template v-if="topic.type === 1">
             <a

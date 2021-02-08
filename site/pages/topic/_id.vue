@@ -192,33 +192,45 @@ export default {
       return
     }
 
-    const [liked, favorited, commentsPage, likeUsers] = await Promise.all([
-      $axios.get('/api/like/liked', {
-        params: {
-          entityType: 'topic',
-          entityId: params.id,
-        },
-      }),
-      $axios.get('/api/favorite/favorited', {
-        params: {
-          entityType: 'topic',
-          entityId: params.id,
-        },
-      }),
+    // const [liked, favorited, commentsPage, likeUsers] = await Promise.all([
+    //   $axios.get('/api/like/liked', {
+    //     params: {
+    //       entityType: 'topic',
+    //       entityId: params.id,
+    //     },
+    //   }),
+    //   $axios.get('/api/favorite/favorited', {
+    //     params: {
+    //       entityType: 'topic',
+    //       entityId: params.id,
+    //     },
+    //   }),
+    //   $axios.get('/api/comments', {
+    //     params: {
+    //       article_id: params.id,
+    //     },
+    //   }),
+    //   $axios.get('/api/topic/recentlikes/' + params.id),
+    // ])
+
+    // return {
+    //   topic,
+    //   commentsPage,
+    //   favorited: favorited.favorited,
+    //   liked: liked.liked,
+    //   likeUsers,
+    // }
+    const [commentsPage] = await Promise.all([
       $axios.get('/api/comments', {
         params: {
           article_id: params.id,
         },
       }),
-      $axios.get('/api/topic/recentlikes/' + params.id),
     ])
 
     return {
       topic,
       commentsPage,
-      favorited: favorited.favorited,
-      liked: liked.liked,
-      likeUsers,
     }
   },
   computed: {

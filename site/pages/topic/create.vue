@@ -59,22 +59,22 @@ export default {
   async asyncData({ $axios, query, store }) {
     // 发帖标签
     const config = store.state.config.config || {}
-    const nodeId = query.nodeId || config.defaultNodeId
-    let currentNode = null
-    if (nodeId) {
-      try {
-        currentNode = await $axios.get('/api/topic/node?nodeId=' + nodeId)
-      } catch (e) {
-        console.error(e)
-      }
-    }
+    // const nodeId = query.nodeId || config.defaultNodeId
+    // let currentNode = null
+    // if (nodeId) {
+    //   try {
+    //     currentNode = await $axios.get('/api/topic/node?nodeId=' + nodeId)
+    //   } catch (e) {
+    //     console.error(e)
+    //   }
+    // }
 
     const type = parseInt(query.type || 0) || 0
 
     return {
       postForm: {
         type,
-        nodeId: currentNode ? currentNode.nodeId : 0,
+        // nodeId: currentNode ? currentNode.nodeId : 0,
       },
     }
   },
@@ -86,7 +86,7 @@ export default {
         nodeId: 0,
         title: '',
         content: '',
-        imageList: [],
+        // imageList: [],
       },
     }
   },
@@ -105,24 +105,24 @@ export default {
         return
       }
 
-      if (!this.postForm.nodeId) {
-        this.$message.error('请选择节点')
-        return
-      }
+      // if (!this.postForm.nodeId) {
+      //   this.$message.error('请选择节点')
+      //   return
+      // }
 
       this.publishing = true
 
-      if (this.$refs.simpleEditor && this.$refs.simpleEditor.isOnUpload()) {
-        this.$message.warning('图片正在上传中...请上传完成后提交')
-        return
-      }
+      // if (this.$refs.simpleEditor && this.$refs.simpleEditor.isOnUpload()) {
+      //   this.$message.warning('图片正在上传中...请上传完成后提交')
+      //   return
+      // }
 
       const me = this
       try {
         const topic = await this.$axios.post('/api/topics', {
           // type: this.postForm.type,
           // nodeId: this.postForm.nodeId,
-          user_id: this.$store.state.user.current.user_id,
+          user_id: this.$store.state.user.current.id,
           title: this.postForm.title,
           content: this.postForm.content,
           // imageList:
@@ -136,7 +136,7 @@ export default {
         this.$msg({
           message: '提交成功',
           onClose() {
-            me.$linkTo('/topic/' + topic.topic_id)
+            me.$linkTo('/topic/' + topic.id)
           },
         })
       } catch (e) {

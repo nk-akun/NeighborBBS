@@ -10,4 +10,5 @@ const (
 	CTXAPIResponseSuccess = "api_response_success"
 
 	TokenExpireDays = 2
+	MAXCursorTime   = 2559090472000
 )

@@ -17,11 +17,7 @@
       </div>
       <div class="comment-button-wrapper">
         <span>Ctrl or ⌘ + Enter</span>
-        <button
-          class="button is-small is-success"
-          @click="create"
-          v-text="btnName"
-        />
+        <button class="button is-small is-success" @click="create" v-text="btnName" />
       </div>
     </div>
     <div v-else class="comment-not-login">
@@ -78,12 +74,13 @@ export default {
       }
       this.sending = true
       try {
-        const data = await this.$axios.post('/api/comment/create', {
-          contentType: 'text',
-          entityType: this.entityType,
-          entityId: this.entityId,
+        const data = await this.$axios.post('/api/comments', {
+          // contentType: 'text',
+          // entityType: this.entityType,
+          user_id: this.$store.state.user.current.id,
+          article_id: this.entityId,
           content: this.content,
-          quoteId: this.quote ? this.quote.commentId : '',
+          parent_id: this.quote ? this.quote.comment_id : 0,
         })
         this.$emit('created', data)
         this.content = ''

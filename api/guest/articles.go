@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/service"
 	"github.com/nk-akun/NeighborBBS/util"
@@ -13,6 +14,7 @@ import (
 // PostArticle is the api used to build a article
 func PostArticle(c *gin.Context) {
 	req := getReqFromContext(c).(*model.ArticleRequest)
+	logs.Logger.Info(req)
 	var err error
 	if req.UserID == 0 {
 		err = errors.New("user_id is invalid")

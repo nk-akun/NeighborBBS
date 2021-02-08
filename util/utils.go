@@ -32,3 +32,19 @@ func NowTimestamp() int64 {
 func Timestamp(t time.Time) int64 {
 	return t.UnixNano() / 1e6
 }
+
+// MinInt64 return min(a,b)
+func MinInt64(a int64, b int64) int64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+// MaxInt64 return max(a,b)
+func MaxInt64(a int64, b int64) int64 {
+	if a > b {
+		return a
+	}
+	return b
+}

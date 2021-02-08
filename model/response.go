@@ -46,14 +46,13 @@ type ArticleBriefInfo struct {
 
 // ArticleResponse ...
 type ArticleResponse struct {
-	Title        string `json:"title"`
-	AuthorID     int64  `json:"user_id"`
-	AuthorName   string `json:"nick_name"`
-	AvatarURL    string `json:"avatar_url"`
-	Content      string `json:"content"`
-	CommentCount int    `json:"commnet_count"`
-	LikeCount    int    `json:"like_count"`
-	CreateTime   int64  `json:"create_time"`
+	ArticleID    int64          `json:"article_id"`
+	Title        string         `json:"title"`
+	User         *UserBriefInfo `json:"user"`
+	Content      string         `json:"content"`
+	CommentCount int            `json:"commnet_count"`
+	LikeCount    int            `json:"like_count"`
+	CreateTime   int64          `json:"create_time"`
 }
 
 // Comment

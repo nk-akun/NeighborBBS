@@ -43,19 +43,23 @@ func (s *commentService) GetCommentList(articleID int64, cursorTime int64) (*mod
 		return nil, errors.New("查询评论信息出错")
 	}
 
+	commentList, minCursorTime := buildCommentList(comtList)
 	resp.ArticleID = articleID
 	resp.TotalNum = len(comtList)
-	resp.Cursor = cursorTime
-	buildCommentList(comtList)
+	resp.Cursor = minCursorTime
+	resp.CommentList = commentList
 	return resp, nil
 }
 
-func buildCommentList(comtList []model.Comment) []*model.CommentInfo {
+func buildCommentList(comtList []model.Comment) ([]*model.CommentInfo, int64) {
+	var minCursorTime int64 = model.MAXCursorTime
+
 	sortComments(comtList, func(p, q *model.Comment) bool {
 		return p.ID < q.ID
 	})
 	detailedCommentList := make([]*model.CommentInfo, len(comtList))
 	for i := range comtList {
+		minCursorTime = util.MinInt64(minCursorTime, comtList[i].CreateTime)
 		userInfo, err := repository.UserRepository.GetUserByUserID(util.DB(), comtList[i].UserID)
 		if err != nil {
 			logs.Logger.Errorf("查询作者信息出错")
@@ -70,20 +74,20 @@ func buildCommentList(comtList []model.Comment) []*model.CommentInfo {
 			LikeCount:      comtList[i].LikeCount,
 			CreateTime:     comtList[i].CreateTime,
 		}
-		detailedCommentList[i].ParentComment = findParentComment(i, detailedCommentList[i].CommentID, detailedCommentList)
+		detailedCommentList[i].ParentComment = findParentComment(i, comtList[i].ParentID, detailedCommentList)
 	}
-	return detailedCommentList
+	return detailedCommentList, minCursorTime
 }
 
-func findParentComment(len int, commentID int64, detailedCommentList []*model.CommentInfo) *model.CommentInfo {
+func findParentComment(len int, parentID int64, detailedCommentList []*model.CommentInfo) *model.CommentInfo {
 	var l, r int = 0, len
 	var mid int
 	for l <= r {
 		mid = (l + r) >> 1
-		if detailedCommentList[mid].CommentID == commentID {
+		if detailedCommentList[mid].CommentID == parentID {
 			return detailedCommentList[mid]
 		}
-		if detailedCommentList[mid].CommentID > commentID {
+		if detailedCommentList[mid].CommentID > parentID {
 			r = mid - 1
 		} else {
 			l = mid + 1
@@ -110,7 +114,7 @@ func (pw commentWrapper) Less(i, j int) bool { // rewrite Less()
 	return pw.by(&pw.comments[i], &pw.comments[j])
 }
 
-// 封装成 SortPerson 方法
+// sortComments
 func sortComments(comments []model.Comment, by sortBy) {
 	sort.Sort(commentWrapper{comments, by})
 }
