@@ -43,7 +43,8 @@ export default {
   data() {
     return {
       cursor: 2559090472000, // 分页标识
-      results: this.initData.comment_list || [], // 列表数据
+      results: [], // 列表数据
+      // results: this.initData.comment_list || [], // 列表数据
       hasMore: true, // 是否有更多数据
       loading: false, // 是否正在加载中
     }

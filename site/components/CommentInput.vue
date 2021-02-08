@@ -79,12 +79,6 @@ export default {
       }
       this.sending = true
       try {
-        console.log(
-          this.$store.state.user.current.id,
-          this.entityId,
-          this.content,
-          this.quote ? this.quote.comment_id : 0
-        )
         const data = await this.$axios.post('/api/comments', {
           // entityType: this.entityType,
           user_id: this.$store.state.user.current.id,

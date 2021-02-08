@@ -8,6 +8,7 @@ import (
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/repository"
 	"github.com/nk-akun/NeighborBBS/util"
+	"gorm.io/gorm"
 )
 
 type commentService struct {
@@ -20,7 +21,7 @@ func newCommentService() *commentService {
 	return new(commentService)
 }
 
-func (s *commentService) BuildComment(userID int64, articleID int64, parentID int64, content string) (*model.Comment, error) {
+func (s *commentService) BuildComment(userID int64, articleID int64, parentID int64, content string) (*model.CommentInfo, error) {
 	comment := &model.Comment{
 		UserID:     userID,
 		ArticleID:  articleID,
@@ -29,11 +30,20 @@ func (s *commentService) BuildComment(userID int64, articleID int64, parentID in
 		CreateTime: util.NowTimestamp(),
 	}
 
-	if err := repository.CommentRepository.Create(util.DB(), comment); err != nil {
-		logs.Logger.Error("db error:", err)
+	err := util.DB().Transaction(func(tx *gorm.DB) error {
+		var err error
+
+		err = repository.CommentRepository.Create(util.DB(), comment)
+		if err != nil {
+			return err
+		}
+		err = util.DB().Exec("update t_article set comment_count = comment_count+1 where id = ? and user_id = ?", articleID, userID).Error
+		return err
+	})
+	if err != nil {
 		return nil, errors.New("数据库操作出错")
 	}
-	return comment, nil
+	return buildCommentInfo(comment), nil
 }
 
 func (s *commentService) GetCommentList(articleID int64, cursorTime int64) (*model.CommentListResponse, error) {
@@ -43,7 +53,7 @@ func (s *commentService) GetCommentList(articleID int64, cursorTime int64) (*mod
 		return nil, errors.New("查询评论信息出错")
 	}
 
-	commentList, minCursorTime := buildCommentList(comtList)
+	commentList, minCursorTime := buildCommentInfoList(comtList)
 	resp.ArticleID = articleID
 	resp.TotalNum = len(comtList)
 	resp.Cursor = minCursorTime
@@ -51,7 +61,25 @@ func (s *commentService) GetCommentList(articleID int64, cursorTime int64) (*mod
 	return resp, nil
 }
 
-func buildCommentList(comtList []model.Comment) ([]*model.CommentInfo, int64) {
+func buildCommentInfo(comment *model.Comment) *model.CommentInfo {
+	userInfo, err := repository.UserRepository.GetUserByUserID(util.DB(), comment.UserID)
+	if err != nil {
+		logs.Logger.Errorf("查询作者信息出错")
+	}
+	commentInfo := &model.CommentInfo{
+		CommentID:      comment.ID,
+		AuthorNickName: userInfo.Nickname,
+		AuthorUserName: userInfo.Username,
+		AuthorID:       userInfo.ID,
+		AvatarURL:      userInfo.AvatarURL,
+		Content:        comment.Content,
+		LikeCount:      comment.LikeCount,
+		CreateTime:     comment.CreateTime,
+	}
+	return commentInfo
+}
+
+func buildCommentInfoList(comtList []model.Comment) ([]*model.CommentInfo, int64) {
 	var minCursorTime int64 = model.MAXCursorTime
 
 	sortComments(comtList, func(p, q *model.Comment) bool {

@@ -38,7 +38,7 @@ type ArticleBriefInfo struct {
 	Title        string         `json:"title"`
 	User         *UserBriefInfo `json:"user"`
 	LikeCount    int            `json:"like_count"`
-	CommentCount int            `json:"commnet_count"`
+	CommentCount int            `json:"comment_count"`
 	ViewCount    int            `json:"view_count"`
 	Liked        bool           `json:"liked"`
 	CreateTime   int64          `json:"create_time"`
