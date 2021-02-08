@@ -7,5 +7,5 @@ import (
 func Test_ToHTML(t *testing.T) {
 	str := "## 你是谁"
 
-	t.Errorf(ToHTML(str))
+	t.Errorf(MarkdownToHTML(str))
 }

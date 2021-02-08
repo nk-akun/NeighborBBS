@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"unicode/utf8"
 
 	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
@@ -36,7 +37,7 @@ func (s *articleService) BuildArticle(userID int64, title string, content string
 
 func (s *articleService) GetArticleList(limit int, cursorTime int64, sortby string, order string) (*model.ArticleListResponse, error) {
 	resp := &model.ArticleListResponse{}
-	fields := []string{"id", "title", "create_time", "user_id", "view_count", "comment_count", "like_count"}
+	fields := []string{"id", "title", "create_time", "user_id", "view_count", "comment_count", "like_count", "content"}
 	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, cursorTime, limit, sortby, order)
 
 	briefList, minCursorTime := buildArticleList(articles)
@@ -66,7 +67,7 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 		ArticleID:    articleInfo.ID,
 		Title:        articleInfo.Title,
 		User:         BuildUserBriefInfo(userInfo),
-		Content:      util.ToHTML(articleInfo.Content),
+		Content:      util.MarkdownToHTML(articleInfo.Content),
 		CommentCount: articleInfo.CommentCount,
 		LikeCount:    articleInfo.LikeCount,
 		CreateTime:   articleInfo.CreateTime,
@@ -79,9 +80,11 @@ func buildArticleList(articles []model.Article) ([]*model.ArticleBriefInfo, int6
 	briefList := make([]*model.ArticleBriefInfo, len(articles))
 	for i := range articles {
 		minCursorTime = util.MinInt64(minCursorTime, articles[i].CreateTime)
+		mkSummary := util.MarkdownToHTML(util.SubString(articles[i].Content, 0, util.MinInt(128, utf8.RuneCountInString(articles[i].Content))))
 		briefList[i] = new(model.ArticleBriefInfo)
 		briefList[i].ArticleID = articles[i].ID
 		briefList[i].Title = articles[i].Title
+		briefList[i].Summary = util.GetHTMLText(mkSummary)
 		briefList[i].CommentCount = articles[i].CommentCount
 		briefList[i].LikeCount = articles[i].LikeCount
 		briefList[i].ViewCount = articles[i].ViewCount

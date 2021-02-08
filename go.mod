@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/88250/lute v1.7.2
+	github.com/PuerkitoBio/goquery v1.6.1
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.4.0 // indirect

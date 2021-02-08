@@ -23,6 +23,14 @@ func RandomAvatarURL(str string) string {
 	return fmt.Sprintf(avatarURLTemplate, hex.EncodeToString(cipherStr), str[0]%4+1)
 }
 
+// SubString ...
+func SubString(str string, start int, end int) string {
+	if start >= len(str) || end >= len(str) || start > end || end < 0 {
+		return ""
+	}
+	return string([]rune(str)[start:end])
+}
+
 // NowTimestamp return timestamp of now
 func NowTimestamp() int64 {
 	return time.Now().UnixNano() / 1e6
@@ -43,6 +51,22 @@ func MinInt64(a int64, b int64) int64 {
 
 // MaxInt64 return max(a,b)
 func MaxInt64(a int64, b int64) int64 {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// MinInt return min(a,b)
+func MinInt(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+// MaxInt return max(a,b)
+func MaxInt(a int, b int) int {
 	if a > b {
 		return a
 	}

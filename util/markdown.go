@@ -1,9 +1,12 @@
 package util
 
 import (
+	"strings"
 	"sync"
 
 	"github.com/88250/lute"
+	"github.com/PuerkitoBio/goquery"
+	"github.com/nk-akun/NeighborBBS/logs"
 )
 
 var (
@@ -22,9 +25,18 @@ func getEngine() *lute.Lute {
 }
 
 // ToHTML ...
-func ToHTML(markdownStr string) string {
+func MarkdownToHTML(markdownStr string) string {
 	if IsBlank(markdownStr) {
 		return ""
 	}
 	return getEngine().MarkdownStr("", markdownStr)
+}
+
+// GetHTMLText ...
+func GetHTMLText(html string) string {
+	txt, err := goquery.NewDocumentFromReader(strings.NewReader(html))
+	if err != nil {
+		logs.Logger.Errorf("从html读取文本出错", txt)
+	}
+	return txt.Text()
 }

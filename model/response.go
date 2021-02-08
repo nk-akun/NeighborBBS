@@ -36,6 +36,7 @@ type ArticleListResponse struct {
 type ArticleBriefInfo struct {
 	ArticleID    int64          `json:"article_id"`
 	Title        string         `json:"title"`
+	Summary      string         `json:"summary"`
 	User         *UserBriefInfo `json:"user"`
 	LikeCount    int            `json:"like_count"`
 	CommentCount int            `json:"comment_count"`

@@ -2,15 +2,15 @@ const isProduction = process.env.NODE_ENV === 'production'
 const isDocker = process.env.NODE_ENV === 'docker'
 
 export default {
-  // server: {
-  //   port: 3000,
-  //   host: '0.0.0.0',
-  //   timing: {
-  //     total: true,
-  //   },
-  // },
-  // mode: 'universal',
-  // modern: true,
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+    timing: {
+      total: true,
+    },
+  },
+  mode: 'universal',
+  modern: true,
   /*
    ** Headers of the page
    */
