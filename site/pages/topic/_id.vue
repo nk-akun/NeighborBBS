@@ -231,6 +231,8 @@ export default {
     return {
       topic,
       commentsPage,
+      liked: false,
+      favorited: false,
     }
   },
   computed: {
@@ -273,9 +275,12 @@ export default {
         if (this.liked) {
           return
         }
-        await this.$axios.post('/api/topic/like/' + topic.topicId)
+        await this.$axios.post('/api/topics/like', {
+          article_id: topic.article_id,
+          user_id: this.$store.state.user.current.id,
+        })
         this.liked = true
-        topic.likeCount++
+        topic.like_count++
         this.likeUsers = this.likeUsers || []
         this.likeUsers.unshift(this.$store.state.user.current)
       } catch (e) {

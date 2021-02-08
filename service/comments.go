@@ -76,6 +76,13 @@ func buildCommentInfo(comment *model.Comment) *model.CommentInfo {
 		LikeCount:      comment.LikeCount,
 		CreateTime:     comment.CreateTime,
 	}
+	if comment.ParentID > 0 {
+		parentComment, err := repository.CommentRepository.GetCommentsByCommentID(util.DB(), comment.ParentID)
+		if err != nil {
+			logs.Logger.Errorf("查询父评论信息出错")
+		}
+		commentInfo.ParentComment = buildCommentInfo(parentComment)
+	}
 	return commentInfo
 }
 

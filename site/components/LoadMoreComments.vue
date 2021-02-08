@@ -65,7 +65,6 @@ export default {
         const ret = await this.$axios.get(this.url, {
           params: _params,
         })
-        console.log(ret)
         this.cursor = ret.cursor
         if (ret.comment_list && ret.total_num) {
           ret.comment_list.forEach((item) => {

@@ -4,7 +4,7 @@
       <div ref="commentEditor" class="comment-input-wrapper">
         <div v-if="quote" class="comment-quote-info">
           回复：
-          <label v-text="quote.user.nickname" />
+          <label v-text="quote.user_nickname" />
           <i class="iconfont icon-close" alt="取消回复" @click="cancelReply" />
         </div>
         <markdown-editor
