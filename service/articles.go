@@ -66,7 +66,7 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 		ArticleID:    articleInfo.ID,
 		Title:        articleInfo.Title,
 		User:         BuildUserBriefInfo(userInfo),
-		Content:      articleInfo.Content,
+		Content:      util.ToHTML(articleInfo.Content),
 		CommentCount: articleInfo.CommentCount,
 		LikeCount:    articleInfo.LikeCount,
 		CreateTime:   articleInfo.CreateTime,

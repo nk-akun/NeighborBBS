@@ -65,6 +65,11 @@ func AllIsInvisibleCharacter(str string) bool {
 	return true
 }
 
+// IsBlank return true if str has not validate character
+func IsBlank(str string) bool {
+	return DeletePreAndSufSpace(str) == ""
+}
+
 // DeletePreAndSufSpace delete the space before and after str
 func DeletePreAndSufSpace(str string) string {
 	strList := []byte(str)

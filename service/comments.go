@@ -72,7 +72,7 @@ func buildCommentInfo(comment *model.Comment) *model.CommentInfo {
 		AuthorUserName: userInfo.Username,
 		AuthorID:       userInfo.ID,
 		AvatarURL:      userInfo.AvatarURL,
-		Content:        comment.Content,
+		Content:        util.ToHTML(comment.Content),
 		LikeCount:      comment.LikeCount,
 		CreateTime:     comment.CreateTime,
 	}
@@ -105,7 +105,7 @@ func buildCommentInfoList(comtList []model.Comment) ([]*model.CommentInfo, int64
 			AuthorUserName: userInfo.Username,
 			AuthorID:       userInfo.ID,
 			AvatarURL:      userInfo.AvatarURL,
-			Content:        comtList[i].Content,
+			Content:        util.ToHTML(comtList[i].Content),
 			LikeCount:      comtList[i].LikeCount,
 			CreateTime:     comtList[i].CreateTime,
 		}
