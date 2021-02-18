@@ -99,7 +99,7 @@ mysql:
 
 > 如果没有 go 环境，请先安装和配置 go 环境
 
-####安装依赖
+#### 安装依赖
 
 ```shell
 go mod download
@@ -137,7 +137,7 @@ go build        #编译项目
 cd site
 ```
 
-####(2) 在 nuxt.config.js 文件中配置启动端口等信息(可选项)
+#### (2) 在 nuxt.config.js 文件中配置启动端口等信息(可选项)
 
 #### (3)安装依赖
 
