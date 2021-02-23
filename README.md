@@ -139,13 +139,13 @@ cd site
 
 #### (2) 在 nuxt.config.js 文件中配置启动端口等信息(可选项)
 
-#### (3)安装依赖
+#### (3) 安装依赖
 
 ```shell
 npm install
 ```
 
-#### (4)启动前端服务
+#### (4) 启动前端服务
 
 ```shell
 npm run dev
