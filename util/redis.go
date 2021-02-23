@@ -1,15 +1,19 @@
 package util
 
-import "github.com/go-redis/redis"
+import (
+	"fmt"
+
+	"github.com/go-redis/redis"
+)
 
 var rdb *redis.Client
 
 // OpenRedis create a connection of redis
-func OpenRedis() error {
+func OpenRedis(host string, port string, password string) error {
 	rdb = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     fmt.Sprintf("%s:%s", host, port),
+		Password: password,
+		DB:       0, // use default DB
 	})
 
 	_, err := rdb.Ping().Result()

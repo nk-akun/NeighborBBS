@@ -17,6 +17,12 @@ type BBSConfig struct {
 		DbName   string
 	}
 
+	Redis struct {
+		Host     string
+		Port     string
+		Password string
+	}
+
 	OutputToTerminal bool
 	LogDir           string
 

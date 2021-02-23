@@ -24,7 +24,7 @@ func getEngine() *lute.Lute {
 	return engine
 }
 
-// ToHTML ...
+// MarkdownToHTML ...
 func MarkdownToHTML(markdownStr string) string {
 	if IsBlank(markdownStr) {
 		return ""

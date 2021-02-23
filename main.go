@@ -16,6 +16,8 @@ func init() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local&collation=utf8mb4_unicode_ci", config.GetConf().MySQL.Username,
 		config.GetConf().MySQL.Password, config.GetConf().MySQL.Host, config.GetConf().MySQL.Port, config.GetConf().MySQL.DbName)
 	util.OpenDB(dsn, nil, 10, 20, model.Models...)
+
+	// util.OpenRedis(config.GetConf().Redis.Host, config.GetConf().Redis.Port, config.GetConf().Redis.Password)
 }
 
 func main() {
