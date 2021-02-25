@@ -45,12 +45,12 @@ func (s *articleService) BuildArticle(user *model.User, title string, content st
 	return article, nil
 }
 
-func (s *articleService) GetArticleList(limit int, cursorTime int64, sortby string, order string) (*model.ArticleListResponse, error) {
+func (s *articleService) GetArticleList(currentUser *model.User, limit int, cursorTime int64, sortby string, order string) (*model.ArticleListResponse, error) {
 	resp := &model.ArticleListResponse{}
 	fields := []string{"id", "title", "create_time", "user_id", "view_count", "comment_count", "like_count", "content"}
 	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, cursorTime, limit, sortby, order)
 
-	briefList, minCursorTime := buildArticleList(articles)
+	briefList, minCursorTime := buildArticleList(currentUser, articles)
 
 	resp.Cursor = minCursorTime
 	for i := range briefList {
@@ -63,7 +63,7 @@ func (s *articleService) GetArticleList(limit int, cursorTime int64, sortby stri
 	return resp, nil
 }
 
-func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error) {
+func (s *articleService) GetArticleByID(currentUser *model.User, id int64) (*model.ArticleResponse, error) {
 	articleInfo, err := repository.ArticleRepository.GetArticleByID(util.DB(), id)
 	if err != nil {
 		return nil, errors.New("查询文章信息出错")
@@ -78,6 +78,7 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 		Title:        articleInfo.Title,
 		User:         BuildUserBriefInfo(userInfo),
 		Content:      util.MarkdownToHTML(articleInfo.Content),
+		Liked:        LCService.JudgeArticleLiked(articleInfo, currentUser),
 		CommentCount: articleInfo.CommentCount,
 		LikeCount:    articleInfo.LikeCount,
 		CreateTime:   articleInfo.CreateTime,
@@ -85,7 +86,7 @@ func (s *articleService) GetArticleByID(id int64) (*model.ArticleResponse, error
 	return resp, nil
 }
 
-func buildArticleList(articles []model.Article) ([]*model.ArticleBriefInfo, int64) {
+func buildArticleList(currentUser *model.User, articles []model.Article) ([]*model.ArticleBriefInfo, int64) {
 	var minCursorTime int64 = model.MAXCursorTime
 	briefList := make([]*model.ArticleBriefInfo, len(articles))
 	for i := range articles {
@@ -99,8 +100,8 @@ func buildArticleList(articles []model.Article) ([]*model.ArticleBriefInfo, int6
 		briefList[i].LikeCount = articles[i].LikeCount
 		briefList[i].ViewCount = articles[i].ViewCount
 		briefList[i].CreateTime = articles[i].CreateTime
+		briefList[i].Liked = LCService.JudgeArticleLiked(&articles[i], currentUser)
 		user, _ := repository.UserRepository.GetUserByUserID(util.DB(), articles[i].UserID)
-		briefList[i].Liked = LCService.JudgeArticleLiked(&articles[i], user)
 		briefList[i].User = BuildUserBriefInfo(user)
 	}
 

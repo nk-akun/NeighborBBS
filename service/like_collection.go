@@ -49,7 +49,7 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 		if err != nil {
 			return err
 		}
-		err = util.DB().Exec("update t_article set like_count = like_count+1 where id = ? and user_id = ?", articleID, userID).Error
+		err = util.DB().Exec("update t_article set like_count = like_count+1 where id = ?", articleID).Error
 		return err
 	})
 	if err != nil {
@@ -60,6 +60,9 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 
 // JudgeArticleLiked judge user has liked the article or not.
 func (s *lcService) JudgeArticleLiked(article *model.Article, user *model.User) bool {
+	if user == nil {
+		return false
+	}
 	lcStatus, _ := repository.LCRepository.GetUserLikeOperation(util.DB(), user.ID, article.ID)
 	return lcStatus.Status == LikeArticle
 }
@@ -82,7 +85,7 @@ func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {
 		if err != nil {
 			return err
 		}
-		err = util.DB().Exec("update t_article set like_count = like_count-1 where id = ? and user_id = ?", articleID, userID).Error
+		err = util.DB().Exec("update t_article set like_count = like_count-1 where id = ?", articleID).Error
 		return err
 	})
 	if err != nil {

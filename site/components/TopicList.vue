@@ -82,9 +82,17 @@ export default {
   methods: {
     async like(article) {
       try {
+        if (article.liked) {
+          this.$message.success('已赞过，请勿重复点赞')
+          return
+        }
+        if (this.$store.state.user.current == null) {
+          this.$message.success('请登录后操作')
+          return
+        }
         let data = {
           article_id: article.article_id,
-          user_id: article.user.id,
+          user_id: this.$store.state.user.current.id,
         }
         await this.$axios.post('/api/topics/like', data)
         article.liked = true

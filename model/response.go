@@ -51,6 +51,7 @@ type ArticleResponse struct {
 	Title        string         `json:"title"`
 	User         *UserBriefInfo `json:"user"`
 	Content      string         `json:"content"`
+	Liked        bool           `json:"liked"`
 	CommentCount int            `json:"commnet_count"`
 	LikeCount    int            `json:"like_count"`
 	CreateTime   int64          `json:"create_time"`

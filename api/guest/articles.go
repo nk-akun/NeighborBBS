@@ -45,6 +45,7 @@ func PostArticle(c *gin.Context) {
 // GetArticleList is the api that returns a list of articles
 // if you want to add parameter like limit, please use url like /article?limit=10
 func GetArticleList(c *gin.Context) {
+	user := service.UserService.GetCurrentUser(c)
 	limit := c.DefaultQuery("limit", "10")
 	sortby := c.DefaultQuery("sortby", "create_time")
 	order := c.DefaultQuery("order", "desc")
@@ -62,7 +63,7 @@ func GetArticleList(c *gin.Context) {
 		setAPIResponse(c, nil, err.Error(), false)
 	}
 
-	resp, err := service.ArticleService.GetArticleList(limitNum, cursorTime, sortby, order)
+	resp, err := service.ArticleService.GetArticleList(user, limitNum, cursorTime, sortby, order)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 	} else {
@@ -72,6 +73,7 @@ func GetArticleList(c *gin.Context) {
 
 // GetArticleByID finds the article with ID
 func GetArticleByID(c *gin.Context) {
+	user := service.UserService.GetCurrentUser(c)
 	id := c.Param("id")
 
 	var err error
@@ -81,7 +83,7 @@ func GetArticleByID(c *gin.Context) {
 		return
 	}
 
-	resp, err := service.ArticleService.GetArticleByID(articleID)
+	resp, err := service.ArticleService.GetArticleByID(user, articleID)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 		return

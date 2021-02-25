@@ -231,7 +231,7 @@ export default {
     return {
       topic,
       commentsPage,
-      liked: false,
+      liked: topic.liked,
       favorited: false,
     }
   },
@@ -273,6 +273,10 @@ export default {
     async like(topic) {
       try {
         if (this.liked) {
+          return
+        }
+        if (this.$store.state.user.current == null) {
+          this.$message.error('请登录后操作')
           return
         }
         await this.$axios.post('/api/topics/like', {
