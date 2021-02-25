@@ -8,6 +8,11 @@ import (
 
 // PostLikeArticle post like
 func PostLikeArticle(c *gin.Context) {
+	user := service.UserService.GetCurrentUser(c)
+	if user == nil {
+		setAPIResponse(c, nil, "当前未登录！", false)
+		return
+	}
 	req := getReqFromContext(c).(*model.LikeArticleRequest)
 	if req.UserID == 0 || req.ArticleID == 0 {
 		setAPIResponse(c, nil, "参数有误", false)
@@ -23,6 +28,11 @@ func PostLikeArticle(c *gin.Context) {
 
 // PostDelLikeArticle post like
 func PostDelLikeArticle(c *gin.Context) {
+	user := service.UserService.GetCurrentUser(c)
+	if user == nil {
+		setAPIResponse(c, nil, "当前未登录！", false)
+		return
+	}
 	req := getReqFromContext(c).(*model.LikeArticleRequest)
 	if req.UserID == 0 || req.ArticleID == 0 {
 		setAPIResponse(c, nil, "参数有误", false)

@@ -11,6 +11,11 @@ import (
 
 // PostComment post comments
 func PostComment(c *gin.Context) {
+	user := service.UserService.GetCurrentUser(c)
+	if user == nil {
+		setAPIResponse(c, nil, "当前未登录！", false)
+		return
+	}
 	req := getReqFromContext(c).(*model.CommentRequest)
 	req.Content = util.DeletePreAndSufSpace(req.Content)
 	if req.UserID == 0 || req.ArticleID == 0 || req.Content == "" {
@@ -18,7 +23,7 @@ func PostComment(c *gin.Context) {
 		return
 	}
 
-	resp, err := service.CommentService.BuildComment(req.UserID, req.ArticleID, req.ParentID, req.Content)
+	resp, err := service.CommentService.BuildComment(user.ID, req.ArticleID, req.ParentID, req.Content)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 	}

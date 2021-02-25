@@ -13,6 +13,11 @@ import (
 
 // PostArticle is the api used to build a article
 func PostArticle(c *gin.Context) {
+	user := service.UserService.GetCurrentUser(c)
+	if user == nil {
+		setAPIResponse(c, nil, "当前未登录！", false)
+		return
+	}
 	req := getReqFromContext(c).(*model.ArticleRequest)
 	logs.Logger.Info(req)
 	var err error
@@ -29,7 +34,7 @@ func PostArticle(c *gin.Context) {
 		setAPIResponse(c, nil, err.Error(), false)
 		return
 	}
-	article, err := service.ArticleService.BuildArticle(req.UserID, req.Title, req.Content)
+	article, err := service.ArticleService.BuildArticle(user, req.Title, req.Content)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 		return

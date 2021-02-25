@@ -38,6 +38,13 @@ func (s *commentService) BuildComment(userID int64, articleID int64, parentID in
 			return err
 		}
 		err = util.DB().Exec("update t_article set comment_count = comment_count+1 where id = ? and user_id = ?", articleID, userID).Error
+		if err != nil {
+			return err
+		}
+		err = util.DB().Exec("update t_user set comment_count = comment_count+1 where id = ?", userID).Error
+		if err != nil {
+			return err
+		}
 		return err
 	})
 	if err != nil {

@@ -4,10 +4,10 @@ import (
 	"errors"
 	"unicode/utf8"
 
-	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"github.com/nk-akun/NeighborBBS/repository"
 	"github.com/nk-akun/NeighborBBS/util"
+	"gorm.io/gorm"
 )
 
 type articleService struct {
@@ -20,18 +20,28 @@ func newArticleService() *articleService {
 	return new(articleService)
 }
 
-func (s *articleService) BuildArticle(userID int64, title string, content string) (*model.Article, error) {
+func (s *articleService) BuildArticle(user *model.User, title string, content string) (*model.Article, error) {
 	article := &model.Article{
-		UserID:     userID,
+		UserID:     user.ID,
 		Title:      title,
 		Content:    content,
 		CreateTime: util.NowTimestamp(),
 	}
 
-	if err := repository.ArticleRepository.Create(util.DB(), article); err != nil {
-		logs.Logger.Error("db error:", err)
+	err := util.DB().Transaction(func(tx *gorm.DB) error {
+		var err error
+
+		err = repository.ArticleRepository.Create(util.DB(), article)
+		if err != nil {
+			return err
+		}
+		err = util.DB().Exec("update t_user set post_count = post_count+1 where id = ?", user.ID).Error
+		return err
+	})
+	if err != nil {
 		return nil, errors.New("数据库操作出错")
 	}
+
 	return article, nil
 }
 
