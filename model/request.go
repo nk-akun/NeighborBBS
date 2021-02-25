@@ -38,3 +38,31 @@ type LikeArticleRequest struct {
 	UserID    int64 `json:"user_id"`
 	ArticleID int64 `json:"article_id"`
 }
+
+// UpdateUserProfile ...
+type UpdateUserProfile struct {
+	UserID      int64  `json:"user_id"`
+	Nickname    string `json:"nickname"`
+	Description string `json:"description"`
+}
+
+// SetUsernameRequest ...
+type SetUsernameRequest struct {
+	Username string `json:"username"`
+}
+
+// SetEmailRequest ...
+type SetEmailRequest struct {
+	Email string `json:"email"`
+}
+
+// SetPasswordRequest ...
+type SetPasswordRequest struct {
+	Password string `json:"password"`
+}
+
+// UpdatePasswordRequest ...
+type UpdatePasswordRequest struct {
+	OldPassword string `json:"old_password"`
+	Password    string `json:"password"`
+}

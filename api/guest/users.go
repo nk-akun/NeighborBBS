@@ -42,6 +42,56 @@ func Logout(c *gin.Context) {
 	setAPIResponse(c, nil, "登出成功", true)
 }
 
+// UpdateUserProfile update nickname homePage description
+func UpdateUserProfile(c *gin.Context) {
+	err := service.UserService.UpdateUserProfile(c)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error(), false)
+	} else {
+		setAPIResponse(c, nil, "操作成功", true)
+	}
+}
+
+// SetUsername ...
+func SetUsername(c *gin.Context) {
+	err := service.UserService.SetUsername(c)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error(), false)
+	} else {
+		setAPIResponse(c, nil, "操作成功", true)
+	}
+}
+
+// SetEmail ....
+func SetEmail(c *gin.Context) {
+	err := service.UserService.SetEmail(c)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error(), false)
+	} else {
+		setAPIResponse(c, nil, "操作成功", true)
+	}
+}
+
+// SetPassword ...
+func SetPassword(c *gin.Context) {
+	err := service.UserService.SetPassword(c)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error(), false)
+	} else {
+		setAPIResponse(c, nil, "操作成功", true)
+	}
+}
+
+// UpdatePassword ...
+func UpdatePassword(c *gin.Context) {
+	err := service.UserService.UpdatePassword(c)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error(), false)
+	} else {
+		setAPIResponse(c, nil, "操作成功", true)
+	}
+}
+
 // TestForUser is the test api for user
 func TestForUser(c *gin.Context) {
 	fmt.Println(c.Request.URL.Query())

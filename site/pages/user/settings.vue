@@ -67,7 +67,7 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control has-icons-left">
-                    <template v-if="user.passwordSet">
+                    <template v-if="user.password">
                       <label>密码已设置&nbsp;</label>
                       <a @click="showUpdatePassword = true">点击修改</a>
                     </template>
@@ -92,7 +92,7 @@
                       :src="user.avatar_url"
                       style="width: 150px; height: 150px;"
                     />
-                    <div class="file">
+                    <!-- <div class="file">
                       <label class="file-label">
                         <input
                           class="file-input"
@@ -107,8 +107,8 @@
                           <span class="file-label">选择头像</span>
                         </span>
                       </label>
-                    </div>
-                    <span style="font-weight: bold; color: red;">*图像必须为正方形，大小不要超过1M。</span>
+                    </div>-->
+                    <!-- <span style="font-weight: bold; color: red;">*图像必须为正方形，大小不要超过1M。</span> -->
                   </div>
                 </div>
               </div>
@@ -159,7 +159,7 @@
             </div>
 
             <!-- 个人主页 -->
-            <div class="field is-horizontal">
+            <!-- <div class="field is-horizontal">
               <div class="field-label is-normal">
                 <label class="label">个人主页：</label>
               </div>
@@ -179,7 +179,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
 
             <div class="field is-horizontal">
               <div class="field-label is-normal" />
@@ -395,7 +395,7 @@ export default {
         email: '',
         nickname: '',
         avatar: '',
-        homePage: '',
+        // homePage: '',
         description: '',
         password: '',
         rePassword: '',
@@ -418,10 +418,10 @@ export default {
   methods: {
     async submitForm() {
       try {
-        await this.$axios.post('/api/user/edit/' + this.user.id, {
+        await this.$axios.post('/api/user/profile', {
+          user_id: this.user.id,
           nickname: this.form.nickname,
-          avatar: this.form.avatar,
-          homePage: this.form.homePage,
+          // homePage: this.form.homePage,
           description: this.form.description,
         })
         await this.reload()
@@ -487,9 +487,12 @@ export default {
     async setPassword() {
       try {
         const me = this
+        if (me.form.password !== me.form.rePassword) {
+          this.$message.error('两次密码输入不一致')
+          return
+        }
         await this.$axios.post('/api/user/set/password', {
           password: me.form.password,
-          rePassword: me.form.rePassword,
         })
         await this.reload()
         this.$message.success('密码设置成功')
@@ -501,8 +504,12 @@ export default {
     async updatePassword() {
       try {
         const me = this
+        if (me.form.password !== me.form.rePassword) {
+          this.$message.error('两次密码输入不一致')
+          return
+        }
         await this.$axios.post('/api/user/update/password', {
-          oldPassword: me.form.oldPassword,
+          old_password: me.form.oldPassword,
           password: me.form.password,
           rePassword: me.form.rePassword,
         })

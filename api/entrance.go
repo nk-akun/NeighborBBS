@@ -28,6 +28,16 @@ func AppRun() {
 			return new(model.LikeArticleRequest)
 		} else if c.Request.URL.Path == "/api/topics/del_like" {
 			return new(model.LikeArticleRequest)
+		} else if c.Request.URL.Path == "/api/user/set/username" {
+			return new(model.SetUsernameRequest)
+		} else if c.Request.URL.Path == "/api/user/set/email" {
+			return new(model.SetEmailRequest)
+		} else if c.Request.URL.Path == "/api/user/set/password" {
+			return new(model.SetPasswordRequest)
+		} else if c.Request.URL.Path == "/api/user/update/password" {
+			return new(model.UpdatePasswordRequest)
+		} else if c.Request.URL.Path == "/api/user/profile" {
+			return new(model.UpdateUserProfile)
 		}
 		return nil
 	}))
@@ -42,6 +52,11 @@ func AppRun() {
 		user.POST("/user/login", guest.Login)
 		user.GET("/user/logout", guest.Logout)
 		user.GET("/user/current", guest.GetCurrentUser)
+		user.POST("/user/profile", guest.UpdateUserProfile)
+		user.POST("/user/set/username", guest.SetUsername)
+		user.POST("/user/set/email", guest.SetEmail)
+		user.POST("/user/set/password", guest.SetPassword)
+		user.POST("/user/update/password", guest.UpdatePassword)
 
 		user.POST("/topics", guest.PostArticle)
 		user.GET("/topics", guest.GetArticleList)

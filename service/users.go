@@ -157,6 +157,99 @@ func (s *userService) SetToken(userID int64) string {
 	return token
 }
 
+func (s *userService) UpdateUserProfile(c *gin.Context) error {
+	user := s.GetCurrentUser(c)
+	if user == nil {
+		return errors.New("当前未登录！")
+	}
+	req := getReqFromContext(c).(*model.UpdateUserProfile)
+	if user.ID != req.UserID {
+		return errors.New("非当前登录用户")
+	}
+	mp := map[string]interface{}{
+		"nickname":    req.Nickname,
+		"description": req.Description,
+	}
+	err := repository.UserRepository.UpdateMulti(util.DB(), user.ID, mp)
+	if err != nil {
+		logs.Logger.Errorf("数据库操作出错:%+v", err)
+		return errors.New("操作失败")
+	}
+	return nil
+}
+
+func (s *userService) SetUsername(c *gin.Context) error {
+	user := s.GetCurrentUser(c)
+	if user == nil {
+		return errors.New("当前未登录！")
+	}
+	req := getReqFromContext(c).(*model.SetUsernameRequest)
+	if !util.CheckUsername(req.Username) {
+		return errors.New("用户名不合法！")
+	}
+	err := repository.UserRepository.UpdateOne(util.DB(), user.ID, "username", req.Username)
+	if err != nil {
+		logs.Logger.Errorf("数据库操作出错:%+v", err)
+		return errors.New("操作失败")
+	}
+	return nil
+}
+
+func (s *userService) SetEmail(c *gin.Context) error {
+	user := s.GetCurrentUser(c)
+	if user == nil {
+		return errors.New("当前未登录！")
+	}
+	req := getReqFromContext(c).(*model.SetEmailRequest)
+	if !util.CheckEmail(req.Email) {
+		return errors.New("邮箱不合法！")
+	}
+	err := repository.UserRepository.UpdateOne(util.DB(), user.ID, "email", req.Email)
+	if err != nil {
+		logs.Logger.Errorf("数据库操作出错:%+v", err)
+		return errors.New("操作失败")
+	}
+	return nil
+}
+
+func (s *userService) SetPassword(c *gin.Context) error {
+	user := s.GetCurrentUser(c)
+	if user == nil {
+		return errors.New("当前未登录！")
+	}
+	req := getReqFromContext(c).(*model.SetPasswordRequest)
+	if !util.CheckPassword(req.Password) {
+		return errors.New("密码不合法！")
+	}
+	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	err := repository.UserRepository.UpdateOne(util.DB(), user.ID, "password", encryptedPassword)
+	if err != nil {
+		logs.Logger.Errorf("数据库操作出错:%+v", err)
+		return errors.New("操作失败")
+	}
+	return nil
+}
+
+func (s *userService) UpdatePassword(c *gin.Context) error {
+	user := s.GetCurrentUser(c)
+	if user == nil {
+		return errors.New("当前未登录！")
+	}
+	req := getReqFromContext(c).(*model.UpdatePasswordRequest)
+	if !util.CheckPassword(req.Password) {
+		return errors.New("密码不合法！")
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.OldPassword)); err != nil {
+		return errors.New("原密码输入错误")
+	}
+	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	err := repository.UserRepository.UpdateOne(util.DB(), user.ID, "password", encryptedPassword)
+	if err != nil {
+		logs.Logger.Errorf("数据库操作出错:%+v", err)
+	}
+	return err
+}
+
 // BuildUserBriefInfo ...
 func BuildUserBriefInfo(user *model.User) *model.UserBriefInfo {
 	if user == nil {
