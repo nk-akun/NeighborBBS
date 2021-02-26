@@ -45,10 +45,10 @@ func (s *articleService) BuildArticle(user *model.User, title string, content st
 	return article, nil
 }
 
-func (s *articleService) GetArticleList(currentUser *model.User, limit int, cursorTime int64, sortby string, order string) (*model.ArticleListResponse, error) {
+func (s *articleService) GetArticleList(currentUser *model.User, authorID int64, limit int, cursorTime int64, sortby string, order string) (*model.ArticleListResponse, error) {
 	resp := &model.ArticleListResponse{}
 	fields := []string{"id", "title", "create_time", "user_id", "view_count", "comment_count", "like_count", "content"}
-	articles := repository.ArticleRepository.GetArticleFields(util.DB(), fields, cursorTime, limit, sortby, order)
+	articles := repository.ArticleRepository.GetArticleFields(util.DB(), authorID, fields, cursorTime, limit, sortby, order)
 
 	briefList, minCursorTime := buildArticleList(currentUser, articles)
 

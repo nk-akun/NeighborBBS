@@ -51,6 +51,7 @@ func AppRun() {
 		user.POST("/user/register", guest.RegisterByEmail)
 		user.POST("/user/login", guest.Login)
 		user.GET("/user/logout", guest.Logout)
+		user.GET("/user/info/:id", guest.GetUserInfo)
 		user.GET("/user/current", guest.GetCurrentUser)
 		user.POST("/user/profile", guest.UpdateUserProfile)
 		user.POST("/user/set/username", guest.SetUsername)

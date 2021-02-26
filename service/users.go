@@ -157,6 +157,18 @@ func (s *userService) SetToken(userID int64) string {
 	return token
 }
 
+func (s *userService) GetUserInfo(userID int64) (*model.UserBriefInfo, error) {
+	user, err := repository.UserRepository.GetUserByUserID(util.DB(), userID)
+	if err != nil {
+		return nil, errors.New("此用户不存在")
+	}
+	briefInfo := BuildUserBriefInfo(user)
+	if briefInfo == nil {
+		return nil, errors.New("此用户不存在")
+	}
+	return briefInfo, nil
+}
+
 func (s *userService) UpdateUserProfile(c *gin.Context) error {
 	user := s.GetCurrentUser(c)
 	if user == nil {

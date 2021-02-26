@@ -45,25 +45,27 @@ func PostArticle(c *gin.Context) {
 // GetArticleList is the api that returns a list of articles
 // if you want to add parameter like limit, please use url like /article?limit=10
 func GetArticleList(c *gin.Context) {
+	logs.Logger.Info(c.Request.URL.Path)
 	user := service.UserService.GetCurrentUser(c)
 	limit := c.DefaultQuery("limit", "10")
 	sortby := c.DefaultQuery("sortby", "create_time")
 	order := c.DefaultQuery("order", "desc")
 	cursor := c.DefaultQuery("cursor", "2559090472000")
-	// userID
+	uID := c.DefaultQuery("user_id", "0")
 
 	var err error
 
 	limitNum, err1 := strconv.Atoi(limit)
 	cursorTime, err2 := strconv.ParseInt(cursor, 10, 64)
-	if err1 != nil || err2 != nil || limitNum <= 0 || order != "desc" && order != "asc" {
+	authorID, err3 := strconv.ParseInt(uID, 10, 64)
+	if err1 != nil || err2 != nil || err3 != nil || limitNum <= 0 || order != "desc" && order != "asc" {
 		err = errors.New("参数有误")
 	}
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 	}
 
-	resp, err := service.ArticleService.GetArticleList(user, limitNum, cursorTime, sortby, order)
+	resp, err := service.ArticleService.GetArticleList(user, authorID, limitNum, cursorTime, sortby, order)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 	} else {

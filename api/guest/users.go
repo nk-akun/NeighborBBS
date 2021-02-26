@@ -2,6 +2,7 @@ package guest
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nk-akun/NeighborBBS/model"
@@ -12,6 +13,22 @@ import (
 func GetCurrentUser(c *gin.Context) {
 	user := service.UserService.GetCurrentUser(c)
 	setAPIResponse(c, user, "", true)
+}
+
+// GetUserInfo ...
+func GetUserInfo(c *gin.Context) {
+	id := c.Param("id")
+	userID, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error(), false)
+		return
+	}
+	resp, err := service.UserService.GetUserInfo(userID)
+	if err != nil {
+		setAPIResponse(c, nil, err.Error(), false)
+	} else {
+		setAPIResponse(c, resp, "查询成功", true)
+	}
 }
 
 // RegisterByEmail ...
