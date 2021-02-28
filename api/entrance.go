@@ -38,6 +38,10 @@ func AppRun() {
 			return new(model.UpdatePasswordRequest)
 		} else if c.Request.URL.Path == "/api/user/profile" {
 			return new(model.UpdateUserProfile)
+		} else if c.Request.URL.Path == "/api/topics/favorite" {
+			return new(model.FavoriteArticleRequest)
+		} else if c.Request.URL.Path == "/api/topics/del_favorite" {
+			return new(model.FavoriteArticleRequest)
 		}
 		return nil
 	}))
@@ -64,6 +68,8 @@ func AppRun() {
 		user.GET("/topics/:id", guest.GetArticleByID)
 		user.POST("/topics/like", guest.PostLikeArticle)
 		user.POST("/topics/del_like", guest.PostDelLikeArticle)
+		user.POST("/topics/favorite", guest.PostFavoriteArticle)
+		user.POST("/topics/del_favorite", guest.PostDelFavoriteArticle)
 
 		user.POST("/comments", guest.PostComment)
 		user.GET("/comments", guest.GetComments)

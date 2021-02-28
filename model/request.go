@@ -39,6 +39,12 @@ type LikeArticleRequest struct {
 	ArticleID int64 `json:"article_id"`
 }
 
+// FavoriteArticleRequest ...
+type FavoriteArticleRequest struct {
+	UserID    int64 `json:"user_id"`
+	ArticleID int64 `json:"article_id"`
+}
+
 // UpdateUserProfile ...
 type UpdateUserProfile struct {
 	UserID      int64  `json:"user_id"`

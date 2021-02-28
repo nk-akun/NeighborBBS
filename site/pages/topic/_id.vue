@@ -249,19 +249,24 @@ export default {
         window.hljs.initHighlighting()
       }
     },
-    async addFavorite(topicId) {
+    async addFavorite(article_id) {
       try {
+        if (this.$store.state.user.current == null) {
+          this.$message.error('请登录后操作')
+          return
+        }
         if (this.favorited) {
-          await this.$axios.get('/api/favorite/delete', {
-            params: {
-              entityType: 'topic',
-              entityId: topicId,
-            },
+          await this.$axios.post('/api/topics/del_favorite', {
+            user_id: this.$store.state.user.current.id,
+            article_id: article_id,
           })
           this.favorited = false
           this.$message.success('已取消收藏！')
         } else {
-          await this.$axios.get('/api/topic/favorite/' + topicId)
+          await this.$axios.post('/api/topics/favorite', {
+            user_id: this.$store.state.user.current.id,
+            article_id: article_id,
+          })
           this.favorited = true
           this.$message.success('收藏成功')
         }

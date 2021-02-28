@@ -39,7 +39,7 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 		if opHis.ID != 0 {
 			err = repository.LCRepository.UpdateUserLikeOperation(util.DB(), userID, articleID, map[string]interface{}{"status": 1})
 		} else {
-			err = repository.LCRepository.Create(util.DB(), &model.UserLikeArticle{
+			err = repository.LCRepository.CreateLike(util.DB(), &model.UserLikeArticle{
 				UserID:     userID,
 				ArticleID:  articleID,
 				Status:     1,
@@ -73,7 +73,7 @@ func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {
 		return errors.New("数据库查询失败")
 	}
 
-	//即已经取消成功
+	//即已经取消点赞
 	if opHis.Status == 0 {
 		return nil
 	}
@@ -86,6 +86,68 @@ func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {
 			return err
 		}
 		err = util.DB().Exec("update t_article set like_count = like_count-1 where id = ?", articleID).Error
+		return err
+	})
+	if err != nil {
+		return errors.New("数据库操作出错")
+	}
+	return nil
+}
+
+func (s *lcService) PostFavoriteArticle(userID int64, articleID int64) error {
+	opHis, err := repository.LCRepository.GetUserFavoriteOperation(util.DB(), userID, articleID)
+	if err != nil {
+		return errors.New("数据库查询失败")
+	}
+
+	//即已经收藏成功
+	if opHis.Status == 1 {
+		return nil
+	}
+
+	err = util.DB().Transaction(func(tx *gorm.DB) error {
+		var err error
+		if opHis.ID != 0 {
+			err = repository.LCRepository.UpdateUserFavoriteOperation(util.DB(), userID, articleID, map[string]interface{}{"status": 1})
+		} else {
+			err = repository.LCRepository.CreateFavorite(util.DB(), &model.UserFavoriteArticle{
+				UserID:     userID,
+				ArticleID:  articleID,
+				Status:     1,
+				UpdateTime: util.NowTimestamp(),
+			})
+		}
+		if err != nil {
+			return err
+		}
+		err = util.DB().Exec("update t_user set favourite_article_count = favourite_article_count+1 where id = ?", userID).Error
+		return err
+	})
+	if err != nil {
+		return errors.New("数据库操作出错")
+	}
+	return nil
+}
+
+func (s *lcService) PostDelFavoriteArticle(userID int64, articleID int64) error {
+	opHis, err := repository.LCRepository.GetUserFavoriteOperation(util.DB(), userID, articleID)
+	if err != nil || opHis.ID == 0 {
+		return errors.New("数据库查询失败")
+	}
+
+	//即已经取消收藏
+	if opHis.Status == 0 {
+		return nil
+	}
+
+	err = util.DB().Transaction(func(tx *gorm.DB) error {
+		var err error
+
+		err = repository.LCRepository.UpdateUserFavoriteOperation(util.DB(), userID, articleID, map[string]interface{}{"status": 0})
+		if err != nil {
+			return err
+		}
+		err = util.DB().Exec("update t_user set favourite_article_count = favourite_article_count-1 where id = ?", userID).Error
 		return err
 	})
 	if err != nil {

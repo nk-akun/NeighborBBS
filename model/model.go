@@ -1,7 +1,7 @@
 package model
 
 // Models stores the models which will be create as tables in the mysql
-var Models = []interface{}{&User{}, &Article{}, &Comment{}, &UserLikeArticle{}, &UserToken{}}
+var Models = []interface{}{&User{}, &Article{}, &Comment{}, &UserLikeArticle{}, &UserFavoriteArticle{}, &UserToken{}}
 
 // Model ...
 type Model struct {
@@ -78,5 +78,14 @@ type UserLikeArticle struct {
 	UserID     int64 `gorm:"column:user_id;type:int" json:"user_id"`
 	ArticleID  int64 `gorm:"column:article_id;type:int" json:"article_id"`
 	Status     int   `gorm:"column:status;type:tinyint;not null;default:0" json:"status"` //是否点赞 1已点赞，0未点赞
+	UpdateTime int64 `gorm:"column:update_time;default:null" json:"update_time"`
+}
+
+// UserFavoriteArticle ...
+type UserFavoriteArticle struct {
+	Model
+	UserID     int64 `gorm:"column:user_id;type:int" json:"user_id"`
+	ArticleID  int64 `gorm:"column:article_id;type:int" json:"article_id"`
+	Status     int   `gorm:"column:status;type:tinyint;not null;default:0" json:"status"` //是否已收藏 1已收藏，0未收藏
 	UpdateTime int64 `gorm:"column:update_time;default:null" json:"update_time"`
 }
