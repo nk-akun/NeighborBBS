@@ -6,18 +6,20 @@
           <img src="~/assets/images/logo.png" style="max-width: 100px;" />
         </div>
         <div class="description">
-          <span v-if="error.statusCode === 404">{{
+          <span v-if="error.statusCode === 404">
+            {{
             error.message ? error.message : '页面没找到'
-          }}</span>
-          <span v-if="error.statusCode === 403">{{
+            }}
+          </span>
+          <span v-if="error.statusCode === 403">
+            {{
             error.message ? error.message : 'forbidden'
-          }}</span>
+            }}
+          </span>
           <span v-else>{{ error.statusCode }} 页面异常</span>
         </div>
         <div class="report">
-          <a href="https://mlog.club/topic/create" target="_blank"
-            >点击这里反馈该问题>></a
-          >
+          <a href="https://github.com/nk-akun/NeighborBBS/issues" target="_blank">点击这里反馈该问题>></a>
         </div>
       </div>
     </div>

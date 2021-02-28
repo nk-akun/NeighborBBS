@@ -9,6 +9,6 @@ const (
 	CTXAPIResponseMessage = "api_response_message"
 	CTXAPIResponseSuccess = "api_response_success"
 
-	TokenExpireDays = 2
-	MAXCursorTime   = 2559090472000
+	TokenExpireDays = 2             // 默认缓存登录状态时间
+	MAXCursorTime   = 2559090472000 // 默认游标时间
 )

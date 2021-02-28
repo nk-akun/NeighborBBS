@@ -2,10 +2,10 @@ package model
 
 // APIResponse ...
 type APIResponse struct {
-	Code    int         `json:"code"`
-	Value   interface{} `json:"value"`
-	Success bool        `json:"success"`
-	Message string      `json:"message"`
+	Code    int         `json:"code"`    // 返回值code
+	Value   interface{} `json:"value"`   // 返回值value
+	Success bool        `json:"success"` // 是否执行成功
+	Message string      `json:"message"` // 附加信息
 }
 
 // SysConfigResponse ...
@@ -19,41 +19,41 @@ type SysConfigResponse struct {
 
 // ActionLink ...
 type ActionLink struct {
-	Title string `json:"title"`
-	URL   string `json:"url"`
+	Title string `json:"title"` // 导航标题
+	URL   string `json:"url"`   // 导航链接
 }
 
 // Article
 
 // ArticleListResponse ...
 type ArticleListResponse struct {
-	TotalNum    int                 `json:"total_num"`
-	Cursor      int64               `json:"cursor"`
-	ArticleList []*ArticleBriefInfo `json:"article_list"`
+	TotalNum    int                 `json:"total_num"`    // 文章总数
+	Cursor      int64               `json:"cursor"`       // 游标
+	ArticleList []*ArticleBriefInfo `json:"article_list"` // 文章简要信息List
 }
 
 // ArticleBriefInfo ...
 type ArticleBriefInfo struct {
-	ArticleID    int64          `json:"article_id"`
-	Title        string         `json:"title"`
-	Summary      string         `json:"summary"`
-	User         *UserBriefInfo `json:"user"`
-	LikeCount    int            `json:"like_count"`
-	CommentCount int            `json:"comment_count"`
-	ViewCount    int            `json:"view_count"`
-	Liked        bool           `json:"liked"`
+	ArticleID    int64          `json:"article_id"`    // 文章ID
+	Title        string         `json:"title"`         // 文章标题
+	Summary      string         `json:"summary"`       // 简要信息
+	User         *UserBriefInfo `json:"user"`          // 作者的简要信息
+	LikeCount    int            `json:"like_count"`    // 点赞数量
+	CommentCount int            `json:"comment_count"` // 评论数
+	ViewCount    int            `json:"view_count"`    // 浏览数
+	Liked        bool           `json:"liked"`         // 当前登录用户是否已点赞(如未登录为false)
 	CreateTime   int64          `json:"create_time"`
 }
 
 // ArticleResponse ...
 type ArticleResponse struct {
-	ArticleID    int64          `json:"article_id"`
-	Title        string         `json:"title"`
-	User         *UserBriefInfo `json:"user"`
-	Content      string         `json:"content"`
-	Liked        bool           `json:"liked"`
-	CommentCount int            `json:"commnet_count"`
-	LikeCount    int            `json:"like_count"`
+	ArticleID    int64          `json:"article_id"`    // 文章ID
+	Title        string         `json:"title"`         // 文章标题
+	User         *UserBriefInfo `json:"user"`          // 作者的简要信息
+	Content      string         `json:"content"`       // 文章内容
+	Liked        bool           `json:"liked"`         // 当前登录用户是否已点赞(如未登录为false)
+	CommentCount int            `json:"commnet_count"` // 评论数
+	LikeCount    int            `json:"like_count"`    // 点赞数
 	CreateTime   int64          `json:"create_time"`
 }
 
@@ -61,22 +61,22 @@ type ArticleResponse struct {
 
 // CommentListResponse ...
 type CommentListResponse struct {
-	ArticleID   int64          `json:"article_id"`
-	TotalNum    int            `json:"total_num"`
-	Cursor      int64          `json:"cursor"`
-	CommentList []*CommentInfo `json:"comment_list"`
+	ArticleID   int64          `json:"article_id"`   // 所属的文章ID
+	TotalNum    int            `json:"total_num"`    // 评论总数
+	Cursor      int64          `json:"cursor"`       // 游标
+	CommentList []*CommentInfo `json:"comment_list"` // 评论List
 }
 
 // CommentInfo ...
 type CommentInfo struct {
-	CommentID      int64        `json:"comment_id"`
-	AuthorNickName string       `json:"user_nickname"`
-	AuthorUserName string       `json:"user_username"`
-	AuthorID       int64        `json:"user_id"`
-	AvatarURL      string       `json:"avatar_url"`
-	Content        string       `json:"content"`
-	ParentComment  *CommentInfo `json:"parent_comment"`
-	LikeCount      int          `json:"like_count"`
+	CommentID      int64        `json:"comment_id"`     // 评论ID
+	AuthorNickName string       `json:"user_nickname"`  // 作者的昵称
+	AuthorUserName string       `json:"user_username"`  // 作者的用户名
+	AuthorID       int64        `json:"user_id"`        // 作者ID
+	AvatarURL      string       `json:"avatar_url"`     // 作者的头像
+	Content        string       `json:"content"`        // 评论内容
+	ParentComment  *CommentInfo `json:"parent_comment"` // 父评论信息
+	LikeCount      int          `json:"like_count"`     // 点赞数
 	CreateTime     int64        `json:"create_time"`
 }
 
@@ -98,7 +98,7 @@ func (r *ResponseValue) Set(name string, data interface{}) *ResponseValue {
 	return r
 }
 
-// UserBriefInfo ...
+// UserBriefInfo is user's brief information
 type UserBriefInfo struct {
 	ID                    int64  `json:"id"`
 	Username              string `json:"username"`
