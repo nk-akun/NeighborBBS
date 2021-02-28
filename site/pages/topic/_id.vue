@@ -232,7 +232,7 @@ export default {
       topic,
       commentsPage,
       liked: topic.liked,
-      favorited: false,
+      favorited: topic.favorited,
     }
   },
   computed: {

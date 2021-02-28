@@ -52,6 +52,7 @@ type ArticleResponse struct {
 	User         *UserBriefInfo `json:"user"`          // 作者的简要信息
 	Content      string         `json:"content"`       // 文章内容
 	Liked        bool           `json:"liked"`         // 当前登录用户是否已点赞(如未登录为false)
+	Favortied    bool           `json:"favorited"`     // 当前登录用户是否已收藏(如未登录为false)
 	CommentCount int            `json:"commnet_count"` // 评论数
 	LikeCount    int            `json:"like_count"`    // 点赞数
 	CreateTime   int64          `json:"create_time"`

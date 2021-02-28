@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	LikeArticle = 1
+	LikeArticle     = 1
+	FavoriteArticle = 1
 )
 
 type lcService struct {
@@ -65,6 +66,15 @@ func (s *lcService) JudgeArticleLiked(article *model.Article, user *model.User) 
 	}
 	lcStatus, _ := repository.LCRepository.GetUserLikeOperation(util.DB(), user.ID, article.ID)
 	return lcStatus.Status == LikeArticle
+}
+
+// JudgeArticleFavorited judge user has liked the article or not.
+func (s *lcService) JudgeArticleFavorited(article *model.Article, user *model.User) bool {
+	if user == nil {
+		return false
+	}
+	lcStatus, _ := repository.LCRepository.GetUserFavoriteOperation(util.DB(), user.ID, article.ID)
+	return lcStatus.Status == FavoriteArticle
 }
 
 func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {

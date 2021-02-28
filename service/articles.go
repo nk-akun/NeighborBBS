@@ -79,6 +79,7 @@ func (s *articleService) GetArticleByID(currentUser *model.User, id int64) (*mod
 		User:         BuildUserBriefInfo(userInfo),
 		Content:      util.MarkdownToHTML(articleInfo.Content),
 		Liked:        LCService.JudgeArticleLiked(articleInfo, currentUser),
+		Favortied:    LCService.JudgeArticleFavorited(articleInfo, currentUser),
 		CommentCount: articleInfo.CommentCount,
 		LikeCount:    articleInfo.LikeCount,
 		CreateTime:   articleInfo.CreateTime,
