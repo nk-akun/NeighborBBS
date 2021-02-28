@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/nk-akun/NeighborBBS/logs"
 	"github.com/nk-akun/NeighborBBS/model"
 	"gorm.io/gorm"
@@ -65,4 +67,11 @@ func (r *lcRepository) takeFavoriteOne(db *gorm.DB, params map[string]interface{
 
 func (r *lcRepository) UpdateUserFavoriteOperation(db *gorm.DB, userID int64, articleID int64, params map[string]interface{}) error {
 	return db.Model(&model.UserFavoriteArticle{}).Where("user_id = ? and article_id = ?", userID, articleID).Updates(params).Error
+}
+
+func (r *lcRepository) GetFavoriteRecords(db *gorm.DB, userID int64, cursorTime int64, limit int, sortby string, order string) []model.UserFavoriteArticle {
+	var records []model.UserFavoriteArticle
+
+	db.Where("update_time < ? and user_id = ?", cursorTime, userID).Order(fmt.Sprintf("%s %s", sortby, order)).Where("status = ?", 1).Limit(limit).Find(&records)
+	return records
 }

@@ -87,5 +87,6 @@ type UserFavoriteArticle struct {
 	UserID     int64 `gorm:"column:user_id;type:int" json:"user_id"`
 	ArticleID  int64 `gorm:"column:article_id;type:int" json:"article_id"`
 	Status     int   `gorm:"column:status;type:tinyint;not null;default:0" json:"status"` //是否已收藏 1已收藏，0未收藏
+	CreateTime int64 `gorm:"column:create_time;default:null" json:"create_time"`
 	UpdateTime int64 `gorm:"column:update_time;default:null" json:"update_time"`
 }

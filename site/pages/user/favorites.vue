@@ -7,11 +7,15 @@
           <div class="widget-header">
             <nav class="breadcrumb">
               <ul>
-                <li><a href="/">首页</a></li>
                 <li>
-                  <a :href="'/user/' + currentUser.id">{{
+                  <a href="/">首页</a>
+                </li>
+                <li>
+                  <a :href="'/user/' + currentUser.id">
+                    {{
                     currentUser.nickname
-                  }}</a>
+                    }}
+                  </a>
                 </li>
                 <li class="is-active">
                   <a href="#" aria-current="page">收藏列表</a>
@@ -24,26 +28,24 @@
             <ul v-if="favorites && favorites.length" class="article-list">
               <li v-for="favorite in favorites" :key="favorite.favoriteId">
                 <article v-if="favorite.deleted" class="article-item">
-                  <div class="article-summary">
-                    收藏内容失效!!!
-                  </div>
+                  <div class="article-summary">收藏内容失效!!!</div>
                 </article>
                 <article v-else class="article-item">
                   <div class="article-title">
-                    <a :href="favorite.url">{{ favorite.title }}</a>
+                    <a :href="'/topic/'+favorite.article_id">{{ favorite.title }}</a>
                   </div>
-                  <div class="article-summary">
-                    {{ favorite.content }}
-                  </div>
+                  <div class="article-summary">{{ favorite.summary }}</div>
                   <div class="article-meta">
-                    <span class="article-meta-item"
-                      ><a :href="'/user/' + favorite.user.id">{{
+                    <span class="article-meta-item">
+                      <a :href="'/user/' + favorite.user.id">
+                        {{
                         favorite.user.nickname
-                      }}</a></span
-                    >
-                    <span class="article-meta-item"
-                      ><time>{{ favorite.createTime | prettyDate }}</time></span
-                    >
+                        }}
+                      </a>
+                    </span>
+                    <span class="article-meta-item">
+                      <time>{{ favorite.create_time | prettyDate }}</time>
+                    </span>
                   </div>
                 </article>
               </li>
@@ -51,9 +53,7 @@
                 <a @click="list">查看更多&gt;&gt;</a>
               </li>
             </ul>
-            <div v-else class="notification is-primary">
-              暂无收藏
-            </div>
+            <div v-else class="notification is-primary">暂无收藏</div>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       favorites: [],
-      cursor: 0,
+      cursor: 2559090472000,
       hasMore: true,
     }
   },
@@ -94,12 +94,13 @@ export default {
           cursor: this.cursor,
         },
       })
-      if (ret.results && ret.results.length) {
-        this.favorites = this.favorites.concat(ret.results)
+      if (ret.total_num && ret.favorite_list) {
+        this.favorites = this.favorites.concat(ret.favorite_list)
       } else {
         this.hasMore = false
       }
       this.cursor = ret.cursor
+      console.log(ret)
     },
   },
 }

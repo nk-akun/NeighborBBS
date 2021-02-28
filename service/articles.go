@@ -20,7 +20,7 @@ func newArticleService() *articleService {
 	return new(articleService)
 }
 
-func (s *articleService) BuildArticle(user *model.User, title string, content string) (*model.Article, error) {
+func (s *articleService) PostArticle(user *model.User, title string, content string) (*model.Article, error) {
 	article := &model.Article{
 		UserID:     user.ID,
 		Title:      title,
@@ -50,7 +50,7 @@ func (s *articleService) GetArticleList(currentUser *model.User, authorID int64,
 	fields := []string{"id", "title", "create_time", "user_id", "view_count", "comment_count", "like_count", "content"}
 	articles := repository.ArticleRepository.GetArticleFields(util.DB(), authorID, fields, cursorTime, limit, sortby, order)
 
-	briefList, minCursorTime := buildArticleList(currentUser, articles)
+	briefList, minCursorTime := s.BuildArticleList(currentUser, articles)
 
 	resp.Cursor = minCursorTime
 	for i := range briefList {
@@ -87,7 +87,7 @@ func (s *articleService) GetArticleByID(currentUser *model.User, id int64) (*mod
 	return resp, nil
 }
 
-func buildArticleList(currentUser *model.User, articles []model.Article) ([]*model.ArticleBriefInfo, int64) {
+func (s *articleService) BuildArticleList(currentUser *model.User, articles []model.Article) ([]*model.ArticleBriefInfo, int64) {
 	var minCursorTime int64 = model.MAXCursorTime
 	briefList := make([]*model.ArticleBriefInfo, len(articles))
 	for i := range articles {

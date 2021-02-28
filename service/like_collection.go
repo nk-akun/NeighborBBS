@@ -119,12 +119,14 @@ func (s *lcService) PostFavoriteArticle(userID int64, articleID int64) error {
 		var err error
 		if opHis.ID != 0 {
 			err = repository.LCRepository.UpdateUserFavoriteOperation(util.DB(), userID, articleID, map[string]interface{}{"status": 1})
+			util.DB().Exec("update t_user_favorite_article set update_time = ? where id = ?", util.NowTimestamp(), opHis.ID)
 		} else {
 			err = repository.LCRepository.CreateFavorite(util.DB(), &model.UserFavoriteArticle{
 				UserID:     userID,
 				ArticleID:  articleID,
 				Status:     1,
-				UpdateTime: util.NowTimestamp(),
+				CreateTime: util.NowTimestamp(),
+				UpdateTime: util.NowTimestamp(), //每次收藏或取消收藏都要更新此时间
 			})
 		}
 		if err != nil {
@@ -154,6 +156,7 @@ func (s *lcService) PostDelFavoriteArticle(userID int64, articleID int64) error 
 		var err error
 
 		err = repository.LCRepository.UpdateUserFavoriteOperation(util.DB(), userID, articleID, map[string]interface{}{"status": 0})
+		util.DB().Exec("update t_user_favorite_article set update_time = ? where id = ?", util.NowTimestamp(), opHis.ID)
 		if err != nil {
 			return err
 		}
@@ -164,4 +167,25 @@ func (s *lcService) PostDelFavoriteArticle(userID int64, articleID int64) error 
 		return errors.New("数据库操作出错")
 	}
 	return nil
+}
+
+func (s *lcService) GetFavoriteArticles(user *model.User, limit int, cursorTime int64, sortby string, order string) (*model.FavoriteResponse, error) {
+	records := repository.LCRepository.GetFavoriteRecords(util.DB(), user.ID, cursorTime, limit, sortby, order)
+
+	articles := make([]model.Article, 0, len(records))
+	for _, record := range records {
+		article, _ := repository.ArticleRepository.GetArticleByID(util.DB(), record.ArticleID)
+		articles = append(articles, *article)
+	}
+
+	briefList, _ := ArticleService.BuildArticleList(user, articles)
+	minCursorTime := cursorTime
+	for i := range records {
+		minCursorTime = util.MinInt64(minCursorTime, records[i].UpdateTime)
+	}
+	resp := &model.FavoriteResponse{}
+	resp.TotalNum = len(briefList)
+	resp.Cursor = minCursorTime
+	resp.FavoriteList = briefList
+	return resp, nil
 }

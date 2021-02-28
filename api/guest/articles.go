@@ -34,7 +34,7 @@ func PostArticle(c *gin.Context) {
 		setAPIResponse(c, nil, err.Error(), false)
 		return
 	}
-	article, err := service.ArticleService.BuildArticle(user, req.Title, req.Content)
+	article, err := service.ArticleService.PostArticle(user, req.Title, req.Content)
 	if err != nil {
 		setAPIResponse(c, nil, err.Error(), false)
 		return

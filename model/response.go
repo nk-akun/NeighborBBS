@@ -81,6 +81,13 @@ type CommentInfo struct {
 	CreateTime     int64        `json:"create_time"`
 }
 
+// FavoriteResponse ...
+type FavoriteResponse struct {
+	TotalNum     int                 `json:"total_num"`     // 文章总数
+	Cursor       int64               `json:"cursor"`        // 游标
+	FavoriteList []*ArticleBriefInfo `json:"favorite_list"` // 文章简要信息List
+}
+
 // ResponseValue ...
 type ResponseValue struct {
 	Value map[string]interface{}

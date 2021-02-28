@@ -58,6 +58,7 @@ func AppRun() {
 		user.GET("/user/info/:id", guest.GetUserInfo)
 		user.GET("/user/current", guest.GetCurrentUser)
 		user.POST("/user/profile", guest.UpdateUserProfile)
+		user.GET("/user/favorites", guest.GetUserFavorite)
 		user.POST("/user/set/username", guest.SetUsername)
 		user.POST("/user/set/email", guest.SetEmail)
 		user.POST("/user/set/password", guest.SetPassword)
