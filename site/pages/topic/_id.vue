@@ -100,7 +100,7 @@
                     <span v-if="topic.view_count > 0">({{ topic.view_count }})</span>
                   </span>
                 </a>
-                <a class="action" :class="{ disabled: liked }" @click="like(topic)">
+                <a class="action" @click="like(topic)">
                   <i class="action-icon iconfont icon-like" :class="{ 'checked-icon': liked }" />
                   <span class="content">
                     <span>点赞</span>
@@ -277,21 +277,27 @@ export default {
     },
     async like(topic) {
       try {
-        if (this.liked) {
-          return
-        }
         if (this.$store.state.user.current == null) {
           this.$message.error('请登录后操作')
           return
         }
-        await this.$axios.post('/api/topics/like', {
-          article_id: topic.article_id,
-          user_id: this.$store.state.user.current.id,
-        })
-        this.liked = true
-        topic.like_count++
-        this.likeUsers = this.likeUsers || []
-        this.likeUsers.unshift(this.$store.state.user.current)
+        if (this.liked) {
+          await this.$axios.post('/api/topics/del_like', {
+            article_id: topic.article_id,
+            user_id: this.$store.state.user.current.id,
+          })
+          this.liked = false
+          topic.like_count--
+        } else {
+          await this.$axios.post('/api/topics/like', {
+            article_id: topic.article_id,
+            user_id: this.$store.state.user.current.id,
+          })
+          this.liked = true
+          topic.like_count++
+          this.likeUsers = this.likeUsers || []
+          this.likeUsers.unshift(this.$store.state.user.current)
+        }
       } catch (e) {
         if (e.errorCode === 1) {
           this.$msgSignIn()

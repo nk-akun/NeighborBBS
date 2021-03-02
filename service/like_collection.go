@@ -51,6 +51,11 @@ func (s *lcService) PostLikeArticle(userID int64, articleID int64) error {
 			return err
 		}
 		err = util.DB().Exec("update t_article set like_count = like_count+1 where id = ?", articleID).Error
+		if err != nil {
+			return err
+		}
+		article, _ := repository.ArticleRepository.GetArticleByID(util.DB(), articleID)
+		err = util.DB().Exec("update t_user set be_liked_count = be_liked_count+1 where id = ?", article.UserID).Error
 		return err
 	})
 	if err != nil {
@@ -96,6 +101,11 @@ func (s *lcService) PostDelLikeArticle(userID int64, articleID int64) error {
 			return err
 		}
 		err = util.DB().Exec("update t_article set like_count = like_count-1 where id = ?", articleID).Error
+		if err != nil {
+			return err
+		}
+		article, _ := repository.ArticleRepository.GetArticleByID(util.DB(), articleID)
+		err = util.DB().Exec("update t_user set be_liked_count = be_liked_count-1 where id = ?", article.UserID).Error
 		return err
 	})
 	if err != nil {

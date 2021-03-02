@@ -82,10 +82,6 @@ export default {
   methods: {
     async like(article) {
       try {
-        if (article.liked) {
-          this.$message.success('已赞过，请勿重复点赞')
-          return
-        }
         if (this.$store.state.user.current == null) {
           this.$message.success('请登录后操作')
           return
@@ -94,10 +90,17 @@ export default {
           article_id: article.article_id,
           user_id: this.$store.state.user.current.id,
         }
-        await this.$axios.post('/api/topics/like', data)
-        article.liked = true
-        article.like_count++
-        this.$message.success('点赞成功')
+        if (article.liked) {
+          await this.$axios.post('/api/topics/del_like', data)
+          article.liked = false
+          article.like_count--
+          this.$message.success('已取消点赞')
+        } else {
+          await this.$axios.post('/api/topics/like', data)
+          article.liked = true
+          article.like_count++
+          this.$message.success('点赞成功')
+        }
       } catch (e) {
         if (e.errorCode === 1) {
           this.$msgSignIn()

@@ -24,6 +24,7 @@ type User struct {
 	FansCount             int    `gorm:"column:fans_count;type:int;default:0" json:"fans_count"`                           // 粉丝数
 	PostCount             int    `gorm:"column:post_count;type:int;default:0" json:"post_count"`                           // 发表数
 	CommentCount          int    `gorm:"column:comment_count;type:int;default:0" json:"comment_count"`                     // 评论数
+	BeLikedCount          int    `gorm:"column:be_liked_count;type:int;default:0" json:"be_liked_count"`                   // 获赞数
 	Type                  int    `gorm:"column:type;type:int;default:0" json:"type"`                                       // 用户类型
 	City                  string `gorm:"column:city;type:varchar(50)" json:"city"`                                         // 城市
 	Province              string `gorm:"column:province;type:varchar(50)" json:"province"`                                 // 省份
