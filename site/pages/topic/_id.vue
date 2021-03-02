@@ -93,13 +93,13 @@
 
               <!-- 功能按钮 -->
               <div class="topic-actions">
-                <a class="action disabled">
+                <!-- <a class="action disabled">
                   <i class="action-icon iconfont icon-read" />
                   <span class="content">
                     <span>浏览</span>
                     <span v-if="topic.view_count > 0">({{ topic.view_count }})</span>
                   </span>
-                </a>
+                </a>-->
                 <a class="action" @click="like(topic)">
                   <i class="action-icon iconfont icon-like" :class="{ 'checked-icon': liked }" />
                   <span class="content">

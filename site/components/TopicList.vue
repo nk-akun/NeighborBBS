@@ -46,10 +46,10 @@
             <i class="iconfont icon-comments" />评论
             <span v-if="article.comment_count > 0">{{ article.comment_count }}</span>
           </div>
-          <div class="btn" @click="toTopicDetail(article.article_id)">
+          <!-- <div class="btn" @click="toTopicDetail(article.article_id)">
             <i class="iconfont icon-read" />浏览
             <span v-if="article.view_count > 0">{{ article.view_count }}</span>
-          </div>
+          </div>-->
         </div>
       </div>
     </li>

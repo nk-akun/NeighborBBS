@@ -19,7 +19,7 @@ export default {
       lang: 'zh-cmn-Hans',
       xmlns: 'http://www.w3.org/1999/xhtml',
     },
-    title: '',
+    title: '碧林社区',
     meta: [
       { charset: 'utf-8' },
       {

@@ -27,7 +27,7 @@
         </div>
 
         <div class="navbar-end">
-          <div class="navbar-item searchFormDiv">
+          <!-- <div class="navbar-item searchFormDiv">
             <form id="searchForm" action="/search">
               <div class="control has-icons-right">
                 <input name="q" class="input" type="text" maxlength="30" placeholder="搜索" />
@@ -36,7 +36,7 @@
                 </span>
               </div>
             </form>
-          </div>
+          </div>-->
 
           <div class="navbar-item">
             <create-topic-btn />

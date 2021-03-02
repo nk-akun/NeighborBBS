@@ -5,11 +5,9 @@
       <div class="widget-content extra-info">
         <ul>
           <li>
-            <span>收藏</span>
+            <span>获赞数</span>
             <br />
-            <a href="/user/scores">
-              <b>{{ user.favourite_article_count}}</b>
-            </a>
+            <b>{{ user.be_liked_count}}</b>
           </li>
           <li>
             <span>文章</span>

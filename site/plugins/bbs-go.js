@@ -19,11 +19,7 @@ Vue.use({
     }
 
     Vue.prototype.$topicSiteTitle = function (topic) {
-      if (topic.type === 0) {
-        return this.$siteTitle(topic.title)
-      } else {
-        return this.$siteTitle(topic.content)
-      }
+      return this.$siteTitle(topic.title)
     }
 
     /**

@@ -50,7 +50,6 @@ func AppRun() {
 	user := r.Group("/api")
 	{
 		user.GET("/configs", guest.GetConfigs)
-		//TODO: 完成可取消点赞，完成用户信息页收藏变为获赞数
 		// user.Use()
 		user.POST("/user/register", guest.RegisterByEmail)
 		user.POST("/user/login", guest.Login)
